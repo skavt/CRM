@@ -1,8 +1,10 @@
 <template>
-  <div class="d-flex flex-column justify-content-center align-items-center auth-content">
-    <div class="container">
-      <div class="form-wrapper">
-        <router-view/>
+  <div class="auth-layout">
+    <div class="auth">
+      <div class="container">
+        <div class="form-wrapper">
+          <router-view/>
+        </div>
       </div>
     </div>
   </div>
@@ -14,19 +16,57 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 
-.form-wrapper {
-  padding: 25px;
+.auth-layout {
+  display: flex;
   width: 100%;
-  position: relative;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-  background: #e2e2e2;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.auth-content {
-  top: 35%;
-  left: 35%;
-  position: absolute;
+.auth {
+  width: 680px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+
+
+  .form-wrapper {
+    padding: 25px;
+    width: 100%;
+    position: relative;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    background: #003349;
+  }
+
+  & /deep/ .auth-left {
+    text-align: center;
+    color: #fff;
+    margin-top: 4%;
+
+    img {
+      margin-top: 15%;
+      margin-bottom: 5%;
+      width: 50%;
+    }
+  }
+
+  & /deep/ .col-right {
+    display: flex;
+    align-items: center;
+  }
+
+  & /deep/ .auth-right {
+    flex: 1;
+    padding: 30px 50px;
+    background: #f8f9fa;
+    border-top-left-radius: 10% 50%;
+    border-bottom-left-radius: 10% 50%;
+  }
 }
+
 </style>

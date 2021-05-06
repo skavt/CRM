@@ -1,23 +1,27 @@
 <template>
   <div class="row">
     <div class="col-md-4">
-      <img src="../../assets/logo.png" alt=""/>
+      <div class="auth-left mb-3">
+        <img src="../../assets/logo.png" alt=""/>
+      </div>
     </div>
-    <div class="col-md-8 pl-5">
-      <h4>Login to your account</h4>
-      <br>
-      <form v-on:submit.prevent="onLoginClick">
-        <ValidationObserver ref="loginForm">
-          <input-widget :model="model" attribute="email" :placeholder="true"/>
-          <input-widget :model="model" attribute="password" type="password" :placeholder="true"/>
-          <div class="d-flex align-items-center justify-content-between">
-            <button class="btn btn-primary mr-2">
-              Login
-            </button>
-            <b-button variant="link" @click="onResetPasswordClick">Request new password</b-button>
-          </div>
-        </ValidationObserver>
-      </form>
+    <div class="col-md-8 pl-5 col-right">
+      <div class="auth-right clearfix">
+        <h4>Login to your account</h4>
+        <br>
+        <form v-on:submit.prevent="onLoginClick">
+          <ValidationObserver ref="loginForm">
+            <input-widget :model="model" attribute="email" :placeholder="true"/>
+            <input-widget :model="model" attribute="password" type="password" :placeholder="true"/>
+            <div class="d-flex align-items-center justify-content-between">
+              <button class="btn btn-primary mr-2">
+                Login
+              </button>
+              <b-button variant="link" @click="onResetPasswordClick">Request new password</b-button>
+            </div>
+          </ValidationObserver>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -55,6 +59,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.col-right {
+  position: relative;
+}
 </style>
