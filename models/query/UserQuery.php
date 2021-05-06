@@ -3,13 +3,14 @@
 namespace app\models\query;
 
 use app\models\User;
+use yii\db\ActiveQuery;
 
 /**
  * This is the ActiveQuery class for [[\app\models\User]].
  *
  * @see \app\models\User
  */
-class UserQuery extends \yii\db\ActiveQuery
+class UserQuery extends ActiveQuery
 {
     /**
      * {@inheritdoc}
@@ -36,6 +37,27 @@ class UserQuery extends \yii\db\ActiveQuery
      */
     public function active()
     {
-        return $this->andWhere(['status' => User::STATUS_ACTIVE]);
+        return $this->andWhere([User::tableName() . '.status' => User::STATUS_ACTIVE]);
+    }
+
+    /**
+     * Return non active users
+     *
+     * @return self
+     */
+    public function notActive()
+    {
+        return $this->andWhere([User::tableName() . '.status' => User::STATUS_INACTIVE]);
+    }
+
+    /**
+     * Find users by email
+     *
+     * @param $email
+     * @return UserQuery
+     */
+    public function byEmail($email)
+    {
+        return $this->andWhere([User::tableName() . '.email' => $email]);
     }
 }

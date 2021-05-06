@@ -46,9 +46,9 @@ class LoginForm extends Model
     public function attributeLabels()
     {
         return [
-            'email' => Yii::t('app', 'Username or email'),
-            'password' => Yii::t('app', 'Password'),
-            'rememberMe' => Yii::t('app', 'Remember Me'),
+            'email' => 'Username or email',
+            'password' => 'Password',
+            'rememberMe' => 'Remember Me',
         ];
     }
 
@@ -62,10 +62,14 @@ class LoginForm extends Model
     public function validatePassword(string $attribute, $params)
     {
         if (!$this->hasErrors()) {
-            $user = $this->getUser();
+            $user = $this->getActiveUser();
+
+            if (User::find()->byEmail($this->email)->notActive()->one()) {
+                $this->addError('password', 'Your account must be activated by admin');
+            }
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, 'Incorrect email or password.');
             }
         }
     }
@@ -79,7 +83,7 @@ class LoginForm extends Model
         if (!$this->validate()) {
             return false;
         }
-        $isLogin = Yii::$app->user->login($this->getUser(), $this->rememberMe ? self::REMEMBER_ME_DURATION_TIME : 0);
+        $isLogin = Yii::$app->user->login($this->getActiveUser(), $this->rememberMe ? self::REMEMBER_ME_DURATION_TIME : 0);
         if (!$isLogin) {
             return false;
         }
@@ -90,45 +94,19 @@ class LoginForm extends Model
     }
 
     /**
-     * Finds user by [[username]] or [[email]]
+     * Finds active user by [[username]] or [[email]]
      *
      * @return User|null
      */
-    public function getUser()
+    public function getActiveUser()
     {
         if ($this->_user === false) {
             $this->_user = User::find()
-                ->andWhere([
-                    'OR',
-                    ['username' => $this->email],
-                    ['email' => $this->email]
-                ])
+                ->byEmail($this->email)
                 ->active()
                 ->one();
         }
 
         return $this->_user;
-    }
-
-    /**
-     * Get user by username or email
-     *
-     * @param $username
-     * @return User|array|false|ActiveRecord
-     */
-    public function getUserByUsername($username)
-    {
-        $user = User::find()
-            ->andWhere([
-                'OR',
-                ['username' => $username],
-                ['email' => $username]
-            ])
-            ->active()
-            ->one();
-        if (!$user) {
-            return false;
-        }
-        return $user;
     }
 }
