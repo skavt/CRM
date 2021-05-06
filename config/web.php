@@ -1,6 +1,7 @@
 <?php
 
 use app\models\User;
+use intermundia\mailer\SwiftMailer;
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
@@ -34,11 +35,16 @@ $config = [
             'errorAction' => 'site/error',
         ],
         'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'class' => SwiftMailer::class,
+            'useFileTransport' => env('MAILER_FILE_TRANSPORT'),
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => env('SMTP_HOST'),
+                'username' => env('SMTP_USERNAME'),
+                'password' => env('SMTP_PASSWORD'),
+                'port' => env('SMTP_PORT'),
+                'encryption' => env('SMTP_ENCRYPTION'),
+            ]
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

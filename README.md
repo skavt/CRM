@@ -28,3 +28,9 @@ npm install
 ```
 npm run serve
 ```
+
+### Create email_log table
+
+```
+php yii migrate --migrationPath=@vendor/intermundia/yii2-mailer/migrations
+```

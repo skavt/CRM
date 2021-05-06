@@ -14,7 +14,7 @@
             <button class="btn btn-primary mr-2">
               Login
             </button>
-            <router-link :to="{name: 'request-password-reset'}">Request new password</router-link>
+            <b-button variant="link" @click="onResetPasswordClick">Request new password</b-button>
           </div>
         </ValidationObserver>
       </form>
@@ -38,9 +38,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['login']),
+    ...mapActions(['login', 'resetPassword']),
     async onLoginClick() {
       const {success, body} = await this.login({...this.model.toJSON()})
+      if (success) {
+        console.log(body)
+      }
+    },
+    async onResetPasswordClick() {
+      const {success, body} = await this.resetPassword({...this.model.toJSON()})
       if (success) {
         console.log(body)
       }

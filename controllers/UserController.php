@@ -2,10 +2,12 @@
 
 namespace app\controllers;
 
+use app\helpers\MailHelper;
 use app\models\LoginForm;
 use app\models\User;
 use app\rest\Controller;
 use Yii;
+use yii\base\Exception;
 
 /**
  * Class UserController
@@ -24,5 +26,41 @@ class UserController extends Controller
             return $this->validationError($model->getFirstErrors());
         }
         return $model->getActiveUser()->getApiData();
+    }
+
+    /**
+     * Send email password reset link
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function actionSendPasswordResetLink()
+    {
+        $request = Yii::$app->request;
+        $email = $request->post('email');
+
+        $user = User::find()
+            ->byEmail($email)
+            ->one();
+
+        if (!$user) {
+            return $this->validationError('Unable to find user with this email');
+        }
+
+        if ($user->isInactive()) {
+            return $this->validationError('User is disabled');
+        }
+
+        $passwordResetToken = Yii::$app->security->generateRandomString(16);
+        $user->password_reset_token = $passwordResetToken;
+        $user->expire_date = time();
+
+        if (!$user->save()) {
+            return $this->validationError('Unable to save user');
+        }
+
+        if (!MailHelper::sendResetPassword($user)) {
+            return $this->validationError('Unable to send email');
+        };
     }
 }
