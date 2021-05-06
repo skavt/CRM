@@ -2,11 +2,13 @@
 
 use app\models\User;
 use intermundia\mailer\SwiftMailer;
+use yii\web\JsonParser;
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
+    'name' => 'Intranet',
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
@@ -19,7 +21,7 @@ $config = [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'enableCookieValidation' => false,
             'parsers' => [
-                'application/json' => \yii\web\JsonParser::class
+                'application/json' => JsonParser::class
             ]
         ],
         'cache' => [
