@@ -43,6 +43,7 @@ export default {
   methods: {
     ...mapActions(['login']),
     async onLoginClick() {
+      this.model.resetErrors()
       const {success, body} = await this.login({...this.model.toJSON()})
       if (success) {
         console.log(body)

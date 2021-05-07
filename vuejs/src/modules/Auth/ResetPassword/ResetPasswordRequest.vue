@@ -5,7 +5,7 @@
         <h4>Request Password Reset</h4>
         <br>
         <ValidationObserver v-slot="{ handleSubmit }">
-          <b-form v-on:submit.prevent="handleSubmit(onResetPasswordClick)">
+          <b-form v-on:submit.prevent="handleSubmit(onResetPasswordRequestClick)">
             <input-widget :model="model" attribute="email" :placeholder="true"/>
             <div class="d-flex align-items-center justify-content-between">
               <button class="btn btn-outline-light mr-2">
@@ -39,13 +39,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['resetPassword']),
-    async onResetPasswordClick() {
-      const {success, body} = await this.resetPassword({...this.model.toJSON()})
+    ...mapActions(['resetPasswordRequest']),
+    async onResetPasswordRequestClick() {
+      this.model.resetErrors()
+      const {success, body} = await this.resetPasswordRequest({...this.model.toJSON()})
       if (success) {
-        console.log(body)
+        this.$toast(`Password Reset Link sent successfully. Check email.`)
+        this.$router.push({name: 'login'})
       } else {
-        this.model.setMultipleErrors([{field: 'email', message: body}]);
+        this.model.setMultipleErrors([{field: 'email', message: body}])
       }
     },
   },
