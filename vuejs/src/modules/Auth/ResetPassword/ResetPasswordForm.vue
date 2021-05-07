@@ -6,15 +6,13 @@
         <br>
         <view-spinner :show="loading"/>
         <ValidationObserver v-if="!loading" v-slot="{ handleSubmit }">
-          <b-form v-on:submit.prevent="handleSubmit(onResetPasswordClick)">
-            <input-widget :disabled="true" :model="model" :placeholder="true" attribute="email"/>
-            <input-widget :model="model" :placeholder="true" attribute="password" type="password"/>
-            <input-widget :model="model" :placeholder="`Repeat Password`" attribute="repeat_password" type="password"/>
-            <div class="d-flex align-items-center justify-content-between">
-              <b-button class="mr-2" variant="outline-light">Submit</b-button>
-              <router-link :to="{name: 'login'}" class="auth-link">Back to Login</router-link>
-            </div>
-          </b-form>
+          <input-widget :disabled="true" :model="model" :placeholder="true" attribute="email"/>
+          <input-widget :model="model" :placeholder="true" attribute="password" type="password"/>
+          <input-widget :model="model" :placeholder="`Repeat Password`" attribute="repeat_password" type="password"/>
+          <div class="d-flex align-items-center justify-content-between">
+            <b-button class="mr-2" variant="outline-light" @click="handleSubmit(onResetPasswordClick)">Submit</b-button>
+            <router-link :to="{name: 'login'}" class="auth-link">Back to Login</router-link>
+          </div>
         </ValidationObserver>
       </div>
     </div>
