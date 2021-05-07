@@ -17,9 +17,8 @@ export default class LoginModel extends BaseModel {
     password: 'Password',
   }
 
-  constructor(email = '', password = '') {
+  constructor(data = {}) {
     super()
-    this.email = email
-    this.password = password
+    Object.assign(this, {...data})
   }
 }

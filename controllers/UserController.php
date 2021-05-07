@@ -70,9 +70,11 @@ class UserController extends Controller
      */
     public function actionCheckToken($token)
     {
-        if (!User::findByPasswordResetToken($token)) {
+        $user = User::findByPasswordResetToken($token);
+        if (!$user) {
             return $this->validationError('Password reset link is invalid or expired');
         }
+        return $this->response($user->email);
     }
 
     /**
@@ -93,6 +95,9 @@ class UserController extends Controller
         }
 
         $user->password_hash = Yii::$app->getSecurity()->generatePasswordHash($request->post('password'));
+
+        $user->password_reset_token = null;
+        $user->expire_date = null;
 
         if (!$user->save()) {
             return $this->validationError('Unable to save password');
