@@ -1,21 +1,21 @@
 import BaseModel from "../../../core/components/input-widget/BaseModel";
 
 export default class ResetPasswordRequestModel extends BaseModel {
-  email = null;
+  email = null
 
   rules = {
     email: [
       {rule: 'required'},
       {rule: 'email', message: 'This must be valid email'},
     ],
-  };
+  }
 
   attributeLabels = {
     email: 'Email',
-  };
+  }
 
   constructor(email = '') {
-    super();
-    this.email = email;
+    super()
+    this.email = email
   }
 }
