@@ -47,6 +47,8 @@ export default {
     text-align: center;
     color: #fff;
     margin-top: 4%;
+    flex: 1;
+    padding: 30px 20px;
 
     img {
       margin-top: 15%;
@@ -55,7 +57,7 @@ export default {
     }
   }
 
-  & /deep/ .col-right {
+  & /deep/ .col-center {
     display: flex;
     align-items: center;
   }
@@ -63,9 +65,6 @@ export default {
   & /deep/ .auth-right {
     flex: 1;
     padding: 30px 50px;
-    background: #f8f9fa;
-    border-top-left-radius: 10% 50%;
-    border-bottom-left-radius: 10% 50%;
   }
 }
 

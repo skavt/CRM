@@ -1,12 +1,7 @@
 <template>
   <div class="row">
-    <div class="col-md-4">
-      <div class="auth-left mb-3">
-        <img src="../../assets/logo.png" alt=""/>
-      </div>
-    </div>
-    <div class="col-md-8 pl-5 col-right">
-      <div class="auth-right clearfix">
+    <div class="col-md-6">
+      <div class="auth-left">
         <h4>Login to your account</h4>
         <br>
         <form v-on:submit.prevent="onLoginClick">
@@ -14,13 +9,18 @@
             <input-widget :model="model" attribute="email" :placeholder="true"/>
             <input-widget :model="model" attribute="password" type="password" :placeholder="true"/>
             <div class="d-flex align-items-center justify-content-between">
-              <button class="btn btn-primary mr-2">
+              <button class="btn btn-outline-light mr-2">
                 Login
               </button>
-              <b-button variant="link" @click="onResetPasswordClick">Request new password</b-button>
+              <b-button variant="link" style="color: white" @click="onResetPasswordClick">Request new password</b-button>
             </div>
           </ValidationObserver>
         </form>
+      </div>
+    </div>
+    <div class="col-md-6 col-center">
+      <div class="auth-right clearfix mb-3">
+        <img src="../../assets/logo.png" alt=""/>
       </div>
     </div>
   </div>
