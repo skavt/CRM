@@ -72,7 +72,7 @@ class UserController extends Controller
     {
         $user = User::findByPasswordResetToken($token);
         if (!$user) {
-            return $this->validationError('Password reset link is invalid or expired');
+            return $this->validationError('Password reset link is invalid, expired or used');
         }
         return $this->response($user->email);
     }
