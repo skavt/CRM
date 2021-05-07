@@ -1,6 +1,6 @@
 <template>
-  <div class="auth-right clearfix mb-3">
-    <img src="../../../assets/logo.png" alt=""/>
+  <div class="auth-right clearfix">
+    <img alt="" class="auth-img" src="../../../assets/auth_logo.png" style=""/>
   </div>
 </template>
 
@@ -10,6 +10,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+.auth-img {
+  width: 280px;
+  border-top-left-radius: 10% 50%;
+  border-bottom-left-radius: 10% 50%;
+}
 
 </style>

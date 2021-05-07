@@ -64,7 +64,6 @@ export default {
 
   & /deep/ .auth-right {
     flex: 1;
-    padding: 30px 50px;
   }
 
   & /deep/ .auth-link {
