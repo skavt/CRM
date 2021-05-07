@@ -45,7 +45,7 @@ export default {
       const {success, body} = await this.login({...this.model.toJSON()})
       this.loading = false
       if (success) {
-        console.log(body)
+        this.$router.push({name: 'dashboard'});
       } else {
         this.model.setMultipleErrors([{field: 'password', message: body.password}])
       }

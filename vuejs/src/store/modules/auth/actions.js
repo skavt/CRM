@@ -1,7 +1,14 @@
 import httpService from "../../../core/services/httpService";
+import authService from "../../../core/services/authService";
 
-export async function login({commit}, data) {
-  return await httpService.post('/user/login', data)
+export async function login({commit, dispatch}, data) {
+  const response = await httpService.post('/user/login', data)
+
+  if (response.success) {
+    authService.setToken(response.body.access_token)
+  }
+
+  return response
 }
 
 export async function register({commit}, data) {

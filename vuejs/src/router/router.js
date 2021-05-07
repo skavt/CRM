@@ -5,6 +5,8 @@ import Login from "../modules/Auth/Login";
 import ResetPasswordRequest from "../modules/Auth/ResetPassword/ResetPasswordRequest";
 import ResetPasswordForm from "../modules/Auth/ResetPassword/ResetPasswordForm";
 import Register from "../modules/Auth/Register";
+import authService from "../core/services/authService";
+import DefaultLayout from "../core/components/layout/DefaultLayout";
 
 Vue.use(VueRouter)
 
@@ -42,10 +44,26 @@ const router = new VueRouter({
       ]
     },
     {
-      path: '/login',
-      redirect: '/auth/login'
-    },
+      path: '/dashboard',
+      name: 'dashboard',
+      component: DefaultLayout,
+      meta: {requiresAuth: true}
+    }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!authService.loggedIn()) {
+      next({name: 'login'})
+    } else {
+      next()
+    }
+  } else if (to.matched.some(record => record.meta.guest) && authService.loggedIn()) {
+    next({name: 'dashboard'})
+  } else {
+    next()
+  }
+});
 
 export default router;
