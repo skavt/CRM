@@ -51,8 +51,7 @@ class UserController extends Controller
             return $this->validationError('User is disabled');
         }
 
-        $passwordResetToken = Yii::$app->security->generateRandomString(16);
-        $user->password_reset_token = $passwordResetToken;
+        $user->password_reset_token = Yii::$app->security->generateRandomString(16);
         $user->expire_date = time();
 
         if (!$user->save()) {
@@ -62,5 +61,41 @@ class UserController extends Controller
         if (!MailHelper::sendResetPassword($user)) {
             return $this->validationError('Unable to send email');
         };
+    }
+
+    /**
+     * Get password reset token and check validate
+     *
+     * @return array
+     */
+    public function actionCheckToken($token)
+    {
+        if (!User::findByPasswordResetToken($token)) {
+            return $this->validationError('Password reset link is invalid or expired');
+        }
+    }
+
+    /**
+     * Reset password by token
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function actionResetPassword()
+    {
+        $request = Yii::$app->request;
+
+        $token = $request->post('token');
+        $user = User::findByPasswordResetToken($token);
+
+        if (!$user) {
+            return $this->validationError('Unable to find user');
+        }
+
+        $user->password_hash = Yii::$app->getSecurity()->generatePasswordHash($request->post('password'));
+
+        if (!$user->save()) {
+            return $this->validationError('Unable to save password');
+        }
     }
 }
