@@ -9,9 +9,7 @@
           <b-form v-on:submit.prevent="handleSubmit(onResetPasswordRequestClick)">
             <input-widget :model="model" attribute="email" :placeholder="true"/>
             <div class="d-flex align-items-center justify-content-between">
-              <button class="btn btn-outline-light mr-2">
-                Submit
-              </button>
+              <b-button class="mr-2" variant="outline-light">Submit</b-button>
               <router-link :to="{name: 'login'}" class="auth-link">Back to Login</router-link>
             </div>
           </b-form>

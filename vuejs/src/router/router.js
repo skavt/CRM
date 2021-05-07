@@ -4,6 +4,7 @@ import AuthLayout from "../core/components/layout/AuthLayout";
 import Login from "../modules/Auth/Login";
 import ResetPasswordRequest from "../modules/Auth/ResetPassword/ResetPasswordRequest";
 import ResetPasswordForm from "../modules/Auth/ResetPassword/ResetPasswordForm";
+import Register from "../modules/Auth/Register";
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,11 @@ const router = new VueRouter({
           path: 'reset-password/:token',
           name: 'reset-password',
           component: ResetPasswordForm,
+        },
+        {
+          path: 'register',
+          name: 'register',
+          component: Register,
         },
       ]
     },

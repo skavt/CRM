@@ -11,9 +11,7 @@
             <input-widget :model="model" :placeholder="true" attribute="password" type="password"/>
             <input-widget :model="model" :placeholder="`Repeat Password`" attribute="repeat_password" type="password"/>
             <div class="d-flex align-items-center justify-content-between">
-              <button class="btn btn-outline-light mr-2">
-                Submit
-              </button>
+              <b-button class="mr-2" variant="outline-light">Submit</b-button>
               <router-link :to="{name: 'login'}" class="auth-link">Back to Login</router-link>
             </div>
           </b-form>
@@ -47,6 +45,7 @@ export default {
     async onResetPasswordClick() {
       this.model.resetErrors()
       this.loading = true
+      delete this.model.repeat_password
       const {success, body} = await this.resetPassword({...this.model.toJSON()})
       this.loading = false
       if (success) {

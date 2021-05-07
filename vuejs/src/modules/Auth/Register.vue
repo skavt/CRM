@@ -7,11 +7,14 @@
         <view-spinner :show="loading"/>
         <ValidationObserver v-if="!loading" v-slot="{ handleSubmit }">
           <b-form v-on:submit.prevent="handleSubmit(onLoginClick)">
-            <input-widget :model="model" attribute="email" :placeholder="true"/>
-            <input-widget :model="model" attribute="password" type="password" :placeholder="true"/>
+            <input-widget :model="model" :placeholder="true" attribute="email"/>
+            <input-widget :model="model" :placeholder="`First Name`" attribute="first_name"/>
+            <input-widget :model="model" :placeholder="`Last Name`" attribute="last_name"/>
+            <input-widget :model="model" :placeholder="true" attribute="password" type="password"/>
+            <input-widget :model="model" :placeholder="`Repeat Password`" attribute="repeat_password" type="password"/>
             <div class="d-flex align-items-center justify-content-between">
-              <b-button class="mr-2" variant="outline-light">Login</b-button>
-              <router-link :to="{name: 'reset-password-request'}" class="auth-link">Request new password</router-link>
+              <b-button class="mr-2" variant="outline-light">Register</b-button>
+              <router-link :to="{name: 'login'}" class="auth-link">Back to Login</router-link>
             </div>
           </b-form>
         </ValidationObserver>
@@ -27,36 +30,39 @@ import LoginModel from "./LoginModel";
 import {createNamespacedHelpers} from "vuex";
 import RightSide from "./components/RightSide";
 import ViewSpinner from "../../core/components/view-spinner/view-spinner";
+import RegisterModel from "./RegisterModel";
 
 const {mapActions} = createNamespacedHelpers('auth')
 
 export default {
-  name: "Login",
+  name: "Register",
   components: {ViewSpinner, RightSide, InputWidget},
   data() {
     return {
-      model: new LoginModel(),
+      model: new RegisterModel(),
       loading: false,
     }
   },
   methods: {
-    ...mapActions(['login']),
+    ...mapActions(['register']),
     async onLoginClick() {
       this.loading = true
       this.model.resetErrors()
-      const {success, body} = await this.login({...this.model.toJSON()})
+      delete this.model.repeat_password
+      const {success, body} = await this.register({...this.model.toJSON()})
       this.loading = false
       if (success) {
-        console.log(body)
+        this.$toast(`Your account will be reviewed by admin and you will receive login instructions`)
+        this.$router.push({name: 'login'})
       } else {
-        this.model.setMultipleErrors([{field: 'password', message: body.password}])
+        this.$toast(body, 'danger')
       }
     },
   },
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .col-right {
   position: relative;
 }
