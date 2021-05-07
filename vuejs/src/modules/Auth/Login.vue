@@ -4,7 +4,8 @@
       <div class="auth-left">
         <h4>Login to your account</h4>
         <br>
-        <ValidationObserver v-slot="{ handleSubmit }">
+        <view-spinner :show="loading"/>
+        <ValidationObserver v-if="!loading" v-slot="{ handleSubmit }">
           <b-form v-on:submit.prevent="handleSubmit(onLoginClick)">
             <input-widget :model="model" attribute="email" :placeholder="true"/>
             <input-widget :model="model" attribute="password" type="password" :placeholder="true"/>
@@ -29,26 +30,30 @@ import InputWidget from "../../core/components/input-widget/InputWidget";
 import LoginModel from "./LoginModel";
 import {createNamespacedHelpers} from "vuex";
 import RightSide from "./components/RightSide";
+import ViewSpinner from "../../core/components/view-spinner/view-spinner";
 
 const {mapActions} = createNamespacedHelpers('auth')
 
 export default {
   name: "Login",
-  components: {RightSide, InputWidget},
+  components: {ViewSpinner, RightSide, InputWidget},
   data() {
     return {
       model: new LoginModel(),
+      loading: false,
     }
   },
   methods: {
     ...mapActions(['login']),
     async onLoginClick() {
+      this.loading = true
       this.model.resetErrors()
       const {success, body} = await this.login({...this.model.toJSON()})
+      this.loading = false
       if (success) {
         console.log(body)
       } else {
-        this.model.setMultipleErrors([{field: 'password', message: body.password}]);
+        this.model.setMultipleErrors([{field: 'password', message: body.password}])
       }
     },
   },
