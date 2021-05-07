@@ -2,18 +2,17 @@
   <div class="row">
     <div class="col-md-6">
       <div class="auth-left">
-        <h4>Login to your account</h4>
+        <h4>Request Password Reset</h4>
         <br>
         <ValidationObserver v-slot="{ handleSubmit }">
-          <b-form v-on:submit.prevent="handleSubmit(onLoginClick)">
+          <b-form v-on:submit.prevent="handleSubmit(onResetPasswordClick)">
             <input-widget :model="model" attribute="email" :placeholder="true"/>
-            <input-widget :model="model" attribute="password" type="password" :placeholder="true"/>
             <div class="d-flex align-items-center justify-content-between">
               <button class="btn btn-outline-light mr-2">
-                Login
+                Submit
               </button>
-              <router-link :to="{name: 'reset-password-request'}" class="reset-password-link">
-                Request new password
+              <router-link :to="{name: 'login'}" class="back-to-login-link">
+                Back to Login
               </router-link>
             </div>
           </b-form>
@@ -25,41 +24,36 @@
 </template>
 
 <script>
-import InputWidget from "../../core/components/input-widget/InputWidget";
-import LoginModel from "./LoginModel";
+import InputWidget from "../../../core/components/input-widget/InputWidget";
+import ResetPasswordRequestModel from "./ResetPasswordRequestModel";
+import RightSide from "../components/RightSide";
 import {createNamespacedHelpers} from "vuex";
-import RightSide from "./components/RightSide";
 
 const {mapActions} = createNamespacedHelpers('auth')
-
 export default {
-  name: "Login",
+  name: "ResetPasswordRequest",
   components: {RightSide, InputWidget},
   data() {
     return {
-      model: new LoginModel(),
+      model: new ResetPasswordRequestModel(),
     }
   },
   methods: {
-    ...mapActions(['login']),
-    async onLoginClick() {
-      const {success, body} = await this.login({...this.model.toJSON()})
+    ...mapActions(['resetPassword']),
+    async onResetPasswordClick() {
+      const {success, body} = await this.resetPassword({...this.model.toJSON()})
       if (success) {
         console.log(body)
       } else {
-        this.model.setMultipleErrors([{field: 'password', message: body.password}]);
+        this.model.setMultipleErrors([{field: 'email', message: body}]);
       }
     },
   },
 }
 </script>
 
-<style scoped lang="scss">
-.col-right {
-  position: relative;
-}
-
-.reset-password-link {
+<style lang="scss" scoped>
+.back-to-login-link {
   color: white;
 }
 </style>

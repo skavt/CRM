@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AuthLayout from "../core/components/layout/AuthLayout";
 import Login from "../modules/Auth/Login";
+import ResetPasswordRequest from "../modules/Auth/ResetPassword/ResetPasswordRequest";
 
 Vue.use(VueRouter)
 
@@ -18,8 +19,13 @@ const router = new VueRouter({
       children: [
         {
           path: 'login',
-          name: 'auth.login',
+          name: 'login',
           component: Login,
+        },
+        {
+          path: 'reset-password-request',
+          name: 'reset-password-request',
+          component: ResetPasswordRequest,
         },
       ]
     },
