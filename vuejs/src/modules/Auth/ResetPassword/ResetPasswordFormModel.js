@@ -4,9 +4,13 @@ export default class ResetPasswordFormModel extends BaseModel {
   password = null
   repeat_password = null
   token = ''
+  email = ''
 
   rules = {
-    password: 'required',
+    password: [
+      {rule: 'required'},
+      {rule: 'min', length: 6}
+    ],
     repeat_password: [
       {rule: 'required'},
       {rule: 'confirmed', target: 'password'},
@@ -18,8 +22,8 @@ export default class ResetPasswordFormModel extends BaseModel {
     repeat_password: 'Repeat Password',
   }
 
-  constructor(password = '') {
+  constructor(data = {}) {
     super();
-    this.password = password
+    Object.assign(this, {...data});
   }
 }

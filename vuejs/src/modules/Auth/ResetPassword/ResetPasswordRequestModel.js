@@ -14,8 +14,8 @@ export default class ResetPasswordRequestModel extends BaseModel {
     email: 'Email',
   }
 
-  constructor(email = '') {
-    super()
-    this.email = email
+  constructor(data = {}) {
+    super();
+    Object.assign(this, {...data});
   }
 }

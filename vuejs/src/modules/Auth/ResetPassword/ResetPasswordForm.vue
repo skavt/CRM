@@ -7,6 +7,7 @@
         <view-spinner :show="loading"/>
         <ValidationObserver v-if="!loading" v-slot="{ handleSubmit }">
           <b-form v-on:submit.prevent="handleSubmit(onResetPasswordClick)">
+            <input-widget :disabled="true" :model="model" :placeholder="true" attribute="email"/>
             <input-widget :model="model" :placeholder="true" attribute="password" type="password"/>
             <input-widget :model="model" :placeholder="`Repeat Password`" attribute="repeat_password" type="password"/>
             <div class="d-flex align-items-center justify-content-between">
@@ -60,7 +61,9 @@ export default {
     this.model.token = this.$route.params.token
 
     const {success, body} = await this.checkToken(this.model.token)
-    if (!success) {
+    if (success) {
+      this.model.email = body
+    } else {
       this.$toast(body, 'danger')
       this.$router.push({name: 'login'})
     }
