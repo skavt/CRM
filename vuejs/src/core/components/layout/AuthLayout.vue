@@ -66,6 +66,10 @@ export default {
     flex: 1;
     padding: 30px 50px;
   }
+
+  & /deep/ .auth-link {
+    color: white;
+  }
 }
 
 </style>

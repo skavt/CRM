@@ -13,9 +13,7 @@
               <button class="btn btn-outline-light mr-2">
                 Login
               </button>
-              <router-link :to="{name: 'reset-password-request'}" class="reset-password-link">
-                Request new password
-              </router-link>
+              <router-link :to="{name: 'reset-password-request'}" class="auth-link">Request new password</router-link>
             </div>
           </b-form>
         </ValidationObserver>
@@ -63,9 +61,5 @@ export default {
 <style scoped lang="scss">
 .col-right {
   position: relative;
-}
-
-.reset-password-link {
-  color: white;
 }
 </style>

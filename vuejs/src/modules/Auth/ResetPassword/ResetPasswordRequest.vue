@@ -12,9 +12,7 @@
               <button class="btn btn-outline-light mr-2">
                 Submit
               </button>
-              <router-link :to="{name: 'login'}" class="back-to-login-link">
-                Back to Login
-              </router-link>
+              <router-link :to="{name: 'login'}" class="auth-link">Back to Login</router-link>
             </div>
           </b-form>
         </ValidationObserver>
@@ -60,7 +58,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.back-to-login-link {
-  color: white;
-}
+
 </style>
