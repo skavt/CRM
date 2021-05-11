@@ -8,7 +8,7 @@ at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
 1. Run `composer install`.
 1. Copy `.env.example` into `.env` and adjust database parameters in `.env` file. 
 1. Run `php create-database.php` to create database.
-1. Run `php yii migrate` to create tables and insert initial data.
+1. Run `./migrate` to create tables and insert initial data.
 1. Run `php yii serve` and open in browser [http://localhost:8080](http://localhost:8080)
 
 ### Install with Docker
@@ -17,7 +17,7 @@ at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
 1. Run docker `docker-compose up -d`
 1. Run docker bash `docker-compose exec php bash`
    1. Install composer `composer install`
-   1. Run migration `php yii migrate`
+   1. Run migration `./migrate`
 1. Stop docker `docker-compose down`
 
 INSTALLATION of VUE.JS APP
@@ -35,10 +35,4 @@ npm install
 ### Compiles and hot-reloads for development
 ```
 npm run serve
-```
-
-### Create email_log table
-
-```
-php yii migrate --migrationPath=@vendor/intermundia/yii2-mailer/migrations
 ```
