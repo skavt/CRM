@@ -6,7 +6,8 @@
         Invite User
       </b-button>
     </b-card-header>
-    <users-table :fields="fields" :items="items"/>
+    <view-spinner :show="loading"/>
+    <users-table v-if="!loading" :fields="fields" :items="invitation.data"/>
     <invitation-modal/>
   </b-card>
 </template>
@@ -15,11 +16,13 @@
 import UsersTable from "./components/UsersTable";
 import InvitationModal from "./modals/InvitationModal";
 import {createNamespacedHelpers} from "vuex";
+import {getInvitedUsers} from "../../store/modules/invitation/actions";
+import ViewSpinner from "../../core/components/view-spinner/view-spinner";
 
-const {mapActions} = createNamespacedHelpers('invitation')
+const {mapState, mapActions} = createNamespacedHelpers('invitation')
 export default {
   name: "Invitation",
-  components: {InvitationModal, UsersTable},
+  components: {ViewSpinner, InvitationModal, UsersTable},
   data() {
     return {
       fields: [
@@ -31,14 +34,22 @@ export default {
         {key: 'token_used_date', label: 'Registration Date', sortable: true},
         {key: 'actions', label: 'Actions'},
       ],
-      items: [],
+      loading: false,
     }
   },
+  computed: {
+    ...mapState(['invitation']),
+  },
   methods: {
-    ...mapActions(['showInvitationModal']),
+    ...mapActions(['showInvitationModal', 'getInvitedUsers']),
     onUserInviteClick() {
       this.showInvitationModal()
     },
+  },
+  async mounted() {
+    this.loading = true
+    await this.getInvitedUsers()
+    this.loading = false
   },
 }
 </script>

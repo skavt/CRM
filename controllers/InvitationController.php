@@ -52,4 +52,9 @@ class InvitationController extends Controller
 
         return $model;
     }
+
+    public function actionInvitedUsers()
+    {
+        return InvitationResource::find()->all();
+    }
 }

@@ -3,6 +3,7 @@ const STATE = {
     modal: {
       show: false,
     },
+    data: [],
   },
 };
 
