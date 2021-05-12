@@ -3,7 +3,10 @@
 namespace app\models;
 
 use app\models\query\InvitationQuery;
-use app\models\query\UserQuery;
+use Yii;
+use yii\base\Exception;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -25,6 +28,15 @@ use yii\db\ActiveRecord;
  */
 class Invitation extends ActiveRecord
 {
+    const STATUS_REGISTERED = 1;
+    const STATUS_PENDING = 2;
+    const STATUS_COMPLETED = 3;
+
+    /**
+     * Invitation token is valid 30 days
+     */
+    const TOKEN_LIFETIME = 3600 * 30 * 24;
+
     /**
      * {@inheritdoc}
      */
@@ -36,13 +48,35 @@ class Invitation extends ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            [
+                'class' => TimestampBehavior::class,
+                'updatedAtAttribute' => false,
+            ],
+
+            [
+                'class' => BlameableBehavior::class,
+                'updatedByAttribute' => false,
+            ],
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @throws Exception
+     */
     public function rules()
     {
         return [
             [['user_id', 'status', 'token_expire_date', 'token_used_date', 'created_at', 'created_by'], 'integer'],
-            [['email', 'token'], 'required'],
+            [['email'], 'required'],
             [['email'], 'string', 'max' => 255],
             [['token'], 'string', 'max' => 1024],
+            ['status', 'default', 'value' => self::STATUS_PENDING],
+            ['token', 'default', 'value' => Yii::$app->security->generateRandomString(16)],
+            ['token_expire_date', 'default', 'value' => time() + self::TOKEN_LIFETIME],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['created_by' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
