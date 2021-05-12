@@ -1,4 +1,4 @@
-import BaseModel from "../../core/components/input-widget/BaseModel";
+import BaseModel from "../../../core/components/input-widget/BaseModel";
 
 export default class RegisterModel extends BaseModel {
   email = null

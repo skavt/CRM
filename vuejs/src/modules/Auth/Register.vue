@@ -15,12 +15,10 @@
 </template>
 
 <script>
-import InputWidget from "../../core/components/input-widget/InputWidget";
-import LoginModel from "./LoginModel";
 import {createNamespacedHelpers} from "vuex";
 import RightSide from "./components/RightSide";
 import ViewSpinner from "../../core/components/view-spinner/view-spinner";
-import RegisterModel from "./RegisterModel";
+import RegisterModel from "./models/RegisterModel";
 import AuthForm from "./components/AuthForm";
 
 const {mapActions} = createNamespacedHelpers('auth')

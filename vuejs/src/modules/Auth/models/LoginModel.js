@@ -1,4 +1,4 @@
-import BaseModel from "../../core/components/input-widget/BaseModel";
+import BaseModel from "../../../core/components/input-widget/BaseModel";
 
 export default class LoginModel extends BaseModel {
   email = null
@@ -7,7 +7,7 @@ export default class LoginModel extends BaseModel {
   rules = {
     email: [
       {rule: 'required'},
-      {rule: 'email', message: 'This must be valid email'},
+      {rule: 'email'},
     ],
     password: 'required',
   }

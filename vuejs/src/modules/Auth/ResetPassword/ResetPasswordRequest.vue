@@ -15,10 +15,9 @@
 </template>
 
 <script>
-import InputWidget from "../../../core/components/input-widget/InputWidget";
-import ResetPasswordRequestModel from "./ResetPasswordRequestModel";
-import RightSide from "../components/RightSide";
+import ResetPasswordRequestModel from "../models/ResetPasswordRequestModel";
 import {createNamespacedHelpers} from "vuex";
+import RightSide from "../components/RightSide";
 import ViewSpinner from "../../../core/components/view-spinner/view-spinner";
 import AuthForm from "../components/AuthForm";
 

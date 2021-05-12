@@ -17,8 +17,7 @@
 <script>
 import RightSide from "../components/RightSide";
 import ViewSpinner from "../../../core/components/view-spinner/view-spinner";
-import InputWidget from "../../../core/components/input-widget/InputWidget";
-import ResetPasswordFormModel from "./ResetPasswordFormModel";
+import ResetPasswordFormModel from "../models/ResetPasswordFormModel";
 import {createNamespacedHelpers} from "vuex";
 import {checkToken} from "../../../store/modules/auth/actions";
 import AuthForm from "../components/AuthForm";

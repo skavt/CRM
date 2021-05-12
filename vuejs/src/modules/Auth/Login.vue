@@ -13,8 +13,7 @@
 </template>
 
 <script>
-import InputWidget from "../../core/components/input-widget/InputWidget";
-import LoginModel from "./LoginModel";
+import LoginModel from "./models/LoginModel";
 import {createNamespacedHelpers} from "vuex";
 import RightSide from "./components/RightSide";
 import ViewSpinner from "../../core/components/view-spinner/view-spinner";
