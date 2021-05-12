@@ -1,21 +1,25 @@
 <template>
   <b-card no-body class="invitation-card">
     <b-card-header>
-      <b-button class="float-right" variant="secondary" size="sm">
+      <b-button class="float-right" variant="secondary" size="sm" @click="onUserInviteClick">
         <i class="fas fa-plus"/>
         Invite User
       </b-button>
     </b-card-header>
     <UsersTable :fields="fields"/>
+    <InvitationModal/>
   </b-card>
 </template>
 
 <script>
 import UsersTable from "./components/UsersTable";
+import InvitationModal from "./modals/InvitationModal";
+import {createNamespacedHelpers} from "vuex";
 
+const {mapActions} = createNamespacedHelpers('invitation')
 export default {
   name: "Invitation",
-  components: {UsersTable},
+  components: {InvitationModal, UsersTable},
   data() {
     return {
       fields: [
@@ -28,6 +32,12 @@ export default {
         {key: 'actions', label: 'Actions'},
       ],
     }
+  },
+  methods: {
+    ...mapActions(['showInvitationModal']),
+    onUserInviteClick() {
+      this.showInvitationModal()
+    },
   },
 }
 </script>
