@@ -1,5 +1,13 @@
 <template>
-  <UsersTable :fields="fields"/>
+  <b-card no-body class="invitation-card">
+    <b-card-header>
+      <b-button class="float-right" variant="secondary" size="sm">
+        <i class="fas fa-plus"/>
+        Invite User
+      </b-button>
+    </b-card-header>
+    <UsersTable :fields="fields"/>
+  </b-card>
 </template>
 
 <script>
@@ -24,6 +32,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+
+.invitation-card {
+  margin-right: 8rem;
+  margin-left: 8rem;
+}
 
 </style>

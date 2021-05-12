@@ -19,8 +19,7 @@ export default {
 <style lang="scss">
 
 .table-responsive-sm {
-  padding-right: 8rem;
-  padding-left: 8rem;
+  padding: 20px;
 
   > table {
     > thead {
