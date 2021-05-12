@@ -7,6 +7,7 @@ import ResetPasswordForm from "../modules/Auth/ResetPassword/ResetPasswordForm";
 import Register from "../modules/Auth/Register";
 import authService from "../core/services/authService";
 import DefaultLayout from "../core/components/layout/DefaultLayout";
+import Invitation from "../modules/Invitation/Invitation";
 
 Vue.use(VueRouter)
 
@@ -46,8 +47,16 @@ const router = new VueRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
+      redirect: '/dashboard/invitation',
       component: DefaultLayout,
-      meta: {requiresAuth: true}
+      meta: {requiresAuth: true},
+      children: [
+        {
+          path: 'invitation',
+          name: 'invitation',
+          component: Invitation,
+        }
+      ]
     }
   ]
 })

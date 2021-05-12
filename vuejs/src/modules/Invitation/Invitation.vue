@@ -1,10 +1,10 @@
 <template>
-  <router-view/>
+  <h4>Working</h4>
 </template>
 
 <script>
 export default {
-  name: "DefaultLayout"
+  name: "Invitation"
 }
 </script>
 
