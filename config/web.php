@@ -64,14 +64,6 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
-                [
-                    'class' => UrlRule::class,
-                    'pluralize' => false,
-                    'controller' => [
-                        'invitation',
-                    ]
-                ],
             ],
         ],
     ],
