@@ -3,8 +3,10 @@
 
 namespace app\controllers;
 
+use app\helpers\MailHelper;
+use app\resources\InvitationResource;
 use app\rest\Controller;
-use yii\filters\AccessControl;
+use Yii;
 
 /**
  * Class InvitationController
@@ -15,31 +17,39 @@ class InvitationController extends Controller
 {
 
     /**
-     * {@inheritDoc}
+     * Create user invitation action
      *
-     * @return array|array[]
+     * @return InvitationResource|array|mixed|\yii\db\ActiveRecord
+     * @throws \yii\db\Exception
      */
-    public function behaviors()
+    public function actionInviteUser()
     {
-        $behaviors = parent::behaviors();
+        $request = yii::$app->request;
+        $email = $request->post('email');
 
-        $behaviors['access'] = [
-            'class' => AccessControl::class,
-            'only' => ['index', 'create', 'delete'],
-            'rules' => [
-                [
-                    'allow' => true,
-                    'actions' => ['index', 'create', 'delete'],
-                    //TODO roles
-                ]
-            ]
-        ];
+        $model = InvitationResource::find()
+            ->byEmail($email)
+            ->andWhere(['status' => InvitationResource::STATUS_PENDING])
+            ->one();
 
-        return $behaviors;
-    }
+        if ($model) {
+            MailHelper::sendInvitation($model);
 
-    public function actionCreate()
-    {
-        return "Working";
+            return $model;
+        }
+
+        $transaction = Yii::$app->db->beginTransaction();
+
+        $model = new InvitationResource();
+        if ($model->load($request->post(), '') && $model->save()) {
+            MailHelper::sendInvitation($model);
+
+            $transaction->commit();
+            return $this->response($model, 201);
+        } elseif (!$model->hasErrors()) {
+            return $this->validationError('Unable to send invitation');
+        }
+
+        return $model;
     }
 }
