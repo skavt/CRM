@@ -6,13 +6,15 @@
         <br>
         <view-spinner :show="loading"/>
         <ValidationObserver v-if="!loading" v-slot="{ handleSubmit }">
-          <input-widget :model="model" :placeholder="true" attribute="email"/>
-          <div class="d-flex align-items-center justify-content-between">
-            <b-button class="mr-2" variant="outline-light" @click="handleSubmit(onResetPasswordRequestClick)">
-              Submit
-            </b-button>
-            <router-link :to="{name: 'login'}" class="auth-link">Back to Login</router-link>
-          </div>
+          <b-form @keydown.enter.prevent="handleSubmit(onResetPasswordRequestClick)">
+            <input-widget :model="model" :placeholder="true" attribute="email" :autofocus="true"/>
+            <div class="d-flex align-items-center justify-content-between">
+              <b-button class="mr-2" variant="outline-light" @click="handleSubmit(onResetPasswordRequestClick)">
+                Submit
+              </b-button>
+              <router-link :to="{name: 'login'}" class="auth-link">Back to Login</router-link>
+            </div>
+          </b-form>
         </ValidationObserver>
       </div>
     </div>
