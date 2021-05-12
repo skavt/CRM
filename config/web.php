@@ -2,6 +2,7 @@
 
 use app\models\User;
 use intermundia\mailer\SwiftMailer;
+use yii\rest\UrlRule;
 use yii\web\JsonParser;
 
 $params = require __DIR__ . '/params.php';
@@ -14,7 +15,7 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
         'request' => [
@@ -63,6 +64,14 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
+                [
+                    'class' => UrlRule::class,
+                    'pluralize' => false,
+                    'controller' => [
+                        'invitation',
+                    ]
+                ],
             ],
         ],
     ],
