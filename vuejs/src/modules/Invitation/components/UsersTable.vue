@@ -1,18 +1,21 @@
 <template>
-  <div>
-    <no-content :show="items.length === 0"/>
-    <b-table v-if="items.length > 0" :fields="fields" :items="items" dark responsive="sm" small>
+  <b-card no-body>
+    <no-content :show="localItems.length === 0"/>
+    <b-table class="mb-0 pb-0" :fields="fields" :items="localItems" dark responsive="sm" small>
 
     </b-table>
-  </div>
+
+    <table-pagination :total-rows="items.length" @on-pagination-change="onPaginationChange"/>
+  </b-card>
 </template>
 
 <script>
 import NoContent from "../../../core/components/no-content/NoContent";
+import TablePagination from "../../../core/components/table-pagination/TablePagination";
 
 export default {
   name: "UsersTable",
-  components: {NoContent},
+  components: {TablePagination, NoContent},
   props: {
     fields: {
       type: Array,
@@ -22,6 +25,21 @@ export default {
       type: Array,
       require: true,
     },
+  },
+  data() {
+    return {
+      localItems: [],
+    }
+  },
+  methods: {
+    onPaginationChange(perPage, currentPage) {
+      this.localItems = this.items.filter((item, index) => {
+        return index >= (currentPage - 1) * perPage && index <= currentPage * perPage - 1
+      })
+    },
+  },
+  mounted() {
+    this.localItems = [...this.items]
   },
 }
 </script>
