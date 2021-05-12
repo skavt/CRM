@@ -55,7 +55,7 @@ class InvitationResource extends Invitation
                     /** @var $model self */
                     return $model->isNewRecord;
                 },
-                'message' => 'User with this email already exists'
+                'message' => 'User with this email already exists.'
             ],
         ]);
     }

@@ -47,7 +47,7 @@ class InvitationController extends Controller
             $transaction->commit();
             return $this->response($model, 201);
         } elseif (!$model->hasErrors()) {
-            return $this->validationError('Unable to send invitation');
+            return $this->validationError('Unable to send invitation.');
         }
 
         return $model;
