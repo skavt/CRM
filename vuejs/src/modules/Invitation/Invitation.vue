@@ -6,8 +6,8 @@
         Invite User
       </b-button>
     </b-card-header>
-    <UsersTable :fields="fields"/>
-    <InvitationModal/>
+    <users-table :fields="fields" :items="items"/>
+    <invitation-modal/>
   </b-card>
 </template>
 
@@ -31,6 +31,7 @@ export default {
         {key: 'token_used_date', label: 'Registration Date', sortable: true},
         {key: 'actions', label: 'Actions'},
       ],
+      items: [],
     }
   },
   methods: {

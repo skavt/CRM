@@ -1,14 +1,24 @@
 <template>
-  <b-table :fields="fields" dark responsive="sm" small>
+  <div>
+    <no-content :show="items.length === 0"/>
+    <b-table v-if="items.length > 0" :fields="fields" :items="items" dark responsive="sm" small>
 
-  </b-table>
+    </b-table>
+  </div>
 </template>
 
 <script>
+import NoContent from "../../../core/components/no-content/NoContent";
+
 export default {
   name: "UsersTable",
+  components: {NoContent},
   props: {
     fields: {
+      type: Array,
+      require: true,
+    },
+    items: {
       type: Array,
       require: true,
     },
