@@ -17,7 +17,7 @@ class m210512_084901_create_invitations_table extends Migration
             'user_id' => $this->integer(),
             'email' => $this->string(255)->notNull(),
             'status' => $this->tinyInteger(2),
-            'token' => $this->string(1024)->notNull(),
+            'token' => $this->string(1024),
             'token_expire_date' => $this->integer(),
             'token_used_date' => $this->integer(),
             'created_at' => $this->integer(),
