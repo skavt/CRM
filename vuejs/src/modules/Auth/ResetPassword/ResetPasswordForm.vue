@@ -5,18 +5,9 @@
         <h4>Password Reset</h4>
         <br>
         <view-spinner :show="loading"/>
-        <ValidationObserver v-if="!loading" v-slot="{ handleSubmit }">
-          <b-form @keydown.enter.prevent="handleSubmit(onResetPasswordClick)">
-            <input-widget :disabled="true" :model="model" :placeholder="true" attribute="email"/>
-            <input-widget :model="model" :placeholder="true" attribute="password" type="password" :autofocus="true"/>
-            <input-widget :model="model" :placeholder="`Repeat Password`" attribute="repeat_password" type="password"/>
-            <div class="d-flex align-items-center justify-content-between">
-              <b-button class="mr-2" variant="outline-light" @click="handleSubmit(onResetPasswordClick)">Submit
-              </b-button>
-              <router-link :to="{name: 'login'}" class="auth-link">Back to Login</router-link>
-            </div>
-          </b-form>
-        </ValidationObserver>
+        <auth-form :model="model" :loading="loading" :form-type="`resetPass`" :disabled-email="true"
+                   :show-repeat-password="true" @on-reset-pass-click="onResetPasswordClick">
+        </auth-form>
       </div>
     </div>
     <right-side class="col-md-6 col-center"/>
@@ -30,11 +21,12 @@ import InputWidget from "../../../core/components/input-widget/InputWidget";
 import ResetPasswordFormModel from "./ResetPasswordFormModel";
 import {createNamespacedHelpers} from "vuex";
 import {checkToken} from "../../../store/modules/auth/actions";
+import AuthForm from "../components/AuthForm";
 
 const {mapActions} = createNamespacedHelpers('auth')
 export default {
   name: "ResetPasswordForm",
-  components: {InputWidget, ViewSpinner, RightSide},
+  components: {AuthForm, ViewSpinner, RightSide},
   data() {
     return {
       model: new ResetPasswordFormModel(),

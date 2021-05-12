@@ -5,19 +5,9 @@
         <h4>Login to your account</h4>
         <br>
         <view-spinner :show="loading"/>
-        <ValidationObserver v-if="!loading" v-slot="{ handleSubmit }">
-          <b-form @keydown.enter.prevent="handleSubmit(onLoginClick)">
-            <input-widget :model="model" :placeholder="true" attribute="email" :disabled="true"/>
-            <input-widget :model="model" :placeholder="`First Name`" attribute="first_name" :autofocus="true"/>
-            <input-widget :model="model" :placeholder="`Last Name`" attribute="last_name"/>
-            <input-widget :model="model" :placeholder="true" attribute="password" type="password"/>
-            <input-widget :model="model" :placeholder="`Repeat Password`" attribute="repeat_password" type="password"/>
-            <div class="d-flex align-items-center justify-content-between">
-              <b-button class="mr-2" variant="outline-light" @click="handleSubmit(onLoginClick)">Register</b-button>
-              <router-link :to="{name: 'login'}" class="auth-link">Back to Login</router-link>
-            </div>
-          </b-form>
-        </ValidationObserver>
+        <auth-form :model="model" :loading="loading" :form-type="`register`" :show-repeat-password="true"
+                   :disabled-email="true" @on-register-click="onRegisterClick">
+        </auth-form>
       </div>
     </div>
     <right-side class="col-md-6 col-center"/>
@@ -31,12 +21,13 @@ import {createNamespacedHelpers} from "vuex";
 import RightSide from "./components/RightSide";
 import ViewSpinner from "../../core/components/view-spinner/view-spinner";
 import RegisterModel from "./RegisterModel";
+import AuthForm from "./components/AuthForm";
 
 const {mapActions} = createNamespacedHelpers('auth')
 
 export default {
   name: "Register",
-  components: {ViewSpinner, RightSide, InputWidget},
+  components: {AuthForm, ViewSpinner, RightSide},
   data() {
     return {
       model: new RegisterModel(),
@@ -45,7 +36,7 @@ export default {
   },
   methods: {
     ...mapActions(['register']),
-    async onLoginClick() {
+    async onRegisterClick() {
       this.loading = true
       this.model.resetErrors()
       delete this.model.repeat_password

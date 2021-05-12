@@ -5,17 +5,9 @@
         <h4>Request Password Reset</h4>
         <br>
         <view-spinner :show="loading"/>
-        <ValidationObserver v-if="!loading" v-slot="{ handleSubmit }">
-          <b-form @keydown.enter.prevent="handleSubmit(onResetPasswordRequestClick)">
-            <input-widget :model="model" :placeholder="true" attribute="email" :autofocus="true"/>
-            <div class="d-flex align-items-center justify-content-between">
-              <b-button class="mr-2" variant="outline-light" @click="handleSubmit(onResetPasswordRequestClick)">
-                Submit
-              </b-button>
-              <router-link :to="{name: 'login'}" class="auth-link">Back to Login</router-link>
-            </div>
-          </b-form>
-        </ValidationObserver>
+        <auth-form :model="model" :loading="loading" :form-type="`requestPass`" :show-password="false"
+                   @on-request-pass-click="onResetPasswordRequestClick">
+        </auth-form>
       </div>
     </div>
     <right-side class="col-md-6 col-center"/>
@@ -28,11 +20,12 @@ import ResetPasswordRequestModel from "./ResetPasswordRequestModel";
 import RightSide from "../components/RightSide";
 import {createNamespacedHelpers} from "vuex";
 import ViewSpinner from "../../../core/components/view-spinner/view-spinner";
+import AuthForm from "../components/AuthForm";
 
 const {mapActions} = createNamespacedHelpers('auth')
 export default {
   name: "ResetPasswordRequest",
-  components: {ViewSpinner, RightSide, InputWidget},
+  components: {AuthForm, ViewSpinner, RightSide},
   data() {
     return {
       model: new ResetPasswordRequestModel(),
