@@ -30,4 +30,36 @@ class InvitationQuery extends ActiveQuery
     {
         return parent::one($db);
     }
+
+    /**
+     * Find invitations by token
+     *
+     * @param $token
+     * @return InvitationQuery
+     */
+    public function byToken($token)
+    {
+        return $this->andWhere([Invitation::tableName() . '.token' => $token]);
+    }
+
+    /**
+     * Return not used invitation link
+     *
+     * @return InvitationQuery
+     */
+    public function notUsed()
+    {
+        return $this->andWhere([Invitation::tableName() . '.token_used_date' => null]);
+    }
+
+    /**
+     * Find users by email
+     *
+     * @param $email
+     * @return InvitationQuery
+     */
+    public function byEmail($email)
+    {
+        return $this->andWhere([Invitation::tableName() . '.email' => $email]);
+    }
 }
