@@ -38,7 +38,7 @@ const router = new VueRouter({
           component: ResetPasswordForm,
         },
         {
-          path: 'register',
+          path: 'register/:token',
           name: 'register',
           component: Register,
         },
