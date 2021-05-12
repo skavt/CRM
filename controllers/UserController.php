@@ -5,7 +5,7 @@ namespace app\controllers;
 use app\helpers\MailHelper;
 use app\models\LoginForm;
 use app\models\User;
-use app\rest\Controller;
+use app\rest\AuthController;
 use Yii;
 use yii\base\Exception;
 
@@ -14,7 +14,7 @@ use yii\base\Exception;
  *
  * @package app\controllers
  */
-class UserController extends Controller
+class UserController extends AuthController
 {
 
     public function actionLogin()
