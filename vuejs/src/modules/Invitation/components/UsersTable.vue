@@ -1,11 +1,11 @@
 <template>
-  <b-card no-body>
-    <no-content :show="localItems.length === 0"/>
-    <b-table class="mb-0 pb-0" :fields="fields" :items="localItems" dark responsive="sm" small>
-
+  <b-card no-body class="table-responsive mb-0">
+    <no-content :show="!hasItems"/>
+    <b-table v-if="hasItems" class="mb-0 pb-0" responsive="sm" small head-variant="dark"
+             :fields="fields" :items="localItems">
     </b-table>
 
-    <table-pagination :total-rows="items.length" @on-pagination-change="onPaginationChange"/>
+    <table-pagination v-if="hasItems" :total-rows="items.length" @on-pagination-change="onPaginationChange"/>
   </b-card>
 </template>
 
@@ -31,6 +31,11 @@ export default {
       localItems: [],
     }
   },
+  computed: {
+    hasItems() {
+      return this.localItems.length > 0
+    },
+  },
   methods: {
     onPaginationChange(perPage, currentPage) {
       this.localItems = this.items.filter((item, index) => {
@@ -53,11 +58,24 @@ export default {
     > thead {
       > tr {
         > th {
+          padding: 6px;
           white-space: nowrap;
 
           &:focus {
             outline: none;
           }
+        }
+      }
+    }
+
+    > tbody {
+      > tr {
+        > td {
+          padding: 8px;
+          max-width: 150px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
     }
