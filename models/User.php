@@ -217,4 +217,12 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->status == self::STATUS_INACTIVE;
     }
+
+    /**
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

@@ -5,6 +5,11 @@ namespace app\resources;
 use app\models\User;
 use Yii;
 
+/**
+ * Class UserResource
+ *
+ * @package app\resources
+ */
 class UserResource extends User
 {
     public function fields()
@@ -30,13 +35,5 @@ class UserResource extends User
                 return Yii::$app->formatter->asDatetime($this->updated_at);
             },
         ]);
-    }
-
-    /**
-     * @return string
-     */
-    public function getDisplayName()
-    {
-        return $this->first_name . ' ' . $this->last_name;
     }
 }
