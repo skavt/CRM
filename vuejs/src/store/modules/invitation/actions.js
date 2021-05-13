@@ -10,8 +10,10 @@ export function hideInvitationModal({commit}) {
 }
 
 export async function inviteUser({commit}, data) {
-  const res = await httpService.post(`/invitation/invite-user`, data);
-  commit(ADD_NEW_INVITED_USER, data)
+  const res = await httpService.post(`/invitation/invite-user?expand=createdBy,user`, data);
+  if (res.success) {
+    commit(ADD_NEW_INVITED_USER, res.body)
+  }
   return res
 }
 
