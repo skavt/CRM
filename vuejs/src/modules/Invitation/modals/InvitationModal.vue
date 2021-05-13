@@ -38,6 +38,9 @@ export default {
     ...mapActions(['hideInvitationModal', 'inviteUser']),
     onHideModal() {
       this.hideInvitationModal()
+      this.model = new InvitationModel()
+      this.showError = false
+      this.errorMessage = ''
     },
     async onSubmit() {
       this.showError = false
