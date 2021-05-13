@@ -1,4 +1,10 @@
-import {ADD_NEW_INVITED_USER, HIDE_INVITE_MODAL, SET_INVITATION_DATA, SHOW_INVITE_MODAL} from "./mutation-types";
+import {
+  ADD_NEW_INVITED_USER,
+  DELETE_INVITED_USER,
+  HIDE_INVITE_MODAL,
+  SET_INVITATION_DATA,
+  SHOW_INVITE_MODAL
+} from "./mutation-types";
 
 export default {
   [SHOW_INVITE_MODAL](state) {
@@ -12,5 +18,8 @@ export default {
   },
   [ADD_NEW_INVITED_USER](state, data) {
     state.invitation.data.push(data)
+  },
+  [DELETE_INVITED_USER](state, data) {
+    state.invitation.data = state.invitation.data.filter(item => item.id !== data.id)
   },
 };

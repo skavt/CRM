@@ -66,7 +66,7 @@ export default {
       })
     },
     onInvitedUserDelete(item) {
-      console.log(item)
+      this.$emit('on-invited-user-delete', item)
     },
   },
   mounted() {

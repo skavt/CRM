@@ -7,7 +7,7 @@
       </b-button>
     </b-card-header>
     <view-spinner :show="loading"/>
-    <users-table v-if="!loading" :fields="fields" :items="items"/>
+    <users-table v-if="!loading" :fields="fields" :items="items" @on-invited-user-delete="onInvitedUserDelete"/>
     <invitation-modal/>
   </b-card>
 </template>
@@ -47,9 +47,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['showInvitationModal', 'getInvitedUsers']),
+    ...mapActions(['showInvitationModal', 'getInvitedUsers', 'deleteInvitedUser']),
     onUserInviteClick() {
       this.showInvitationModal()
+    },
+    async onInvitedUserDelete(item) {
+      const result = await this.$confirm(`Are you sure you want to delete ${item.email} user?`, `Deleting Invited User...`)
+      if (result) {
+        await this.deleteInvitedUser(item)
+      }
     },
   },
   async mounted() {
