@@ -1,4 +1,4 @@
-import {HIDE_INVITE_MODAL, SET_INVITATION_DATA, SHOW_INVITE_MODAL} from "./mutation-types";
+import {ADD_NEW_INVITED_USER, HIDE_INVITE_MODAL, SET_INVITATION_DATA, SHOW_INVITE_MODAL} from "./mutation-types";
 import httpService from "../../../core/services/httpService";
 
 export function showInvitationModal({commit}) {
@@ -11,6 +11,7 @@ export function hideInvitationModal({commit}) {
 
 export async function inviteUser({commit}, data) {
   const res = await httpService.post(`/invitation/invite-user`, data);
+  commit(ADD_NEW_INVITED_USER, data)
   return res
 }
 

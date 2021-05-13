@@ -40,16 +40,24 @@ export default {
   computed: {
     ...mapState(['invitation']),
   },
+  watch: {
+    async ['invitation.data']() {
+      await this.getInvitesUsersList()
+    }
+  },
   methods: {
     ...mapActions(['showInvitationModal', 'getInvitedUsers']),
     onUserInviteClick() {
       this.showInvitationModal()
     },
+    async getInvitesUsersList() {
+      this.loading = true
+      await this.getInvitedUsers()
+      this.loading = false
+    }
   },
   async mounted() {
-    this.loading = true
-    await this.getInvitedUsers()
-    this.loading = false
+    await this.getInvitesUsersList()
   },
 }
 </script>
