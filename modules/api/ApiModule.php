@@ -2,12 +2,14 @@
 
 namespace app\modules\api;
 
+use yii\base\Module;
+
 /**
- * Class Module
+ * Class ApiModule
  *
  * @package app\modules\api
  */
-class Module extends \yii\base\Module
+class ApiModule extends Module
 {
 
 }

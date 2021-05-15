@@ -1,7 +1,7 @@
 <?php
 
+use app\modules\api\ApiModule;
 use app\modules\api\models\User;
-use app\modules\api\Module;
 use intermundia\mailer\SwiftMailer;
 use yii\rest\UrlRule;
 use yii\web\JsonParser;
@@ -67,7 +67,7 @@ $config = [
             'rules' => [
                 [
                     'class' => UrlRule::class,
-                    'pluralize' => true,
+                    'pluralize' => false,
                     'controller' => ['api/invitation'],
                 ]
             ],
@@ -75,7 +75,7 @@ $config = [
     ],
     'modules' => [
         'api' => [
-            'class' => Module::class
+            'class' => ApiModule::class
         ]
     ],
     'params' => $params,
