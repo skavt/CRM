@@ -16,7 +16,7 @@ export function hideInvitationModal({commit}) {
 }
 
 export async function inviteUser({commit}, data) {
-  const res = await httpService.post(`/invitation/invite-user?expand=createdBy,user`, data);
+  const res = await httpService.post(`invitation?expand=createdBy,user`, data);
   if (res.success) {
     commit(ADD_NEW_INVITED_USER, res.body)
   }
@@ -28,7 +28,7 @@ export async function deleteInvitedUser({commit}, data) {
 }
 
 export async function getInvitedUsers({commit}) {
-  const res = await httpService.get(`/invitation/invited-users?expand=createdBy,user`);
+  const res = await httpService.get(`invitation?expand=createdBy,user`);
   commit(SET_INVITATION_DATA, res.body)
   return res
 }

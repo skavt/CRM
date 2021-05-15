@@ -1,12 +1,15 @@
 <?php
 
 
-namespace app\controllers;
+namespace app\modules\api\controllers;
 
 use app\helpers\MailHelper;
-use app\resources\InvitationResource;
+use app\modules\api\resources\InvitationResource;
 use app\rest\Controller;
 use Yii;
+use yii\db\ActiveRecord;
+use yii\db\Exception;
+use yii\filters\AccessControl;
 
 /**
  * Class InvitationController
@@ -17,12 +20,23 @@ class InvitationController extends Controller
 {
 
     /**
+     * @return array
+     */
+    public function actions()
+    {
+        $actions = parent::actions();
+        unset($actions['create'], $actions['update'], $actions['view']);
+
+        return $actions;
+    }
+
+    /**
      * Create user invitation action
      *
-     * @return InvitationResource|array|mixed|\yii\db\ActiveRecord
-     * @throws \yii\db\Exception
+     * @return InvitationResource|array|mixed|ActiveRecord
+     * @throws Exception
      */
-    public function actionInviteUser()
+    public function actionCreate()
     {
         $request = yii::$app->request;
         $email = $request->post('email');

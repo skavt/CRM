@@ -1,6 +1,7 @@
 <?php
 
-use app\models\User;
+use app\modules\api\models\User;
+use app\modules\api\Module;
 use intermundia\mailer\SwiftMailer;
 use yii\rest\UrlRule;
 use yii\web\JsonParser;
@@ -20,6 +21,7 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            'cookieValidationKey' => 'test',
             'enableCookieValidation' => false,
             'parsers' => [
                 'application/json' => JsonParser::class
@@ -32,7 +34,6 @@ $config = [
             'class' => yii\web\User::class,
             'identityClass' => User::class,
             'enableSession' => false,
-            'loginUrl' => null,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -64,8 +65,18 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'class' => UrlRule::class,
+                    'pluralize' => true,
+                    'controller' => ['api/invitation'],
+                ]
             ],
         ],
+    ],
+    'modules' => [
+        'api' => [
+            'class' => Module::class
+        ]
     ],
     'params' => $params,
 ];
@@ -76,14 +87,14 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['127.0.0.1', 'localhost', '172.*', '::1'],
+        // 'allowedIPs' => ['127.0.0.1', 'localhost', '172.*', '::1'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['127.0.0.1', 'localhost', '172.*', '::1'],
+        // 'allowedIPs' => ['127.0.0.1', 'localhost', '172.*', '::1'],
     ];
 }
 

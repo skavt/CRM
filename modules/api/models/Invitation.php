@@ -1,8 +1,8 @@
 <?php
 
-namespace app\models;
+namespace app\modules\api\models;
 
-use app\models\query\InvitationQuery;
+use app\modules\api\models\query\InvitationQuery;
 use Yii;
 use yii\base\Exception;
 use yii\behaviors\BlameableBehavior;

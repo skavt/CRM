@@ -1,10 +1,10 @@
 <?php
 
 
-namespace app\resources;
+namespace app\modules\api\resources;
 
 
-use app\models\Invitation;
+use app\modules\api\models\Invitation;
 use Yii;
 use yii\base\Exception;
 use yii\db\ActiveQuery;

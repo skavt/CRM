@@ -3,8 +3,10 @@ import router from "../../router/router";
 import Vue from "vue";
 import authService from "../../core/services/authService";
 
+const API_ENDPOINT = process.env.VUE_APP_API_HOST || 'http://localhost:8081/';
+
 let config = {
-  baseURL: process.env.VUE_APP_API_HOST,
+  baseURL: `${API_ENDPOINT}api/`,
 };
 
 const axiosClient = axios.create(config);

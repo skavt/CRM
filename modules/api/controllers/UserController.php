@@ -1,10 +1,10 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\api\controllers;
 
 use app\helpers\MailHelper;
-use app\models\LoginForm;
-use app\models\User;
+use app\modules\api\models\LoginForm;
+use app\modules\api\models\User;
 use app\rest\AuthController;
 use Yii;
 use yii\base\Exception;
@@ -17,6 +17,9 @@ use yii\base\Exception;
 class UserController extends AuthController
 {
 
+    /**
+     * @return array
+     */
     public function actionLogin()
     {
         $request = Yii::$app->request;

@@ -1,8 +1,8 @@
 <?php
 
-namespace app\models;
+namespace app\modules\api\models;
 
-use app\models\query\UserQuery;
+use app\modules\api\models\query\UserQuery;
 use Yii;
 use yii\base\Exception;
 use yii\db\ActiveRecord;

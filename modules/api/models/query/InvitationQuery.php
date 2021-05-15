@@ -1,15 +1,15 @@
 <?php
 
-namespace app\models\query;
+namespace app\modules\api\models\query;
 
-use app\models\Invitation;
+use app\modules\api\models\Invitation;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
  * This is the ActiveQuery class for [[\app\models\Invitation]].
  *
- * @see \app\models\Invitation
+ * @see \app\modules\api\models\Invitation
  */
 class InvitationQuery extends ActiveQuery
 {
