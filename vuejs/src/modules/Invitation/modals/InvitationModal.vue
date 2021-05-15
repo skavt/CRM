@@ -1,6 +1,7 @@
 <template>
   <ValidationObserver ref="form" v-slot="{ handleSubmit}">
-    <b-modal v-model="modal.show" title="Invite New User" @hidden="onHideModal" @ok.prevent="handleSubmit(onSubmit)">
+    <b-modal v-model="modal.show" title="Invite New User" :ok-disabled="isClicked"
+             @hidden="onHideModal" @ok.prevent="handleSubmit(onSubmit)">
       <view-spinner :show="loading"/>
       <error-content :show="showError" :error-message="errorMessage"/>
       <b-form v-if="!loading" @keydown.enter.prevent="handleSubmit(onSubmit)">
@@ -27,6 +28,7 @@ export default {
       loading: false,
       showError: false,
       errorMessage: '',
+      isClicked: false,
     }
   },
   computed: {
@@ -40,9 +42,11 @@ export default {
       this.hideInvitationModal()
       this.model = new InvitationModel()
       this.showError = false
+      this.isClicked = false
       this.errorMessage = ''
     },
     async onSubmit() {
+      this.isClicked = true
       this.showError = false
       this.loading = true
       this.model.resetErrors()
@@ -53,6 +57,7 @@ export default {
         this.onHideModal()
       } else {
         this.showError = true
+        this.isClicked = false
         this.errorMessage = body.map(error => error.message).join(' ')
       }
     },
