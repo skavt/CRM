@@ -40,6 +40,7 @@ class InvitationController extends ActiveController
                 ]
             ]
         ];
+        $behaviors['authenticator']['except'][] = 'check-invitation-token';
 
         return $behaviors;
     }
@@ -90,5 +91,21 @@ class InvitationController extends ActiveController
         }
 
         return $model;
+    }
+
+    /**
+     * Get invited user's email by token
+     *
+     * @param $token
+     * @return mixed|null
+     */
+    public function actionCheckInvitationToken($token)
+    {
+        $invitation = InvitationResource::findByToken($token);
+        if (!$invitation) {
+            return $this->validationError('Invitation token is invalid, expired or used');
+        }
+
+        return $this->response($invitation->email);
     }
 }

@@ -22,6 +22,7 @@ import RegisterModel from "./models/RegisterModel";
 import AuthForm from "./components/AuthForm";
 
 const {mapActions} = createNamespacedHelpers('auth')
+const {mapActions: mapInvitationActions} = createNamespacedHelpers('invitation')
 
 export default {
   name: "Register",
@@ -34,6 +35,7 @@ export default {
   },
   methods: {
     ...mapActions(['register']),
+    ...mapInvitationActions(['checkInvitationToken']),
     async onRegisterClick() {
       this.loading = true
       this.model.resetErrors()
@@ -47,6 +49,17 @@ export default {
         this.$toast(body, 'danger')
       }
     },
+  },
+  async mounted() {
+    this.model.token = this.$route.params.token
+
+    const {success, body} = await this.checkInvitationToken(this.model.token)
+    if (success) {
+      this.model.email = body
+    } else {
+      this.$toast(body, 'danger')
+      this.$router.push({name: 'login'})
+    }
   },
 }
 </script>

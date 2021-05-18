@@ -225,4 +225,13 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->first_name . ' ' . $this->last_name;
     }
+
+    /**
+     * @param string $password
+     * @throws Exception
+     */
+    public function setPassword(string $password)
+    {
+        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+    }
 }

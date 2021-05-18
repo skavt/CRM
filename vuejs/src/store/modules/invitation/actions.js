@@ -34,3 +34,7 @@ export async function getInvitedUsers({commit}) {
   commit(SET_INVITATION_DATA, res.body)
   return res
 }
+
+export async function checkInvitationToken({commit}, token) {
+  return await httpService.get(`invitation/check-invitation-token?token=${token}`)
+}

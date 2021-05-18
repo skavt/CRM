@@ -6,6 +6,7 @@ export default class RegisterModel extends BaseModel {
   last_name = null
   password = null
   repeat_password = null
+  token = null
 
   rules = {
     first_name: 'required',

@@ -12,7 +12,6 @@ export async function login({commit, dispatch}, data) {
 }
 
 export async function register({commit}, data) {
-  // Todo backend action after create invitation
   return await httpService.post('/user/register', data)
 }
 
