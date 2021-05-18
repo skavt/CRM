@@ -24,7 +24,9 @@ export async function inviteUser({commit}, data) {
 }
 
 export async function deleteInvitedUser({commit}, data) {
+  const res = await httpService.delete(`invitation/${data.id}`);
   commit(DELETE_INVITED_USER, data)
+  return res
 }
 
 export async function getInvitedUsers({commit}) {

@@ -54,7 +54,12 @@ export default {
     async onInvitedUserDelete(item) {
       const result = await this.$confirm(`Are you sure you want to delete ${item.email} user?`, `Deleting Invited User...`)
       if (result) {
-        await this.deleteInvitedUser(item)
+        const {success, body} = await this.deleteInvitedUser(item)
+        if (success) {
+          this.$toast(`User deleted successfully`)
+        } else {
+          this.$toast(body.message, 'danger')
+        }
       }
     },
   },
