@@ -10,8 +10,8 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'name' => 'Intranet',
     'id' => 'basic',
+    'name' => 'Intranet',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
