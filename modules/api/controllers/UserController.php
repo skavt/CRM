@@ -5,7 +5,8 @@ namespace app\modules\api\controllers;
 use app\helpers\MailHelper;
 use app\modules\api\models\LoginForm;
 use app\modules\api\models\User;
-use app\rest\AuthController;
+use app\modules\api\resources\UserResource;
+use app\rest\Controller;
 use Yii;
 use yii\base\Exception;
 
@@ -14,8 +15,9 @@ use yii\base\Exception;
  *
  * @package app\controllers
  */
-class UserController extends AuthController
+class UserController extends Controller
 {
+    public $modelClass = UserResource::class;
 
     /**
      * @return array

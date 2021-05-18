@@ -2,11 +2,17 @@
 
 namespace app\rest;
 
+
 use Yii;
 use yii\filters\Cors;
-use yii\rest\Controller;
 
-class AuthController extends Controller
+/**
+ * Trait ControllerTrait
+ * This must be used in \yii\rest\Controller class
+ *
+ * @package app\rest
+ */
+trait ControllerTrait
 {
     public function behaviors()
     {

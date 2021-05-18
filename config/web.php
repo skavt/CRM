@@ -68,7 +68,10 @@ $config = [
                 [
                     'class' => UrlRule::class,
                     'pluralize' => false,
-                    'controller' => ['api/invitation'],
+                    'controller' => [
+                        'api/user',
+                        'api/invitation',
+                    ],
                 ]
             ],
         ],

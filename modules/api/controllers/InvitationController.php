@@ -5,7 +5,7 @@ namespace app\modules\api\controllers;
 
 use app\helpers\MailHelper;
 use app\modules\api\resources\InvitationResource;
-use app\rest\Controller;
+use app\rest\ActiveController;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\db\Exception;
@@ -16,8 +16,33 @@ use yii\filters\AccessControl;
  *
  * @package app\controllers
  */
-class InvitationController extends Controller
+class InvitationController extends ActiveController
 {
+    public $modelClass = InvitationResource::class;
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return array|array[]
+     */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors['access'] = [
+            'class' => AccessControl::class,
+            'only' => ['index', 'create', 'delete'],
+            'rules' => [
+                [
+                    'allow' => true,
+                    'actions' => ['index', 'create', 'delete'],
+                    //TODO roles
+                ]
+            ]
+        ];
+
+        return $behaviors;
+    }
 
     /**
      * @return array
@@ -65,10 +90,5 @@ class InvitationController extends Controller
         }
 
         return $model;
-    }
-
-    public function actionInvitedUsers()
-    {
-        return InvitationResource::find()->all();
     }
 }
