@@ -15,6 +15,11 @@
           {{ data.value }}
         </span>
       </template>
+      <template v-slot:cell(activeStatus)="data">
+        <b-form-checkbox v-if="data.item.activeStatus !== null" v-model="data.item.activeStatus" switch size="lg"
+                         @change="onUserStatusChange(data.item)">
+        </b-form-checkbox>
+      </template>
       <template v-slot:cell(actions)="data">
         <i style="visibility: hidden" class="disabled fas fa-pencil-alt mr-3"/>
         <span v-b-tooltip.hover.top="'Delete user'">
@@ -67,6 +72,11 @@ export default {
     },
     onInvitedUserDelete(item) {
       this.$emit('on-invited-user-delete', item)
+    },
+    onUserStatusChange(item) {
+      this.$nextTick(() => {
+        this.$emit('on-user-status-change', item)
+      })
     },
   },
   mounted() {

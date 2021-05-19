@@ -69,7 +69,7 @@ $config = [
                     'class' => UrlRule::class,
                     'pluralize' => false,
                     'controller' => [
-                        'api/user',
+                        'api/employee',
                         'api/invitation',
                     ],
                 ]

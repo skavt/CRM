@@ -26,3 +26,7 @@ export async function checkToken({commit}, token) {
 export async function resetPassword({commit}, data) {
   return await httpService.post('/user/reset-password', data)
 }
+
+export async function updateUserStatus({commit}, data) {
+  return await httpService.put(`/employee/${data.user.id}`, {status: data.activeStatus ? 1 : 2})
+}

@@ -7,7 +7,9 @@
       </b-button>
     </b-card-header>
     <view-spinner :show="loading"/>
-    <users-table v-if="!loading" :fields="fields" :items="items" @on-invited-user-delete="onInvitedUserDelete"/>
+    <users-table v-if="!loading" :fields="fields" :items="items" @on-invited-user-delete="onInvitedUserDelete"
+                 @on-user-status-change="onUserStatusChange">
+    </users-table>
     <invitation-modal/>
   </b-card>
 </template>
@@ -20,6 +22,7 @@ import {getInvitedUsers} from "../../store/modules/invitation/actions";
 import ViewSpinner from "../../core/components/view-spinner/view-spinner";
 
 const {mapState, mapActions} = createNamespacedHelpers('invitation')
+const {mapActions: mapAuthActions} = createNamespacedHelpers('auth')
 export default {
   name: "Invitation",
   components: {ViewSpinner, InvitationModal, UsersTable},
@@ -32,6 +35,7 @@ export default {
         {key: 'created_by', label: 'Invited By', sortable: true},
         {key: 'token_used_date', label: 'Registration Date', sortable: true},
         {key: 'statusLabel', label: 'Status', sortable: true},
+        {key: 'activeStatus', label: 'User Status', sortable: true},
         {key: 'actions', label: 'Actions'},
       ],
       loading: false,
@@ -48,6 +52,7 @@ export default {
   },
   methods: {
     ...mapActions(['showInvitationModal', 'getInvitedUsers', 'deleteInvitedUser']),
+    ...mapAuthActions(['updateUserStatus']),
     onUserInviteClick() {
       this.showInvitationModal()
     },
@@ -60,6 +65,14 @@ export default {
         } else {
           this.$toast(body.message, 'danger')
         }
+      }
+    },
+    async onUserStatusChange(item) {
+      const {success, body} = await this.updateUserStatus(item);
+      if (success) {
+        this.$toast(`Status changed successfully`);
+      } else {
+        this.$toast(body.message, 'danger');
       }
     },
   },

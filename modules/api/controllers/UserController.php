@@ -19,8 +19,6 @@ use yii\base\Exception;
  */
 class UserController extends Controller
 {
-    public $modelClass = UserResource::class;
-
     /**
      * @return array
      */

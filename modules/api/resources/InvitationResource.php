@@ -28,7 +28,10 @@ class InvitationResource extends Invitation
             },
             'statusLabel' => function () {
                 return $this->getStatusLabel();
-            }
+            },
+            'activeStatus' => function () {
+                return $this->user ? $this->user->status === 1 : null;
+            },
         ]);
     }
 
