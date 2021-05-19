@@ -23,7 +23,7 @@ class InvitationResource extends Invitation
             'created_at' => function () {
                 return $this->created_at * 1000;
             },
-            'use_date' => function () {
+            'token_used_date' => function () {
                 return $this->token_used_date ? Yii::$app->formatter->asDatetime($this->token_used_date) : null;
             },
             'statusLabel' => function () {

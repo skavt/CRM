@@ -3,6 +3,7 @@
 namespace app\modules\api\models;
 
 
+use app\helpers\MailHelper;
 use app\rest\ValidationException;
 use Yii;
 use yii\base\Exception;
@@ -73,7 +74,6 @@ class SignupForm extends Model
 
         // TODO Assign role to user
 
-
         $invitation->token_used_date = time();
         $invitation->user_id = $user->id;
         $invitation->status = Invitation::STATUS_REGISTERED;
@@ -82,10 +82,10 @@ class SignupForm extends Model
             throw new ValidationException("Invitation was not updated. Token: $invitation->token");
         }
 
-        /*if (!MailHelper::acceptInvitation($invitation, $user)) {
+        if (!MailHelper::acceptInvitation($invitation, $user)) {
             $dbTransaction->rollBack();
             throw new ValidationException('Unable to send email for inviter');
-        }*/
+        }
 
         $dbTransaction->commit();
         return $user;
