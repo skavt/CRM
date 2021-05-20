@@ -88,8 +88,10 @@ export default {
 <style lang="scss">
 
 .invitation-card {
-  margin-right: 8rem;
-  margin-left: 8rem;
+  height: 96%;
+  width: 100%;
+  margin-left: 16px;
+  margin-right: 16px;
 }
 
 </style>

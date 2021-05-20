@@ -87,13 +87,21 @@ export default {
 
 <style lang="scss">
 
+.table-responsive {
+  height: 100%;
+}
+
 .table-responsive-sm {
-  padding: 20px;
+  height: 100%;
+  overflow: auto;
 
   > table {
     > thead {
       > tr {
         > th {
+          position: sticky;
+          z-index: 10;
+          top: 0;
           padding: 6px;
           white-space: nowrap;
 
