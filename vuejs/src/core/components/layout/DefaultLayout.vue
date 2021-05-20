@@ -11,10 +11,26 @@
 <script>
 import Navbar from "../navbar/Navbar";
 import Sidebar from "../sidebar/Sidebar";
+import MenuService from "../sidebar/MenuService";
+import MenuItem from "../sidebar/MenuItem";
 
 export default {
   name: "DefaultLayout",
   components: {Sidebar, Navbar},
+  mounted() {
+    MenuService.addItem(new MenuItem('Home', {
+      text: 'Home',
+      path: `/dashboard`,
+      weight: 100,
+      icon: 'fas fa-home',
+    }));
+    MenuService.addItem(new MenuItem('Invitation', {
+      text: 'Invitation',
+      path: `/dashboard/invitation`,
+      weight: 101,
+      icon: 'fas fa-user-plus',
+    }));
+  }
 }
 </script>
 

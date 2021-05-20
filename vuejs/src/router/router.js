@@ -47,7 +47,6 @@ const router = new VueRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
-      redirect: '/dashboard/invitation',
       component: DefaultLayout,
       meta: {requiresAuth: true},
       children: [
