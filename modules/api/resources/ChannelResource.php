@@ -5,6 +5,8 @@ namespace app\modules\api\resources;
 
 
 use app\modules\api\models\Channel;
+use app\rest\ValidationException;
+use Yii;
 
 /**
  * Class ChannelResource
@@ -31,5 +33,27 @@ class ChannelResource extends Channel
     public function extraFields()
     {
         return ['createdBy', 'updatedBy'];
+    }
+
+    /**
+     * After save channel create new user channel
+     *
+     * @param bool $insert
+     * @param array $changedAttributes
+     * @throws ValidationException
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($insert) {
+            $userWorkspace = new UserChannelResource();
+            $userWorkspace->channel_id = $this->id;
+            $userWorkspace->user_id = Yii::$app->user->id;
+            $userWorkspace->role = UserResource::ROLE_ADMIN;
+
+            if (!$userWorkspace->save()) {
+                throw new ValidationException('Unable to create user channel');
+            }
+        }
     }
 }

@@ -35,6 +35,10 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 2;
 
+    const ROLE_USER = 'user';
+    const ROLE_ADMIN = 'admin';
+    const ROLE_CHANNEL_ADMIN = 'channelAdmin';
+
     /**
      * Access Token is valid 1 day
      */
