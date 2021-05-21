@@ -15,7 +15,7 @@ import ViewSpinner from "../../../core/components/view-spinner/view-spinner";
 import InputWidget from "../../../core/components/input-widget/InputWidget";
 import ChannelModel from "../models/ChannelModel";
 import {createNamespacedHelpers} from "vuex";
-import {hideChannelModal} from "../../../store/modules/channel/actions";
+import {createNewChannel, hideChannelModal} from "../../../store/modules/channel/actions";
 
 const {mapState, mapActions} = createNamespacedHelpers('channel')
 export default {
@@ -33,9 +33,18 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['hideChannelModal']),
-    onSubmit() {
-
+    ...mapActions(['hideChannelModal', 'createNewChannel']),
+    async onSubmit() {
+      this.loading = true
+      this.model.resetErrors()
+      const {success, body} = await this.createNewChannel({...this.model.toJSON()})
+      this.loading = false
+      if (success) {
+        this.$toast(`Channel ${this.model.name} created successfully`)
+        this.onHideModal()
+      } else {
+        this.model.setMultipleErrors(body);
+      }
     },
     onHideModal() {
       this.hideChannelModal()

@@ -53,7 +53,7 @@ export default {
       const {success, body} = await this.inviteUser({...this.model.toJSON()})
       this.loading = false
       if (success) {
-        this.$toast(`Email ${this.model.email} was successfully invited`)
+        this.$toast(`Email ${this.model.email} invited successfully`)
         this.onHideModal()
       } else {
         this.showError = true

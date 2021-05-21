@@ -3,10 +3,10 @@
     <b-card-body class="pb-0">
       <b-card-title>
         <i class="fas fa-layer-group"/>
-        Text
+        {{ item.name }}
       </b-card-title>
       <b-card-text class="description">
-        Description Description Description Description Description Description
+        {{ item.description }}
       </b-card-text>
     </b-card-body>
   </b-card>
@@ -14,7 +14,13 @@
 
 <script>
 export default {
-  name: "ChannelCard"
+  name: "ChannelCard",
+  props: {
+    item: {
+      type: Object,
+      require: true,
+    },
+  },
 }
 </script>
 
