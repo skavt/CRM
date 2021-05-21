@@ -6,11 +6,13 @@
         Invite User
       </b-button>
     </b-card-header>
-    <view-spinner :show="loading"/>
-    <users-table v-if="!loading" :fields="fields" :items="items" @on-invited-user-delete="onInvitedUserDelete"
-                 @on-user-status-change="onUserStatusChange">
-    </users-table>
-    <invitation-modal/>
+    <b-card-body class="invitation-card-body">
+      <view-spinner :show="loading"/>
+      <users-table v-if="!loading" :fields="fields" :items="items" @on-invited-user-delete="onInvitedUserDelete"
+                   @on-user-status-change="onUserStatusChange">
+      </users-table>
+      <invitation-modal/>
+    </b-card-body>
   </b-card>
 </template>
 
@@ -88,10 +90,14 @@ export default {
 <style lang="scss">
 
 .invitation-card {
-  height: 96%;
+  height: 100%;
   width: 100%;
-  margin-left: 16px;
-  margin-right: 16px;
+}
+
+.invitation-card-body {
+  background: #E8E8E8;
+  padding: 0;
+  overflow: auto;
 }
 
 </style>

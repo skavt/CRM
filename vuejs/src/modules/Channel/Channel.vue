@@ -61,14 +61,13 @@ export default {
 .channel-card {
   height: 100%;
   width: 100%;
-  margin-top: 0 !important;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
 .channel-card-body {
   background: #E8E8E8;
   padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .page-content {

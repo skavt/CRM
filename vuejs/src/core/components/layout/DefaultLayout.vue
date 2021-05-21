@@ -3,7 +3,7 @@
     <navbar/>
     <div id="content" class="d-flex justify-content-between">
       <sidebar/>
-      <router-view class="mt-3"/>
+      <router-view/>
     </div>
   </div>
 </template>
