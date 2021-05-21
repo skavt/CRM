@@ -3,6 +3,7 @@ import Vue from 'vue';
 
 import auth from './modules/auth'
 import invitation from './modules/invitation'
+import channel from './modules/channel'
 
 Vue.use(Vuex);
 
@@ -39,5 +40,6 @@ export default new Vuex.Store({
   modules: {
     auth,
     invitation,
+    channel,
   }
 });
