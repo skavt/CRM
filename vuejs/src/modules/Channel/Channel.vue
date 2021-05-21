@@ -15,21 +15,23 @@
         </div>
       </div>
     </div>
+    <channel-modal/>
   </div>
 </template>
 
 <script>
 import {createNamespacedHelpers} from "vuex";
 import ChannelCard from "./components/ChannelCard";
+import ChannelModal from "./modals/ChannelModal";
 
 const {mapActions} = createNamespacedHelpers('channel')
 export default {
   name: "Channel",
-  components: {ChannelCard},
+  components: {ChannelModal, ChannelCard},
   methods: {
-    ...mapActions(['setData']),
+    ...mapActions(['setData', 'showChannelModal']),
     onAddChannelClick() {
-
+      this.showChannelModal(null)
     },
   },
   async mounted() {
