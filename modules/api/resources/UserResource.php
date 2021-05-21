@@ -8,7 +8,7 @@ use Yii;
 /**
  * Class UserResource
  *
- * @package app\resources
+ * @package app\modules\api\resources
  */
 class UserResource extends User
 {

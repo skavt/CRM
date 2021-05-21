@@ -13,7 +13,7 @@ use yii\db\ActiveRecord;
 /**
  * Class InvitationResource
  *
- * @package app\resources
+ * @package app\modules\api\resources
  */
 class InvitationResource extends Invitation
 {

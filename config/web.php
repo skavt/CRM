@@ -71,6 +71,7 @@ $config = [
                     'controller' => [
                         'api/employee',
                         'api/invitation',
+                        'api/channel',
                     ],
                 ]
             ],

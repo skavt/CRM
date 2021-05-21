@@ -14,7 +14,7 @@ use yii\filters\AccessControl;
 /**
  * Class InvitationController
  *
- * @package app\controllers
+ * @package app\modules\api\controllers
  */
 class InvitationController extends ActiveController
 {

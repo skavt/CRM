@@ -15,7 +15,7 @@ use yii\base\Exception;
 /**
  * Class UserController
  *
- * @package app\controllers
+ * @package app\modules\api\controllers
  */
 class UserController extends Controller
 {
