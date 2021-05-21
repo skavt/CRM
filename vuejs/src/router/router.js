@@ -8,6 +8,7 @@ import Register from "../modules/Auth/Register";
 import authService from "../core/services/authService";
 import DefaultLayout from "../core/components/layout/DefaultLayout";
 import Invitation from "../modules/Invitation/Invitation";
+import Channel from "../modules/Channel/Channel";
 
 Vue.use(VueRouter)
 
@@ -54,7 +55,12 @@ const router = new VueRouter({
           path: 'invitation',
           name: 'invitation',
           component: Invitation,
-        }
+        },
+        {
+          path: 'channel',
+          name: 'channel',
+          component: Channel,
+        },
       ]
     }
   ]

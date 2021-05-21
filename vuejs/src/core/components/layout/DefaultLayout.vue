@@ -30,6 +30,12 @@ export default {
       weight: 101,
       icon: 'fas fa-user-plus',
     }));
+    MenuService.addItem(new MenuItem('Channel', {
+      text: 'Channel',
+      path: `/dashboard/channel`,
+      weight: 101,
+      icon: 'fas fa-layer-group',
+    }));
   }
 }
 </script>
