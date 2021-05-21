@@ -12,7 +12,9 @@
       <div v-if="!loading" class="page-content">
         <div class="row ml-0">
           <div class="card-wrapper mt-3 ml-3" v-for="item in channelData" :key="`channel-card-${item.id}`">
-            <channel-card :item="item"/>
+            <channel-card :item="item" @on-channel-edit-click="onChannelEdit"
+                          @on-channel-delete-click="onChannelDelete">
+            </channel-card>
           </div>
         </div>
       </div>
@@ -43,9 +45,22 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['getChannelData', 'showChannelModal']),
+    ...mapActions(['getChannelData', 'showChannelModal', 'deleteChannel']),
     onAddChannelClick() {
       this.showChannelModal(null)
+    },
+    onChannelEdit(item) {
+      this.showChannelModal(item)
+    },
+    async onChannelDelete(item) {const result = await this.$confirm(`Are you sure you want to delete ${item.name} channel?`, `Deleting Channel...`)
+      if (result) {
+        const {success, body} = await this.deleteChannel(item.id)
+        if (success) {
+          this.$toast(`User deleted successfully`)
+        } else {
+          this.$toast(body.message, 'danger')
+        }
+      }
     },
   },
   async mounted() {

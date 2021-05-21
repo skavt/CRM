@@ -32,22 +32,39 @@ export default {
       modal: state => state.channel.modal,
     }),
   },
+  watch: {
+    ['modal.data']() {
+      if (this.modal.data) {
+        this.model = new ChannelModel(this.modal.data);
+      }
+    }
+  },
   methods: {
-    ...mapActions(['hideChannelModal', 'createNewChannel']),
+    ...mapActions(['hideChannelModal', 'createNewChannel', 'updateChannel']),
     async onSubmit() {
       this.loading = true
       this.model.resetErrors()
-      const {success, body} = await this.createNewChannel({...this.model.toJSON()})
+      let action = 'create'
+      if (this.model.id) {
+        action = 'update'
+      }
+      let res
+      if (action === 'create') {
+        res = await this.createNewChannel({...this.model.toJSON()})
+      } else {
+        res = await this.updateChannel({...this.model.toJSON()})
+      }
       this.loading = false
-      if (success) {
+      if (res.success) {
         this.$toast(`Channel ${this.model.name} created successfully`)
         this.onHideModal()
       } else {
-        this.model.setMultipleErrors(body);
+        this.model.setMultipleErrors(res.body);
       }
     },
     onHideModal() {
       this.hideChannelModal()
+      this.model = new ChannelModel()
     },
   },
 }

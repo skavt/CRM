@@ -1,4 +1,11 @@
-import {ADD_NEW_CHANNEL, HIDE_CHANNEL_MODAL, SET_CHANNEL_DATA, SHOW_CHANNEL_MODAL} from "./mutation-types";
+import {
+  ADD_NEW_CHANNEL,
+  DELETE_CHANNEL,
+  HIDE_CHANNEL_MODAL,
+  SET_CHANNEL_DATA,
+  SHOW_CHANNEL_MODAL,
+  UPDATE_CHANNEL_DATA
+} from "./mutation-types";
 import httpService from "../../../core/services/httpService";
 
 export async function getChannelData({commit}) {
@@ -21,6 +28,22 @@ export async function createNewChannel({commit}, data) {
   const res = await httpService.post(`channel`, data)
   if (res.success) {
     commit(ADD_NEW_CHANNEL, data)
+  }
+  return res
+}
+
+export async function updateChannel({commit}, data) {
+  const res = await httpService.put(`channel/${data.id}`, data)
+  if (res.success) {
+    commit(UPDATE_CHANNEL_DATA, data)
+  }
+  return res
+}
+
+export async function deleteChannel({commit}, channelId) {
+  const res = await httpService.delete(`channel/${channelId}`)
+  if (res.success) {
+    commit(DELETE_CHANNEL, channelId)
   }
   return res
 }

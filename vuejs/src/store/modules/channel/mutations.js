@@ -1,4 +1,10 @@
-import {ADD_NEW_CHANNEL, HIDE_CHANNEL_MODAL, SET_CHANNEL_DATA, SHOW_CHANNEL_MODAL} from './mutation-types';
+import {
+  ADD_NEW_CHANNEL, DELETE_CHANNEL,
+  HIDE_CHANNEL_MODAL,
+  SET_CHANNEL_DATA,
+  SHOW_CHANNEL_MODAL,
+  UPDATE_CHANNEL_DATA
+} from './mutation-types';
 
 export default {
   [SET_CHANNEL_DATA](state, data) {
@@ -14,5 +20,13 @@ export default {
   },
   [ADD_NEW_CHANNEL](state, data) {
     state.channel.data.push(data);
+  },
+  [UPDATE_CHANNEL_DATA](state, data) {
+    const index = state.channel.data.findIndex(c => c.id === data.id);
+    state.channel.data[index] = data
+    state.channel.data = [...state.channel.data]
+  },
+  [DELETE_CHANNEL](state, channelId) {
+    state.channel.data = state.channel.data.filter(c => c.id !== channelId)
   },
 };

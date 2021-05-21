@@ -11,11 +11,11 @@
     </b-card-body>
     <b-card-body class="action-wrapper">
       <div class="d-flex justify-content-end">
-        <b-button size="sm" variant="outline-primary" class="ml-1">
+        <b-button size="sm" variant="outline-primary" class="ml-1" @click="onEditClick">
           <i class="fas fa-pencil-alt"/>
           Edit
         </b-button>
-        <b-button size="sm" variant="outline-danger" class="ml-1">
+        <b-button size="sm" variant="outline-danger" class="ml-1" @click="onDeleteClick">
           <i class="fas fa-trash"/>
           Delete
         </b-button>
@@ -31,6 +31,14 @@ export default {
     item: {
       type: Object,
       require: true,
+    },
+  },
+  methods: {
+    onEditClick() {
+      this.$emit('on-channel-edit-click', this.item)
+    },
+    onDeleteClick() {
+      this.$emit('on-channel-delete-click', this.item)
     },
   },
 }
