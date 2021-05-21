@@ -25,7 +25,7 @@ export default {
 
 <style lang="scss" scoped>
 .sidebar-column {
-  width: 280px;
+  width: 250px;
 }
 
 .menu-item-icon {
@@ -36,7 +36,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px 16px;
+  padding: 12px 24px 12px;
   font-size: 16px;
   font-weight: bold;
   opacity: 0.8;
@@ -48,9 +48,24 @@ export default {
   }
 
   &.router-link-exact-active.active {
-    background: #343A40;
-    color: #fff;
-    border-left: 4px solid #003349;
+    position: relative;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    color: #003349;
+    background-color: #ededed;
+
+    &:after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      margin-top: -15px;
+      height: 30px;
+      width: 16px;
+      border-width: 15px 10px;
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
+      border-right: 10px solid #003349;
+    }
   }
 }
 
