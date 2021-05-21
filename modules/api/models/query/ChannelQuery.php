@@ -3,6 +3,7 @@
 namespace app\modules\api\models\query;
 
 use app\modules\api\models\Channel;
+use app\modules\api\models\UserChannel;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -29,5 +30,15 @@ class ChannelQuery extends ActiveQuery
     public function one($db = null)
     {
         return parent::one($db);
+    }
+
+    /**
+     * @param $userId
+     * @return ChannelQuery
+     */
+    public function byUserId($userId)
+    {
+        return $this->innerJoin(UserChannel::tableName() . ' uc', 'uc.channel_id = ' . Channel::tableName() . '.id')
+            ->andWhere(['uc.user_id' => $userId]);
     }
 }

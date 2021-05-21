@@ -6,6 +6,7 @@ namespace app\modules\api\controllers;
 
 use app\modules\api\resources\ChannelResource;
 use app\rest\ActiveController;
+use Yii;
 use yii\filters\AccessControl;
 
 /**
@@ -39,5 +40,21 @@ class ChannelController extends ActiveController
         ];
 
         return $behaviors;
+    }
+
+    /**
+     * @return array
+     */
+    public function actions()
+    {
+        $actions = parent::actions();
+        unset($actions['index']);
+
+        return $actions;
+    }
+
+    public function actionIndex()
+    {
+        return ChannelResource::find()->byUserId(Yii::$app->user->id)->all();
     }
 }
