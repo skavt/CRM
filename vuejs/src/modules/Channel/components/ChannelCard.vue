@@ -9,6 +9,18 @@
         {{ item.description }}
       </b-card-text>
     </b-card-body>
+    <b-card-body class="action-wrapper">
+      <div class="d-flex justify-content-end">
+        <b-button size="sm" variant="outline-primary" class="ml-1">
+          <i class="fas fa-pencil-alt"/>
+          Edit
+        </b-button>
+        <b-button size="sm" variant="outline-danger" class="ml-1">
+          <i class="fas fa-trash"/>
+          Delete
+        </b-button>
+      </div>
+    </b-card-body>
   </b-card>
 </template>
 
@@ -47,5 +59,12 @@ export default {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
+}
+
+.action-wrapper {
+  flex-direction: column;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 </style>
