@@ -238,4 +238,13 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
+
+    /**
+     * @param $role
+     * @return bool
+     */
+    public static function isValidRole($role): bool
+    {
+        return in_array($role, [self::ROLE_ADMIN, self::ROLE_USER, self::ROLE_CHANNEL_ADMIN]);
+    }
 }

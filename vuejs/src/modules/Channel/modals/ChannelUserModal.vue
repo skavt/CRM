@@ -1,7 +1,7 @@
 <template>
   <ValidationObserver ref="form" v-slot="{ handleSubmit}">
     <b-modal v-model="modal.show" title="Add New Channel" size="lg" @hidden="onHideModal"
-             @ok.prevent="handleSubmit(onSubmit)">
+             @ok.prevent="handleSubmit(onSubmit)" :ok-disabled="model.selectedUsers.length === 0">
       <view-spinner :show="loading"/>
       <b-form v-if="!loading" @keydown.enter.prevent="handleSubmit(onSubmit)">
         <div class="row">
@@ -24,7 +24,7 @@
 <script>
 import ViewSpinner from "../../../core/components/view-spinner/view-spinner";
 import {createNamespacedHelpers} from "vuex";
-import {hideChannelUserModal} from "../../../store/modules/channel/actions";
+import {addNewUsersInChannel, hideChannelUserModal} from "../../../store/modules/channel/actions";
 import ChannelUserModel from "../models/ChannelUserModel";
 import InputWidget from "../../../core/components/input-widget/InputWidget";
 
@@ -61,10 +61,24 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['hideChannelUserModal']),
+    ...mapActions(['hideChannelUserModal', 'addNewUsersInChannel']),
     async onSubmit() {
       this.loading = true
       this.model.resetErrors()
+      let params = {
+        channel_id: this.modal.data.id,
+        role: this.model.role,
+        selectedUsers: this.model.selectedUsers.map(s => s.value)
+      }
+      if (this.model.selectedUsers.length > 0) {
+        const {success, body} = await this.addNewUsersInChannel(params)
+        if (success) {
+          this.$toast(`User(s) added successfully`);
+          this.onHideModal();
+        } else {
+          this.$toast(body, 'danger');
+        }
+      }
       this.loading = false
     },
     onHideModal() {

@@ -6,6 +6,7 @@ const STATE = {
     },
     userModal: {
       show: false,
+      data: {},
       users: [],
     },
     data: [],

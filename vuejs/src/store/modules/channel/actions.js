@@ -66,3 +66,7 @@ export async function getActiveUsers({commit}, channelId) {
   }
   return res
 }
+
+export async function addNewUsersInChannel({commit}, data) {
+  return await httpService.post(`channel/add-new-users`, data)
+}
