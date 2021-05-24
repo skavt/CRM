@@ -60,6 +60,9 @@ export default {
       await this.getChannelData()
       this.channelData = this.channel.data.find(ch => ch.id === parseInt(this.$route.params.channelId))
     },
+    ['channel.data']() {
+      this.channelData = this.channel.data.find(ch => ch.id === parseInt(this.$route.params.channelId))
+    },
   },
   methods: {
     ...mapActions(['deleteChannel', 'showChannelModal', 'showChannelUserModal', 'getChannelData', 'getActiveUsers']),
