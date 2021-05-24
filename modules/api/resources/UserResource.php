@@ -14,7 +14,7 @@ class UserResource extends User
 {
     public function fields()
     {
-        return array_merge(parent::fields(), [
+        return [
             'id',
             'username',
             'email',
@@ -34,6 +34,6 @@ class UserResource extends User
             'updated_at' => function () {
                 return Yii::$app->formatter->asDatetime($this->updated_at);
             },
-        ]);
+        ];
     }
 }
