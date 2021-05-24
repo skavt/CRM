@@ -1,7 +1,7 @@
 <template>
   <b-card no-body class="post-card">
     <b-card-header>
-      <b-button variant="light" class="mr-3" @click="$router.go(-1)">
+      <b-button variant="light" class="mr-3" @click="$router.push({name: 'channel'})">
         <i class="fas fa-chevron-left"/>
         Back
       </b-button>
