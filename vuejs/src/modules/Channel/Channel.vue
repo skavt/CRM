@@ -52,11 +52,12 @@ export default {
     onChannelEdit(item) {
       this.showChannelModal(item)
     },
-    async onChannelDelete(item) {const result = await this.$confirm(`Are you sure you want to delete ${item.name} channel?`, `Deleting Channel...`)
+    async onChannelDelete(item) {
+      const result = await this.$confirm(`Are you sure you want to delete ${item.name} channel?`, `Deleting Channel...`)
       if (result) {
         const {success, body} = await this.deleteChannel(item.id)
         if (success) {
-          this.$toast(`User deleted successfully`)
+          this.$toast(`Channel ${item.name} deleted successfully`)
         } else {
           this.$toast(body.message, 'danger')
         }

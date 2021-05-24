@@ -13,6 +13,10 @@ class MenuService {
     });
   }
 
+  removeItem(name) {
+    store.dispatch('removeMenuItem', name);
+  }
+
   getItems() {
     return store.getters['menuItems']
   }

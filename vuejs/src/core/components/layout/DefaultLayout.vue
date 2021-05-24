@@ -24,10 +24,16 @@ export default {
   },
   watch: {
     ['channel.data']() {
-      this.channel.data.forEach(function (w, i) {
-        MenuService.addItem(new MenuItem(`channel-${w.id}`, {
-          text: w.name,
-          path: `/dashboard/channel/${w.id}/timeline`,
+      const menuItems = MenuService.getItems();
+      menuItems.forEach(menuItem => {
+        if (menuItem.name.indexOf('channel-') === 0) {
+          MenuService.removeItem(menuItem.name)
+        }
+      });
+      this.channel.data.forEach(function (ch, i) {
+        MenuService.addItem(new MenuItem(`channel-${ch.id}`, {
+          text: ch.name,
+          path: `/dashboard/channel/${ch.id}/timeline`,
           weight: 101 + i,
           icon: 'fab fa-battle-net',
         }))

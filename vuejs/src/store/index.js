@@ -20,6 +20,9 @@ export default new Vuex.Store({
     addMenuItem({commit}, {name, menuItem}) {
       commit('addMenuItem', {name, menuItem});
     },
+    removeMenuItem({commit}, path) {
+      commit('removeMenuItem', path);
+    },
     toggleMenuCollapse({commit, state}) {
       commit('toggleMenuCollapse', !state.menuCollapsed);
     },
@@ -35,6 +38,9 @@ export default new Vuex.Store({
         ...state._menuItems,
         [name]: menuItem
       }
+    },
+    removeMenuItem: (state, name) => {
+      Vue.delete(state._menuItems, name);
     },
   },
   modules: {
