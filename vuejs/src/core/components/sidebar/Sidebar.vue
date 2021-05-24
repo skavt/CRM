@@ -1,8 +1,8 @@
 <template>
   <div class="d-flex flex-column flex-shrink-0 bg-light sidebar-column">
     <ul class="nav nav-pills flex-column mb-auto">
-      <router-link class="menu-items-header" v-for="item in menuItems" :to="item.path || '#'" :key="item.text" tag="li"
-                   active-class="active">
+      <router-link class="menu-items-header" :style="sidebarTitleStyle(item)" v-for="item in menuItems"
+                   :to="item.path || '#'" :key="item.text" tag="li" active-class="active">
         <div>
           <i class="menu-item-icon" :class="item.icon"/>
           <span>{{ item.text }}</span>
@@ -20,6 +20,14 @@ export default {
   computed: {
     ...mapGetters(['menuItems']),
   },
+  methods: {
+    sidebarTitleStyle(item) {
+      return item.weight > 100 ? {padding: '12px 30px 12px', 'font-size': '14px'} : {
+        padding: '12px 24px 12px',
+        'font-size': '16px'
+      }
+    },
+  },
 }
 </script>
 
@@ -36,8 +44,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 24px 12px;
-  font-size: 16px;
   font-weight: bold;
   opacity: 0.8;
   color: #343A40;
