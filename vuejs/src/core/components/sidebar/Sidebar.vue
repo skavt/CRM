@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column flex-shrink-0 bg-light sidebar-column">
+  <div class="flex-column flex-shrink-0 bg-light sidebar-column">
     <ul class="nav nav-pills flex-column mb-auto">
       <router-link class="menu-items-header" :style="sidebarTitleStyle(item)" v-for="item in menuItems"
                    :to="item.path || '#'" :key="item.text" tag="li" active-class="active">
@@ -33,6 +33,7 @@ export default {
 
 <style lang="scss" scoped>
 .sidebar-column {
+  overflow: auto;
   width: 250px;
 }
 
