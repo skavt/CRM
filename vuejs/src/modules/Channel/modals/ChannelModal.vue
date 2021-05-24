@@ -56,7 +56,11 @@ export default {
       }
       this.loading = false
       if (res.success) {
-        this.$toast(`Channel ${this.model.name} created successfully`)
+        if (action === 'create') {
+          this.$toast(`Channel ${this.model.name} created successfully`)
+        } else {
+          this.$toast(`Channel ${this.model.name} updated successfully`)
+        }
         this.onHideModal()
       } else {
         this.model.setMultipleErrors(res.body);

@@ -27,7 +27,7 @@ export function hideChannelModal({commit}) {
 export async function createNewChannel({commit}, data) {
   const res = await httpService.post(`channel`, data)
   if (res.success) {
-    commit(ADD_NEW_CHANNEL, data)
+    commit(ADD_NEW_CHANNEL, res.body)
   }
   return res
 }
