@@ -28,7 +28,7 @@
 import {createNamespacedHelpers} from "vuex";
 import ChannelCard from "./components/ChannelCard";
 import ChannelModal from "./modals/ChannelModal";
-import {getChannelData} from "../../store/modules/channel/actions";
+import {getActiveUsers, getChannelData} from "../../store/modules/channel/actions";
 import ViewSpinner from "../../core/components/view-spinner/view-spinner";
 import ChannelUserModal from "./modals/ChannelUserModal";
 
@@ -47,11 +47,12 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['getChannelData', 'showChannelModal', 'deleteChannel', 'showChannelUserModal']),
+    ...mapActions(['getChannelData', 'showChannelModal', 'deleteChannel', 'showChannelUserModal', 'getActiveUsers']),
     onAddChannelClick() {
       this.showChannelModal(null)
     },
-    onAddUser(item) {
+    async onAddUser(item) {
+      await this.getActiveUsers(item.id)
       this.showChannelUserModal(item)
     },
     onChannelEdit(item) {

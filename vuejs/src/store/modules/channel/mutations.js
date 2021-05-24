@@ -1,6 +1,6 @@
 import {
   ADD_NEW_CHANNEL,
-  DELETE_CHANNEL,
+  DELETE_CHANNEL, GET_ACTIVE_USERS,
   HIDE_CHANNEL_MODAL,
   HIDE_CHANNEL_USER_MODAL,
   SET_CHANNEL_DATA,
@@ -39,5 +39,8 @@ export default {
   },
   [DELETE_CHANNEL](state, channelId) {
     state.channel.data = state.channel.data.filter(c => c.id !== channelId)
+  },
+  [GET_ACTIVE_USERS](state, users) {
+    state.channel.userModal.users = [...users]
   },
 };

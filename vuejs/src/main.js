@@ -9,6 +9,10 @@ import './core/index';
 import router from "./router/router";
 import store from './store';
 
+import {Multiselect} from "vue-multiselect";
+
+Vue.component('multiselect', Multiselect)
+
 Vue.config.productionTip = false
 
 new Vue({

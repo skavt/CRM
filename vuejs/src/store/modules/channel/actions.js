@@ -1,6 +1,7 @@
 import {
   ADD_NEW_CHANNEL,
   DELETE_CHANNEL,
+  GET_ACTIVE_USERS,
   HIDE_CHANNEL_MODAL,
   HIDE_CHANNEL_USER_MODAL,
   SET_CHANNEL_DATA,
@@ -54,6 +55,14 @@ export async function deleteChannel({commit}, channelId) {
   const res = await httpService.delete(`channel/${channelId}`)
   if (res.success) {
     commit(DELETE_CHANNEL, channelId)
+  }
+  return res
+}
+
+export async function getActiveUsers({commit}, channelId) {
+  const res = await httpService.get(`employee/active-users?channelId=${channelId}`)
+  if (res.success) {
+    commit(GET_ACTIVE_USERS, res.body)
   }
   return res
 }

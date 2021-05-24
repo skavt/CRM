@@ -40,25 +40,6 @@
       </b-form-text>
     </b-form-group>
 
-    <b-form-group v-if="isDate()">
-      <label v-if="computedLabel">
-        {{ computedLabel }}
-        <span v-if="v.required" class="text-danger">*</span>
-      </label>
-      <b-input-group :prepend="prepend" :append="append" :size="size">
-        <template v-slot:append v-if="appendQuestion">
-          <b-tooltip :target="`question-mark-tooltip-${attribute}-${uuid}`" :title="appendQuestion"/>
-          <b-input-group-text :id="`question-mark-tooltip-${attribute}-${uuid}`" class="hover-cursor">
-            <i class="fas fa-question-circle"></i>
-          </b-input-group-text>
-        </template>
-
-        <b-form-invalid-feedback :state="getState(v)">
-          {{ getError(v.errors) }}
-        </b-form-invalid-feedback>
-      </b-input-group>
-    </b-form-group>
-
     <b-form-group v-if="isCheckbox()">
       <b-form-checkbox
           ref="currentInput" v-model="model[attribute]" :key="`${attribute}-${uuid}`" :disabled="disabled"
@@ -84,6 +65,48 @@
       <b-form-invalid-feedback :state="getState(v)">
         {{ getError(v.errors) }}
       </b-form-invalid-feedback>
+    </b-form-group>
+
+    <b-form-group v-if="isMultiselect() || isSelect()">
+      <label v-if="computedLabel">
+        {{ computedLabel }}
+        <span v-if="v.required" class="text-danger">*</span>
+      </label>
+      <b-input-group :prepend="prepend" :append="append" :size="size">
+        <template v-slot:append v-if="appendQuestion">
+          <b-tooltip :target="`question-mark-tooltip-${attribute}-${uuid}`" :title="appendQuestion"/>
+          <b-input-group-text :id="`question-mark-tooltip-${attribute}-${uuid}`" class="hover-cursor">
+            <i class="fas fa-question-circle"></i>
+          </b-input-group-text>
+        </template>
+
+        <b-form-select
+            v-if="isSelect()" v-model="model[attribute]" ref="currentInput" :id="inputId" :size="size"
+            :disabled="disabled" :options="options" :value-field="valueField" :text-field="textField"
+            :readonly="readonly" :autofocus="autofocus" :name="`${attribute}-${uuid}`" @keyup="onKeyup"
+            :key="`${attribute}-${uuid}`" @change="onChange" @input="onInput" @keydown="onKeydown" @blur="onBlur"
+            :state="getState(v)">
+        </b-form-select>
+
+        <multiselect
+            v-if="isMultiselect()" v-model="model[attribute]" :id="inputId" ref="currentInput" :size="size"
+            :key="`${attribute}-${uuid}`" :disabled="disabled" :readonly="readonly" :autofocus="autofocus"
+            :name="`${attribute}-${uuid}`" :state="getState(v)" :tag-placeholder="placeholder" :options="options"
+            :placeholder="computedPlaceholder" :multiple="true" track-by="value" label="text"
+            :selectLabel="'Press enter to select'" :deselectLabel="'Press enter to remove'" :selectedLabel="'Selected'">
+          <span slot="noOptions">List is empty.</span>
+          <template slot="tag" slot-scope="{ option, remove }">
+            <span class="multiselect__tag">
+              <span>{{ option.text }}</span>
+              <span class="multiselect__tag-icon" @click="remove(option)"></span>
+            </span>
+          </template>
+        </multiselect>
+
+        <b-form-invalid-feedback :state="getState(v)">
+          {{ getError(v.errors) }}
+        </b-form-invalid-feedback>
+      </b-input-group>
     </b-form-group>
   </ValidationProvider>
 </template>
@@ -164,6 +187,18 @@ export default {
       type: Boolean,
       default: false
     },
+    options: {
+      type: Array,
+      default: Array,
+    },
+    valueField: {
+      type: String,
+      default: 'value',
+    },
+    textField: {
+      type: String,
+      default: 'text',
+    },
   },
   data() {
     return {
@@ -175,7 +210,7 @@ export default {
       if (this.placeholder === false) {
         return '';
       } else if (this.placeholder === true) {
-        return this.model.getAttributePlaceholder(this.$_.capitalize(this.attribute))
+        return this.model.getAttributePlaceholder(this.attribute)
       } else {
         return this.placeholder;
       }
@@ -184,7 +219,7 @@ export default {
       if (this.label === false) {
         return '';
       } else if (this.label === true) {
-        return this.model.getAttributeLabel(this.$_.capitalize(this.attribute))
+        return this.model.getAttributeLabel(this.attribute)
       } else {
         return this.label;
       }
@@ -224,9 +259,6 @@ export default {
     isInput() {
       return ['text', 'number', 'password', 'email', 'search', 'url', 'tel', 'time', 'range', 'color'].includes(this.type)
     },
-    isDate() {
-      return this.type === 'date';
-    },
     isTextarea() {
       return this.type === 'textarea';
     },
@@ -235,6 +267,12 @@ export default {
     },
     isFileUpload() {
       return this.type === 'file';
+    },
+    isSelect() {
+      return this.type === 'select';
+    },
+    isMultiselect() {
+      return this.type === 'multiselect';
     },
     onChange(val) {
       if (this.type === 'number' && val === '') {
@@ -260,6 +298,8 @@ export default {
   },
 }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style lang="scss" scoped>
 .invalid-feedback {
