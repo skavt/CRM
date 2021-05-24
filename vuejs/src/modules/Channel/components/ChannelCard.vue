@@ -11,6 +11,10 @@
     </b-card-body>
     <b-card-body class="action-wrapper">
       <div class="d-flex justify-content-end">
+        <b-button size="sm" variant="outline-secondary" class="ml-1" @click="onAddUserClick">
+          <i class="fas fa-plus"/>
+          Add User
+        </b-button>
         <b-button size="sm" variant="outline-primary" class="ml-1" @click="onEditClick">
           <i class="fas fa-pencil-alt"/>
           Edit
@@ -34,6 +38,9 @@ export default {
     },
   },
   methods: {
+    onAddUserClick() {
+      this.$emit('on-add-user-click', this.item)
+    },
     onEditClick() {
       this.$emit('on-channel-edit-click', this.item)
     },

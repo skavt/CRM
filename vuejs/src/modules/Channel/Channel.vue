@@ -12,7 +12,7 @@
       <div v-if="!loading" class="page-content">
         <div class="row ml-0">
           <div class="card-wrapper mt-3 ml-3" v-for="item in channelData" :key="`channel-card-${item.id}`">
-            <channel-card :item="item" @on-channel-edit-click="onChannelEdit"
+            <channel-card :item="item" @on-add-user-click="onAddUser" @on-channel-edit-click="onChannelEdit"
                           @on-channel-delete-click="onChannelDelete">
             </channel-card>
           </div>
@@ -20,6 +20,7 @@
       </div>
     </b-card-body>
     <channel-modal/>
+    <channel-user-modal/>
   </b-card>
 </template>
 
@@ -29,11 +30,12 @@ import ChannelCard from "./components/ChannelCard";
 import ChannelModal from "./modals/ChannelModal";
 import {getChannelData} from "../../store/modules/channel/actions";
 import ViewSpinner from "../../core/components/view-spinner/view-spinner";
+import ChannelUserModal from "./modals/ChannelUserModal";
 
 const {mapState, mapActions} = createNamespacedHelpers('channel')
 export default {
   name: "Channel",
-  components: {ViewSpinner, ChannelModal, ChannelCard},
+  components: {ChannelUserModal, ViewSpinner, ChannelModal, ChannelCard},
   data() {
     return {
       loading: false,
@@ -45,9 +47,12 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['getChannelData', 'showChannelModal', 'deleteChannel']),
+    ...mapActions(['getChannelData', 'showChannelModal', 'deleteChannel', 'showChannelUserModal']),
     onAddChannelClick() {
       this.showChannelModal(null)
+    },
+    onAddUser(item) {
+      this.showChannelUserModal(item)
     },
     onChannelEdit(item) {
       this.showChannelModal(item)

@@ -4,6 +4,10 @@ const STATE = {
       show: false,
       data: {},
     },
+    userModal: {
+      show: false,
+      users: [],
+    },
     data: [],
   },
 };
