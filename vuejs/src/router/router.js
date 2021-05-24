@@ -9,6 +9,7 @@ import authService from "../core/services/authService";
 import DefaultLayout from "../core/components/layout/DefaultLayout";
 import Invitation from "../modules/Invitation/Invitation";
 import Channel from "../modules/Channel/Channel";
+import Post from "../modules/Channel/Post";
 
 Vue.use(VueRouter)
 
@@ -60,6 +61,11 @@ const router = new VueRouter({
           path: 'channel',
           name: 'channel',
           component: Channel,
+        },
+        {
+          path: 'channel/:channelId/timeline',
+          name: 'channel.timeline',
+          component: Post,
         },
       ]
     }

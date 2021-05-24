@@ -1,6 +1,6 @@
 <template>
   <b-card class="card-table" no-body>
-    <b-card-body class="pb-0">
+    <b-card-body class="pb-0" @click="$router.push({name: 'channel.timeline',  params: {channelId: item.id}})">
       <b-card-title>
         <i class="fas fa-layer-group"/>
         {{ item.name }}
