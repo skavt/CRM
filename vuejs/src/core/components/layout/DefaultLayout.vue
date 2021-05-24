@@ -45,19 +45,25 @@ export default {
   },
   async mounted() {
     await this.getChannelData()
-    MenuService.addItem(new MenuItem('Home', {
+    MenuService.addItem(new MenuItem('1-Home', {
       text: 'Home',
       path: `/dashboard`,
       weight: 100,
       icon: 'fas fa-home',
     }));
-    MenuService.addItem(new MenuItem('Invitation', {
+    MenuService.addItem(new MenuItem('2-Employee', {
+      text: 'Employee',
+      path: `/dashboard/employee`,
+      weight: 100,
+      icon: 'fas fa-users',
+    }));
+    MenuService.addItem(new MenuItem('3-Invitation', {
       text: 'Invitation',
       path: `/dashboard/invitation`,
       weight: 100,
       icon: 'fas fa-user-plus',
     }));
-    MenuService.addItem(new MenuItem('Channel', {
+    MenuService.addItem(new MenuItem('4-Channel', {
       text: 'Channel',
       path: `/dashboard/channel`,
       weight: 100,

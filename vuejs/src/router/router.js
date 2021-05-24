@@ -10,6 +10,7 @@ import DefaultLayout from "../core/components/layout/DefaultLayout";
 import Invitation from "../modules/Invitation/Invitation";
 import Channel from "../modules/Channel/Channel";
 import Post from "../modules/Channel/Post";
+import Employee from "../modules/Employee/Employee";
 
 Vue.use(VueRouter)
 
@@ -66,6 +67,11 @@ const router = new VueRouter({
           path: 'channel/:channelId/timeline',
           name: 'channel.timeline',
           component: Post,
+        },
+        {
+          path: 'employee',
+          name: 'employee',
+          component: Employee,
         },
       ]
     }
