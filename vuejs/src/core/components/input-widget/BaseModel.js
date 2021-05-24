@@ -74,11 +74,11 @@ export default class BaseModel {
   }
 
   getAttributeLabel(attribute) {
-    return this.attributeLabels[attribute] || attribute;
+    return this.attributeLabels[attribute] || attribute.charAt(0).toUpperCase() + attribute.slice(1);
   }
 
   getAttributePlaceholder(attribute) {
-    return this.attributePlaceholders[attribute] || attribute;
+    return this.attributePlaceholders[attribute] || attribute.charAt(0).toUpperCase() + attribute.slice(1);
   }
 
   getAttributeHint(attribute) {
