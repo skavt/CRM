@@ -70,7 +70,7 @@ export default {
       }
     },
     async onUserStatusChange(item) {
-      const {success, body} = await this.updateUserStatus(item);
+      const {success, body} = await this.updateUserStatus({id: item.user.id, status: item.activeStatus});
       if (success) {
         this.$toast(`Status changed successfully`);
       } else {

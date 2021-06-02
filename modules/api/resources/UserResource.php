@@ -34,6 +34,9 @@ class UserResource extends User
             'updated_at' => function () {
                 return Yii::$app->formatter->asDatetime($this->updated_at);
             },
+            'activeStatus' => function () {
+                return $this->status === 1;
+            },
         ];
     }
 }
