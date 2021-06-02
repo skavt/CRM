@@ -89,7 +89,7 @@ class UserResource extends User
     /**
      * Update user channels after update user
      *
-     * @param $userChannelsData
+     * @param $data
      * @throws ValidationException
      */
     public function updateUserChannels($userChannelsData)

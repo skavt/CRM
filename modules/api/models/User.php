@@ -271,4 +271,17 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasMany(UserChannel::class, ['user_id' => 'id']);
     }
+
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        $this->birthday = $this->birthday ? strtotime($this->birthday) : null;
+
+        return parent::save($runValidation, $attributeNames);
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+        $this->birthday = $this->birthday ? date("Y-m-d", $this->birthday) : null;
+    }
 }
