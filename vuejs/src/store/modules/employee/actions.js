@@ -1,4 +1,4 @@
-import {DELETE_USER, SET_EMPLOYEE_LIST} from './mutation-types';
+import {DELETE_USER, HIDE_USER_EDIT_MODAL, SET_EMPLOYEE_LIST, SHOW_USER_EDIT_MODAL} from './mutation-types';
 import httpService from "../../../core/services/httpService";
 
 export async function getEmployeeList({commit}) {
@@ -11,4 +11,12 @@ export async function deleteUser({commit}, data) {
   const res = await httpService.delete(`/employee/${data.id}`);
   commit(DELETE_USER, data);
   return res
+}
+
+export async function showUserEditModal({commit}, data) {
+  commit(SHOW_USER_EDIT_MODAL, data);
+}
+
+export async function hideUserEditModal({commit}) {
+  commit(HIDE_USER_EDIT_MODAL);
 }

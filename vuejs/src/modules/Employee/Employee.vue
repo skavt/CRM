@@ -6,6 +6,7 @@
                    @on-user-status-change="onUserStatusChange" @on-user-delete="onUserDelete"
                    @on-user-edit="onUserEdit">
       </users-table>
+      <employee-modal/>
     </b-card-body>
   </b-card>
 </template>
@@ -14,12 +15,13 @@
 import ViewSpinner from "../../core/components/view-spinner/view-spinner";
 import UsersTable from "../Invitation/components/UsersTable";
 import {createNamespacedHelpers} from "vuex";
+import EmployeeModal from "./modals/EmployeeModal";
 
 const {mapState, mapActions} = createNamespacedHelpers('employee')
 const {mapActions: mapAuthActions} = createNamespacedHelpers('auth')
 export default {
   name: "Employee",
-  components: {UsersTable, ViewSpinner},
+  components: {EmployeeModal, UsersTable, ViewSpinner},
   data() {
     return {
       loading: false,
@@ -42,7 +44,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['getEmployeeList', 'deleteUser']),
+    ...mapActions(['getEmployeeList', 'deleteUser', 'showUserEditModal']),
     ...mapAuthActions(['updateUserStatus']),
     async onUserStatusChange(item) {
       const {success, body} = await this.updateUserStatus({id: item.id, status: item.activeStatus});
@@ -63,8 +65,8 @@ export default {
         }
       }
     },
-    onUserEdit() {
-
+    onUserEdit(item) {
+      this.showUserEditModal(item)
     },
   },
   async mounted() {
