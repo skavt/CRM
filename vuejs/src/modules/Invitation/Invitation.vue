@@ -8,8 +8,8 @@
     </b-card-header>
     <b-card-body class="invitation-card-body">
       <view-spinner :show="loading"/>
-      <users-table v-if="!loading" :fields="fields" :items="items" @on-invited-user-delete="onInvitedUserDelete"
-                   @on-user-status-change="onUserStatusChange">
+      <users-table v-if="!loading" :fields="fields" :items="items" :type="`invitation`"
+                   @on-user-delete="onInvitedUserDelete" @on-user-status-change="onUserStatusChange">
       </users-table>
       <invitation-modal/>
     </b-card-body>

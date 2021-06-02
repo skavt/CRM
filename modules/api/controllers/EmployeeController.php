@@ -34,8 +34,25 @@ class EmployeeController extends ActiveController
     }
 
     /**
-     *
-     *
+     * @return array
+     */
+    public function actions()
+    {
+        $actions = parent::actions();
+        unset($actions['index']);
+
+        return $actions;
+    }
+
+    /**
+     * @return UserResource[]
+     */
+    public function actionIndex()
+    {
+        return UserResource::find()->where(['<>', 'id', Yii::$app->user->id])->all();
+    }
+
+    /**
      * @return array|ActiveRecord[]
      */
     public function actionActiveUsers($channelId)

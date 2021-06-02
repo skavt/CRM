@@ -2,7 +2,9 @@
   <b-card no-body class="invitation-card">
     <b-card-body class="invitation-card-body">
       <view-spinner :show="loading"/>
-      <users-table v-if="!loading" :fields="fields" :items="items" @on-user-status-change="onUserStatusChange">
+      <users-table v-if="!loading" :fields="fields" :items="items" :type="`employee`"
+                   @on-user-status-change="onUserStatusChange" @on-user-delete="onUserDelete"
+                   @on-user-edit="onUserEdit">
       </users-table>
     </b-card-body>
   </b-card>
@@ -34,8 +36,13 @@ export default {
   computed: {
     ...mapState(['employee']),
   },
+  watch: {
+    ['employee.data']() {
+      this.items = [...this.employee.data]
+    },
+  },
   methods: {
-    ...mapActions(['getEmployeeList']),
+    ...mapActions(['getEmployeeList', 'deleteUser']),
     ...mapAuthActions(['updateUserStatus']),
     async onUserStatusChange(item) {
       const {success, body} = await this.updateUserStatus({id: item.id, status: item.activeStatus});
@@ -44,6 +51,20 @@ export default {
       } else {
         this.$toast(body.message, 'danger');
       }
+    },
+    async onUserDelete(item) {
+      const result = await this.$confirm(`Are you sure you want to delete ${item.display_name} user?`, `Deleting User...`)
+      if (result) {
+        const {success, body} = await this.deleteUser(item)
+        if (success) {
+          this.$toast(`User deleted successfully`)
+        } else {
+          this.$toast(body.message, 'danger')
+        }
+      }
+    },
+    onUserEdit() {
+
     },
   },
   async mounted() {

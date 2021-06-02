@@ -21,9 +21,12 @@
         </b-form-checkbox>
       </template>
       <template v-slot:cell(actions)="data">
-        <i style="visibility: hidden" class="disabled fas fa-pencil-alt mr-3"/>
-        <span v-b-tooltip.hover.top="'Delete user'">
-          <i class="far fa-trash-alt mr-3 text-danger hover-pointer" @click="onInvitedUserDelete(data.item)"/>
+        <i v-if="isInvitation()" style="visibility: hidden" class="disabled fas fa-pencil-alt mr-3"/>
+        <span v-if="isEmployee()" v-b-tooltip.hover.top="'Edit User'">
+          <i class="fas fa-pencil-alt mr-3 text-primary hover-pointer" @click="onUserEdit(data.item)"/>
+        </span>
+        <span v-b-tooltip.hover.top="'Delete User'">
+          <i class="far fa-trash-alt mr-3 text-danger hover-pointer" @click="onUserDelete(data.item)"/>
         </span>
       </template>
     </b-table>
@@ -48,6 +51,10 @@ export default {
       type: Array,
       require: true,
     },
+    type: {
+      type: String,
+      require: true,
+    },
   },
   data() {
     return {
@@ -70,13 +77,22 @@ export default {
         return index >= (currentPage - 1) * perPage && index <= currentPage * perPage - 1
       })
     },
-    onInvitedUserDelete(item) {
-      this.$emit('on-invited-user-delete', item)
+    onUserDelete(item) {
+      this.$emit('on-user-delete', item)
+    },
+    onUserEdit(item) {
+      this.$emit('on-user-edit', item)
     },
     onUserStatusChange(item) {
       this.$nextTick(() => {
         this.$emit('on-user-status-change', item)
       })
+    },
+    isEmployee() {
+      return this.type === 'employee'
+    },
+    isInvitation() {
+      return this.type === 'invitation'
     },
   },
   mounted() {

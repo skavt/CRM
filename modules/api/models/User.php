@@ -5,6 +5,8 @@ namespace app\modules\api\models;
 use app\modules\api\models\query\UserQuery;
 use Yii;
 use yii\base\Exception;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -52,6 +54,17 @@ class User extends ActiveRecord implements IdentityInterface
     public static function tableName()
     {
         return '{{%users}}';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            TimestampBehavior::class,
+            BlameableBehavior::class,
+        ]);
     }
 
     public function rules()
