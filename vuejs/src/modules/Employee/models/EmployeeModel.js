@@ -1,4 +1,5 @@
 import BaseModel from "../../../core/components/input-widget/BaseModel";
+import UserChannelModel from "./UserChannelModel";
 
 export default class EmployeeModel extends BaseModel {
   email = null
@@ -7,6 +8,7 @@ export default class EmployeeModel extends BaseModel {
   phone = null
   birthday = null
   status = false
+  userChannels = [];
 
   rules = {
     first_name: 'required',
@@ -28,6 +30,20 @@ export default class EmployeeModel extends BaseModel {
 
   constructor(data = {}) {
     super()
+
+    const userChannels = [];
+    if (data.userChannels) {
+      for (let userChannel of data.userChannels) {
+        userChannels.push(new UserChannelModel({
+          id: userChannel.id,
+          user_id: userChannel.user_id,
+          channel_id: userChannel.channel_id,
+          role: userChannel.role,
+        }))
+      }
+    }
+    data.userChannels = userChannels;
+
     Object.assign(this, {...data})
   }
 }

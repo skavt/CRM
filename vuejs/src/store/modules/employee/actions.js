@@ -13,6 +13,10 @@ export async function deleteUser({commit}, data) {
   return res
 }
 
+export async function getChannels({commit}, userId) {
+  return await httpService.get(`/employee/get-channels?userId=${userId}`);
+}
+
 export async function showUserEditModal({commit}, data) {
   commit(SHOW_USER_EDIT_MODAL, data);
 }

@@ -257,7 +257,7 @@ export default {
       this.$refs.currentInput.focus();
     },
     isInput() {
-      return ['text', 'number', 'password', 'email', 'search', 'url', 'tel', 'time', 'range', 'color'].includes(this.type)
+      return ['text', 'number', 'date', 'password', 'email', 'search', 'url', 'tel', 'time', 'range', 'color'].includes(this.type)
     },
     isTextarea() {
       return this.type === 'textarea';

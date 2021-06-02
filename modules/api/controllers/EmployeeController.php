@@ -4,6 +4,9 @@
 namespace app\modules\api\controllers;
 
 
+use app\modules\api\models\Channel;
+use app\modules\api\resources\ChannelResource;
+use app\modules\api\resources\UserChannelResource;
 use app\modules\api\resources\UserResource;
 use app\rest\ActiveController;
 use Yii;
@@ -62,6 +65,19 @@ class EmployeeController extends ActiveController
                 SELECT u.* FROM users u INNER JOIN user_channels uc on uc.user_id = u.id 
                 WHERE uc.channel_id = :channelId) tmp ON tmp.id = u2.id
             WHERE tmp.id IS NULL", ['channelId' => $channelId])
+            ->all();
+    }
+
+    /**
+     * @return UserResource[]
+     */
+    public function actionGetChannels($userId)
+    {
+        return ChannelResource::findBySql("
+            SELECT * FROM channels WHERE id NOT IN ( 
+            SELECT channel_id FROM channels
+            INNER JOIN user_channels uc ON channels.id = uc.channel_id WHERE user_id = :userId)",
+            ['userId' => $userId])
             ->all();
     }
 }
