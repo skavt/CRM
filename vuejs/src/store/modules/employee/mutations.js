@@ -1,4 +1,10 @@
-import {DELETE_USER, HIDE_USER_EDIT_MODAL, SET_EMPLOYEE_LIST, SHOW_USER_EDIT_MODAL} from './mutation-types';
+import {
+  DELETE_USER,
+  HIDE_USER_EDIT_MODAL,
+  SET_EMPLOYEE_LIST,
+  SHOW_USER_EDIT_MODAL,
+  UPDATE_USER_DATA
+} from './mutation-types';
 
 export default {
 
@@ -18,5 +24,11 @@ export default {
   [HIDE_USER_EDIT_MODAL](state) {
     state.employee.modal.show = false;
     state.employee.modal.data = {};
+  },
+
+  [UPDATE_USER_DATA](state, data) {
+    let index = state.employee.data.findIndex(user => user.id === data.id);
+    state.employee.data[index] = {...data}
+    state.employee.data = [...state.employee.data]
   },
 };

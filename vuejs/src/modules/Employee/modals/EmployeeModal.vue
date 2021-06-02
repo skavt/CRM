@@ -69,7 +69,7 @@ import ErrorContent from "../../../core/components/error-content/ErrorContent";
 import InputWidget from "../../../core/components/input-widget/InputWidget";
 import EmployeeModel from "../models/EmployeeModel";
 import {createNamespacedHelpers} from "vuex";
-import {getChannels, hideUserEditModal} from "../../../store/modules/employee/actions";
+import {getChannels, hideUserEditModal, updateUser} from "../../../store/modules/employee/actions";
 import NoContent from "../../../core/components/no-content/NoContent";
 import UserChannelModel from "../models/UserChannelModel";
 import Vue from "vue"
@@ -105,14 +105,27 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['hideUserEditModal', 'getChannels']),
-    onSubmit() {
+    ...mapActions(['hideUserEditModal', 'getChannels', 'updateUser']),
+    async onSubmit() {
       let form = {...this.model.toJSON()}
-      form.userChannels = form.userChannels.map(channel => {
+      form.userChannelsData = form.userChannels.map(channel => {
         channel.user_id = this.model.id
         return channel.toJSON()
       })
-      console.log(form)
+      form.status = form.status ? 1 : 2;
+      delete form.created_at
+      delete form.updated_at
+      delete form.userChannels
+
+      const {success, body} = await this.updateUser(form)
+      if (success) {
+        this.$toast(`User ${this.model.display_name} updated successfully`)
+        this.onHideModal()
+      } else {
+        this.showError = true
+        this.isClicked = false
+        this.errorMessage = body.map(error => error.message).join(' ')
+      }
     },
     onHideModal() {
       this.hideUserEditModal()
