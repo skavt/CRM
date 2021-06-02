@@ -4,9 +4,6 @@
 namespace app\modules\api\controllers;
 
 
-use app\modules\api\models\Channel;
-use app\modules\api\resources\ChannelResource;
-use app\modules\api\resources\UserChannelResource;
 use app\modules\api\resources\UserResource;
 use app\rest\ActiveController;
 use Yii;
@@ -66,5 +63,13 @@ class EmployeeController extends ActiveController
                 WHERE uc.channel_id = :channelId) tmp ON tmp.id = u2.id
             WHERE tmp.id IS NULL", ['channelId' => $channelId])
             ->all();
+    }
+
+    /**
+     * Get Current User
+     */
+    public function actionGetCurrentUser()
+    {
+        return UserResource::find()->where(['id' => Yii::$app->user->id])->one();
     }
 }

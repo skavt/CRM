@@ -1,1 +1,1 @@
-export const SET_DATA = 'test/SET_DATA';
+export const GET_CURRENT_USER = 'auth/GET_CURRENT_USER';

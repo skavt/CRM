@@ -5,8 +5,8 @@
         <b-img src="/assets/avatar.svg" class="img-fluid rounded-circle" width="70px" height="70px"/>
       </div>
       <div class="title">
-        <h1 class="h4">Mark Stephen</h1>
-        <p>Web Designer</p>
+        <h1 class="h4">{{ currentUser.display_name }}</h1>
+        <p>{{ currentUser.position }}</p>
       </div>
     </div>
     <hr class="mt-1 mb-0"/>
@@ -23,14 +23,17 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {createNamespacedHelpers, mapGetters} from 'vuex';
 
+const {mapState, mapActions} = createNamespacedHelpers('auth')
 export default {
   name: "Sidebar",
   computed: {
     ...mapGetters(['menuItems']),
+    ...mapState(['currentUser']),
   },
   methods: {
+    ...mapActions(['getCurrentUser']),
     sidebarTitleStyle(item) {
       return item.weight > 100 ? {padding: '12px 30px 12px', 'font-size': '14px'} : {
         padding: '12px 24px 12px',
@@ -38,10 +41,17 @@ export default {
       }
     },
   },
+  async mounted() {
+    await this.getCurrentUser()
+  },
 }
 </script>
 
 <style lang="scss" scoped>
+.title {
+  padding-top: 18px;
+}
+
 .sidebar-column {
   overflow: auto;
   width: 250px;

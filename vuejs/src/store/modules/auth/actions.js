@@ -1,5 +1,6 @@
 import httpService from "../../../core/services/httpService";
 import authService from "../../../core/services/authService";
+import {GET_CURRENT_USER} from "./mutation-types";
 
 export async function login({commit, dispatch}, data) {
   const response = await httpService.post('/user/login', data)
@@ -29,4 +30,13 @@ export async function resetPassword({commit}, data) {
 
 export async function updateUserStatus({commit}, {id, status}) {
   return await httpService.put(`/employee/${id}`, {status: status ? 1 : 2})
+}
+
+export async function getCurrentUser({commit}) {
+  const res = await httpService.get(`/employee/get-current-user`)
+  if (res.success) {
+    commit(GET_CURRENT_USER, res.body)
+    console.log(res.body)
+  }
+  return res
 }
