@@ -47,7 +47,9 @@
               <div class="col-11">
                 <div class="row">
                   <div class="col-sm-12 col-md-8">
-                    <input-widget :model="channel" attribute="channel_id" type="select" :options="channelOptions"/>
+                    <input-widget :model="channel" attribute="channel_id" type="select"
+                                  :options="filteredChannelOptions" @change="onSelectChange">
+                    </input-widget>
                   </div>
                   <div class="col-sm-12 col-md-4">
                     <input-widget :model="channel" attribute="role" type="select" :options="userRoles"/>
@@ -92,17 +94,27 @@ export default {
         {value: 'channelAdmin', text: 'Channel Admin'},
       ],
       channelOptions: [],
+      selectedOptions: [],
     }
   },
   computed: {
     ...mapState({
       modal: state => state.employee.modal
     }),
+    filteredChannelOptions() {
+      return this.channelOptions.map(channel => {
+        channel.disabled = this.selectedOptions.includes(channel.value);
+        return channel
+      })
+    },
   },
   watch: {
     ['modal.data']() {
       this.model = new EmployeeModel(this.modal.data);
-    }
+    },
+    ['modal.data.userChannels']() {
+      this.disableSelectedOptions()
+    },
   },
   methods: {
     ...mapActions(['hideUserEditModal', 'getChannels', 'updateUser', 'getEmployeeList']),
@@ -163,6 +175,16 @@ export default {
     },
     removeUserChannel(index) {
       Vue.delete(this.model.userChannels, index)
+    },
+    disableSelectedOptions() {
+      if (this.modal.data.userChannels.length > 0) {
+        this.selectedOptions = []
+        this.selectedOptions = this.modal.data.userChannels.map(channel => channel.channel_id)
+        this.selectedOptions.unshift(null)
+      }
+    },
+    onSelectChange() {
+      this.disableSelectedOptions()
     },
   },
 }
