@@ -8,14 +8,17 @@
         <div class="row">
           <div class="col-md-12">
             <div class="row">
-              <div class="col-md-12">
-                <input-widget :model="model" attribute="email" :autofocus="true" :placeholder="true" :label="true"/>
-              </div>
               <div class="col-md-6">
                 <input-widget :model="model" attribute="first_name" :placeholder="true" :label="true"/>
               </div>
               <div class="col-md-6">
                 <input-widget :model="model" attribute="last_name" :placeholder="true" :label="true"/>
+              </div>
+              <div class="col-md-6">
+                <input-widget :model="model" attribute="email" :autofocus="true" :placeholder="true" :label="true"/>
+              </div>
+              <div class="col-md-6">
+                <input-widget :model="model" attribute="position" :autofocus="true" :placeholder="true" :label="true"/>
               </div>
               <div class="col-md-6">
                 <input-widget :model="model" attribute="phone" :placeholder="true" :label="true"/>

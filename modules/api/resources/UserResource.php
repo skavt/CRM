@@ -33,6 +33,7 @@ class UserResource extends User
             'last_name',
             'phone',
             'birthday',
+            'position',
             'display_name' => function () {
                 return $this->getDisplayName();
             },

@@ -22,6 +22,7 @@ use yii\web\IdentityInterface;
  * @property string|null $last_name
  * @property string|null $phone
  * @property int|null $birthday
+ * @property string|null $position
  * @property string|null $image_path
  * @property string|null $password_reset_token
  * @property int|null $expire_date
@@ -75,7 +76,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             [['username', 'email', 'password_hash'], 'required'],
             [['birthday', 'expire_date', 'access_token_expire_date', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['username', 'first_name', 'last_name', 'phone', 'image_path'], 'string', 'max' => 255],
+            [['username', 'first_name', 'last_name', 'phone', 'position', 'image_path'], 'string', 'max' => 255],
             [['email', 'access_token'], 'string', 'max' => 512],
             [['password_hash', 'password_reset_token'], 'string', 'max' => 1024],
             [['username'], 'unique'],
@@ -96,6 +97,7 @@ class User extends ActiveRecord implements IdentityInterface
             'last_name' => 'Last Name',
             'phone' => 'Phone',
             'birthday' => 'Birthday',
+            'position' => 'Position',
             'image_path' => 'Image Path',
             'password_reset_token' => 'Password Reset Token',
             'expire_date' => 'Expire Date',

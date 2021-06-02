@@ -7,6 +7,7 @@ export default class EmployeeModel extends BaseModel {
   last_name = null
   phone = null
   birthday = null
+  position = null
   status = false
   userChannels = [];
 
@@ -25,6 +26,7 @@ export default class EmployeeModel extends BaseModel {
     last_name: 'Last Name',
     phone: 'Phone',
     birthday: 'Birthday',
+    position: 'Position',
     status: 'Activate User',
   };
 
