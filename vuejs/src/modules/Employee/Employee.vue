@@ -29,6 +29,8 @@ export default {
         {key: 'id', label: 'ID', sortable: true},
         {key: 'display_name', label: 'Name', sortable: true},
         {key: 'email', label: 'Email', sortable: true},
+        {key: 'phone', label: 'Phone', sortable: true},
+        {key: 'birthday', label: 'Birthday', sortable: true},
         {key: 'activeStatus', label: 'User Status', sortable: true},
         {key: 'actions', label: 'Actions'},
       ],
