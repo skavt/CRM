@@ -30,7 +30,7 @@
           <template v-slot:header>
             <div class="d-flex align-items-center">
               <h5 class="mb-0"> Channels </h5>
-              <b-button size="sm" type="button" @click="addUserChannel" variant="success" class="ml-auto">
+              <b-button size="sm" type="button" @click="addUserChannel" variant="secondary" class="ml-auto">
                 <i class="fa fa-plus-circle "/>
                 Add New
               </b-button>
@@ -107,7 +107,12 @@ export default {
   methods: {
     ...mapActions(['hideUserEditModal', 'getChannels']),
     onSubmit() {
-      console.log(this.model)
+      let form = {...this.model.toJSON()}
+      form.userChannels = form.userChannels.map(channel => {
+        channel.user_id = this.model.id
+        return channel.toJSON()
+      })
+      console.log(form)
     },
     onHideModal() {
       this.hideUserEditModal()
@@ -117,7 +122,7 @@ export default {
       this.errorMessage = ''
     },
     async onModalShown() {
-      const {success, body} = await this.getChannels(this.model.id)
+      const {success, body} = await this.getChannels()
       this.channelOptions = success ? [...body.map(channel => ({value: channel.id, text: channel.name}))] : [];
       this.channelOptions.unshift({value: null, text: 'Select Channel', disabled: true})
     },

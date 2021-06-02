@@ -67,17 +67,4 @@ class EmployeeController extends ActiveController
             WHERE tmp.id IS NULL", ['channelId' => $channelId])
             ->all();
     }
-
-    /**
-     * @return UserResource[]
-     */
-    public function actionGetChannels($userId)
-    {
-        return ChannelResource::findBySql("
-            SELECT * FROM channels WHERE id NOT IN ( 
-            SELECT channel_id FROM channels
-            INNER JOIN user_channels uc ON channels.id = uc.channel_id WHERE user_id = :userId)",
-            ['userId' => $userId])
-            ->all();
-    }
 }

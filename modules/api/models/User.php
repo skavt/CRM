@@ -7,6 +7,7 @@ use Yii;
 use yii\base\Exception;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -31,6 +32,8 @@ use yii\web\IdentityInterface;
  * @property int|null $created_by
  * @property int|null $updated_at
  * @property int|null $updated_by
+ *
+ * @property UserChannel[] $userChannels
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -259,5 +262,13 @@ class User extends ActiveRecord implements IdentityInterface
     public static function isValidRole($role): bool
     {
         return in_array($role, [self::ROLE_ADMIN, self::ROLE_USER, self::ROLE_CHANNEL_ADMIN]);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getUserChannels()
+    {
+        return $this->hasMany(UserChannel::class, ['user_id' => 'id']);
     }
 }

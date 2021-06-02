@@ -2,7 +2,7 @@ import {DELETE_USER, HIDE_USER_EDIT_MODAL, SET_EMPLOYEE_LIST, SHOW_USER_EDIT_MOD
 import httpService from "../../../core/services/httpService";
 
 export async function getEmployeeList({commit}) {
-  const res = await httpService.get(`/employee`);
+  const res = await httpService.get(`/employee?expand=userChannels`);
   commit(SET_EMPLOYEE_LIST, res.body);
   return res
 }
@@ -13,8 +13,8 @@ export async function deleteUser({commit}, data) {
   return res
 }
 
-export async function getChannels({commit}, userId) {
-  return await httpService.get(`/employee/get-channels?userId=${userId}`);
+export async function getChannels({commit}) {
+  return await httpService.get(`/channel`);
 }
 
 export async function showUserEditModal({commit}, data) {

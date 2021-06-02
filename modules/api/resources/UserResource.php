@@ -39,4 +39,12 @@ class UserResource extends User
             },
         ];
     }
+
+    /**
+     * @return array|string[]
+     */
+    public function extraFields()
+    {
+        return ['userChannels'];
+    }
 }
