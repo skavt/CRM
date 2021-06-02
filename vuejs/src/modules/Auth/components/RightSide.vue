@@ -1,6 +1,6 @@
 <template>
   <div class="auth-right clearfix">
-    <img alt="" class="auth-img" src="../../../assets/auth_logo.png" style=""/>
+    <b-img class="auth-img" src="/assets/auth_logo.png"/>
   </div>
 </template>
 

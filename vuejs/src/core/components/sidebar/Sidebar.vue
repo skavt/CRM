@@ -1,5 +1,15 @@
 <template>
   <div class="flex-column flex-shrink-0 bg-light sidebar-column">
+    <div class="sidebar-header d-flex align-items-center">
+      <div class="avatar p-2">
+        <b-img src="/assets/avatar.svg" class="img-fluid rounded-circle" width="70px" height="70px"/>
+      </div>
+      <div class="title">
+        <h1 class="h4">Mark Stephen</h1>
+        <p>Web Designer</p>
+      </div>
+    </div>
+    <hr class="mt-1 mb-0"/>
     <ul class="nav nav-pills flex-column mb-auto">
       <router-link class="menu-items-header" :style="sidebarTitleStyle(item)" v-for="item in menuItems"
                    :to="item.path || '#'" :key="item.text" tag="li" active-class="active">
