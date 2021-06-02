@@ -4,7 +4,7 @@ export default class UserChannelModel extends BaseModel {
   id = null
   user_id = null
   channel_id = null
-  role = 'user'
+  role = null
 
   rules = {
     channel_id: 'required',

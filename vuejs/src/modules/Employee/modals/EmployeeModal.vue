@@ -86,6 +86,7 @@ export default {
       errorMessage: '',
       isClicked: false,
       userRoles: [
+        {value: null, text: 'Select Role', disabled: true},
         {value: 'user', text: 'User'},
         {value: 'admin', text: 'Admin'},
         {value: 'channelAdmin', text: 'Channel Admin'},
@@ -117,7 +118,8 @@ export default {
     },
     async onModalShown() {
       const {success, body} = await this.getChannels(this.model.id)
-      this.channelOptions = success ? [...body] : [];
+      this.channelOptions = success ? [...body.map(channel => ({value: channel.id, text: channel.name}))] : [];
+      this.channelOptions.unshift({value: null, text: 'Select Channel', disabled: true})
     },
     addUserChannel() {
       this.model.userChannels.push(new UserChannelModel());
