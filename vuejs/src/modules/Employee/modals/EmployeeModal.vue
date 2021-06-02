@@ -107,25 +107,43 @@ export default {
   methods: {
     ...mapActions(['hideUserEditModal', 'getChannels', 'updateUser', 'getEmployeeList']),
     async onSubmit() {
+      this.isClicked = true
       let form = {...this.model.toJSON()}
+      let isEmpty = []
       form.userChannelsData = form.userChannels.map(channel => {
+        if (channel.channel_id === null || channel.role === null) {
+          isEmpty.push(channel)
+        }
         channel.user_id = this.model.id
         return channel.toJSON()
       })
-      form.status = form.status ? 1 : 2;
-      delete form.created_at
-      delete form.updated_at
-      delete form.userChannels
 
-      const {success, body} = await this.updateUser(form)
-      if (success) {
-        this.$toast(`User ${this.model.display_name} updated successfully`)
-        this.onHideModal()
-        await this.getEmployeeList()
-      } else {
+      if (isEmpty.length > 0) {
         this.showError = true
         this.isClicked = false
-        this.errorMessage = body.map(error => error.message).join(' ')
+        this.errorMessage = 'Channel and Role must be selected'
+      } else {
+        this.showError = false
+        this.isClicked = false
+        this.errorMessage = ''
+      }
+
+      if (!this.showError) {
+        form.status = form.status ? 1 : 2;
+        delete form.created_at
+        delete form.updated_at
+        delete form.userChannels
+
+        const {success, body} = await this.updateUser(form)
+        if (success) {
+          this.$toast(`User ${this.model.display_name} updated successfully`)
+          this.onHideModal()
+          await this.getEmployeeList()
+        } else {
+          this.showError = true
+          this.isClicked = false
+          this.errorMessage = body.map(error => error.message).join(' ')
+        }
       }
     },
     onHideModal() {
