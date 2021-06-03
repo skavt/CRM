@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Handles the dropping of table `{{%users}}`.
+ * Handles dropping columns from table `{{%users}}`.
  */
-class m210603_082453_drop_columns_to_users_table extends Migration
+class m210603_121335_drop_columns_from_users_table extends Migration
 {
     /**
      * {@inheritdoc}
