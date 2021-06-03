@@ -1,6 +1,6 @@
 <template>
   <div class="flex-column flex-shrink-0 bg-light sidebar-column">
-    <div class="sidebar-header d-flex align-items-center">
+    <router-link class="sidebar-header d-flex align-items-center" :to="{name: 'user-profile'}">
       <div class="avatar p-2">
         <b-img src="/assets/avatar.svg" class="img-fluid rounded-circle" width="70px" height="70px"/>
       </div>
@@ -8,7 +8,7 @@
         <h1 class="h4">{{ currentUser.display_name }}</h1>
         <p>{{ currentUser.position }}</p>
       </div>
-    </div>
+    </router-link>
     <hr class="mt-1 mb-0"/>
     <ul class="nav nav-pills flex-column mb-auto">
       <router-link class="menu-items-header" :style="sidebarTitleStyle(item)" v-for="item in menuItems"
@@ -50,6 +50,11 @@ export default {
 <style lang="scss" scoped>
 .title {
   padding-top: 18px;
+  color: #343A40;
+}
+
+.sidebar-header {
+  text-decoration: none;
 }
 
 .sidebar-column {

@@ -1,5 +1,5 @@
 <template>
-  <ValidationObserver ref="employee-modal" v-slot="{ handleSubmit}">
+  <ValidationObserver ref="employee-modal" v-slot="{ handleSubmit }">
     <b-modal v-model="modal.show" :title="`Edit User ${modal.data.display_name}`" :ok-disabled="isClicked" size="lg"
              @hidden="onHideModal" @ok.prevent="handleSubmit(onSubmit)" @shown="onModalShown">
       <view-spinner :show="loading"/>
@@ -9,10 +9,10 @@
           <div class="col-md-12">
             <div class="row">
               <div class="col-md-6">
-                <input-widget :model="model" attribute="first_name" :autofocus="true"/>
+                <input-widget :model="model" attribute="first_name" :autofocus="true" :placeholder="'First Name'"/>
               </div>
               <div class="col-md-6">
-                <input-widget :model="model" attribute="last_name"/>
+                <input-widget :model="model" attribute="last_name" :placeholder="'Last Name'"/>
               </div>
               <div class="col-md-6">
                 <input-widget :model="model" attribute="email"/>

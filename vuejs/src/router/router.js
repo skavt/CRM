@@ -11,6 +11,7 @@ import Invitation from "../modules/Invitation/Invitation";
 import Channel from "../modules/Channel/Channel";
 import Post from "../modules/Channel/Post";
 import Employee from "../modules/Employee/Employee";
+import UserProfile from "../modules/UserProfile/UserProfile";
 
 Vue.use(VueRouter)
 
@@ -72,6 +73,11 @@ const router = new VueRouter({
           path: 'employee',
           name: 'employee',
           component: Employee,
+        },
+        {
+          path: 'user-profile',
+          name: 'user-profile',
+          component: UserProfile,
         },
       ]
     }
