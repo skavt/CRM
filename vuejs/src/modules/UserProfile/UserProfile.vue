@@ -1,7 +1,8 @@
 <template>
   <b-card no-body class="profile-card">
     <b-card-body class="profile-card-body">
-      <div class="row">
+      <view-spinner :show="loading"/>
+      <div v-if="!loading" class="row">
         <div class="col-md-12 col-lg-7 mb-3">
           <ValidationObserver ref="profileForm" tag="div" v-slot="{ handleSubmit }">
             <form @keydown.enter.prevent="handleSubmit(onSubmit)">
@@ -70,23 +71,54 @@
 import InputWidget from "../../core/components/input-widget/InputWidget";
 import EmployeeModel from "../Employee/models/EmployeeModel";
 import ChangePasswordModel from "./models/ChangePasswordModel";
+import {createNamespacedHelpers} from "vuex";
+import ViewSpinner from "../../core/components/view-spinner/view-spinner";
 
+const {mapState, mapActions} = createNamespacedHelpers('employee')
+const {mapState: mapUserState} = createNamespacedHelpers('auth')
 export default {
   name: "UserProfile",
-  components: {InputWidget},
+  components: {ViewSpinner, InputWidget},
   data() {
     return {
+      loading: false,
       userModel: new EmployeeModel(),
       changePasswordModel: new ChangePasswordModel(),
     }
   },
+  computed: {
+    ...mapUserState(['currentUser']),
+  },
+  watch: {
+    currentUser() {
+      this.userModel = new EmployeeModel(this.currentUser)
+    },
+  },
   methods: {
-    onSubmit() {
+    ...mapActions(['updateUser']),
+    async onSubmit() {
+      let form = {...this.userModel.toJSON()}
+      delete form.created_at
+      delete form.updated_at
+      form.status = form.status ? 1 : 2;
 
+      this.loading = true
+      const {success, body} = await this.updateUser(form)
+      this.loading = false
+      if (success) {
+        this.$toast(`Your profile updated successfully`)
+      } else {
+        this.errorMessage = body.map(error => error.message).join(' ')
+      }
     },
     onPasswordSubmit() {
 
     },
+  },
+  mounted() {
+    this.loading = true
+    this.userModel = new EmployeeModel(this.currentUser)
+    this.loading = false
   },
 }
 </script>
