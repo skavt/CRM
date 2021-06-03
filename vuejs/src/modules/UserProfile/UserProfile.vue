@@ -11,6 +11,12 @@
                   <h5 class="m-0">Personal Details</h5>
                 </b-card-header>
                 <b-card-body>
+                  <div class="mb-3 d-flex justify-content-center">
+                    <profile-picture-upload
+                        v-model="image" :src="currentUser.image_url || '/assets/avatar.svg'"
+                        :isDefaultImg="!currentUser.image_url" ref="uploader">
+                    </profile-picture-upload>
+                  </div>
                   <div class="row">
                     <div class="col-sm-12 col-md-6">
                       <input-widget :model="userModel" attribute="first_name" :placeholder="'First Name'"/>
@@ -73,13 +79,15 @@ import EmployeeModel from "../Employee/models/EmployeeModel";
 import ChangePasswordModel from "./models/ChangePasswordModel";
 import {createNamespacedHelpers} from "vuex";
 import ViewSpinner from "../../core/components/view-spinner/view-spinner";
+import ProfilePictureUpload from "./components/ProfilePictureUpload";
 
 const {mapState, mapActions} = createNamespacedHelpers('employee')
 export default {
   name: "UserProfile",
-  components: {ViewSpinner, InputWidget},
+  components: {ProfilePictureUpload, ViewSpinner, InputWidget},
   data() {
     return {
+      image: null,
       loading: false,
       userModel: new EmployeeModel(),
       changePasswordModel: new ChangePasswordModel(),
@@ -89,22 +97,24 @@ export default {
     ...mapState(['currentUser']),
   },
   methods: {
-    ...mapActions(['updateUser', 'updateUserPassword', 'getCurrentUser']),
+    ...mapActions(['updateProfile', 'updateUserPassword', 'getCurrentUser']),
     async onSubmit() {
       let form = {...this.userModel.toJSON()}
-      form.status = form.status ? 1 : 2;
+      form.status = form.status ? 1 : 2
+      form.image = this.image
+      form.imageRemoved = this.$refs.uploader.imageRemoved
 
       this.loading = true
-      const {success, body} = await this.updateUser({data: form, isCurrentUser: true})
+      const {success} = await this.updateProfile(form)
       this.loading = false
       if (success) {
         this.$toast(`Your profile updated successfully`)
       } else {
-        this.errorMessage = body.map(error => error.message).join(' ')
+        this.$toast(`Unable to update profile`, 'danger')
       }
     },
     async onPasswordSubmit() {
-      this.changePasswordModel.resetErrors();
+      this.changePasswordModel.resetErrors()
       this.loading = true
       const {success, body} = await this.updateUserPassword(this.changePasswordModel.toJSON())
       this.loading = false

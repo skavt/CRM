@@ -2,7 +2,9 @@
   <div class="flex-column flex-shrink-0 bg-light sidebar-column">
     <router-link class="sidebar-header d-flex align-items-center" :to="{name: 'user-profile'}">
       <div class="avatar p-2">
-        <b-img src="/assets/avatar.svg" class="img-fluid rounded-circle" width="70px" height="70px"/>
+        <b-img :src="currentUser.image_url || '/assets/avatar.svg'" class="img-fluid rounded-circle" width="70px"
+               height="70px">
+        </b-img>
       </div>
       <div class="title">
         <h1 class="h4">{{ currentUser.display_name }}</h1>

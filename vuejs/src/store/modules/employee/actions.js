@@ -31,9 +31,17 @@ export async function hideUserEditModal({commit}) {
   commit(HIDE_USER_EDIT_MODAL);
 }
 
-export async function updateUser({commit}, {data, isCurrentUser}) {
-  const res = await httpService.put(`/employee/${data.id}`, data)
-  if (res.success && isCurrentUser) {
+export async function updateUser({commit}, data) {
+  return await httpService.put(`/employee/${data.id}`, data)
+}
+
+export async function updateProfile({commit}, data) {
+  data = prepareData(data);
+  let res;
+  res = data instanceof FormData ?
+    await httpService.post(`/employee/update-profile`, data) :
+    await httpService.put(`/employee/update-profile`, data);
+  if (res.success) {
     commit(GET_CURRENT_USER, res.body)
   }
   return res
@@ -49,4 +57,18 @@ export async function getCurrentUser({commit}) {
     commit(GET_CURRENT_USER, res.body)
   }
   return res
+}
+
+function prepareData(data) {
+  if (data.image && data.image instanceof File) {
+    const tmpData = new FormData();
+    for (let key in data) {
+      if (data.hasOwnProperty(key)) {
+        tmpData.append(key, data[key] || '');
+      }
+    }
+    data = tmpData;
+    data.append('_method', 'PUT')
+  }
+  return data;
 }

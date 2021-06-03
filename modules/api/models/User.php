@@ -5,10 +5,9 @@ namespace app\modules\api\models;
 use app\modules\api\models\query\UserQuery;
 use Yii;
 use yii\base\Exception;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\FileHelper;
 use yii\web\IdentityInterface;
 
 /**
@@ -51,6 +50,9 @@ class User extends ActiveRecord implements IdentityInterface
      */
     const EXPIRE_DATE = 3600 * 48;
 
+    public $image;
+    public $imageRemoved;
+
     public static function tableName()
     {
         return '{{%users}}';
@@ -66,6 +68,8 @@ class User extends ActiveRecord implements IdentityInterface
             [['password_hash', 'password_reset_token'], 'string', 'max' => 1024],
             [['username'], 'unique'],
             [['email'], 'unique'],
+            ['imageRemoved', 'boolean'],
+            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpeg, svg, jpg'],
         ];
     }
 
@@ -256,6 +260,31 @@ class User extends ActiveRecord implements IdentityInterface
     public function save($runValidation = true, $attributeNames = null)
     {
         $this->birthday = $this->birthday ? strtotime($this->birthday) : null;
+        $oldPath = $this->image_path;
+
+        if ($this->image) {
+            $this->image_path = "/storage/user/" . Yii::$app->security->generateRandomString(25) . '/' . $this->image->name;
+
+            // Delete old image if it exists
+            if ($oldPath) {
+                $oldPath = Yii::getAlias("@webroot" . $oldPath);
+                if (file_exists($oldPath)) {
+                    FileHelper::removeDirectory(dirname($oldPath));
+                }
+            }
+
+            $path = Yii::getAlias("@webroot") . $this->image_path;
+            if (!is_dir(dirname($path))) {
+                FileHelper::createDirectory(dirname($path));
+            }
+            $this->image->saveAs($path, false);
+        } else if ($this->imageRemoved && $oldPath) {
+            $oldPath = Yii::getAlias("@webroot" . $oldPath);
+            if (file_exists($oldPath)) {
+                FileHelper::removeDirectory(dirname($oldPath));
+            }
+            $this->image_path = null;
+        }
 
         return parent::save($runValidation, $attributeNames);
     }

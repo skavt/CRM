@@ -10,6 +10,7 @@ use app\rest\ActiveController;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\filters\AccessControl;
+use yii\web\UploadedFile;
 
 class EmployeeController extends ActiveController
 {
@@ -88,5 +89,20 @@ class EmployeeController extends ActiveController
         }
 
         return $this->validationError($model->getFirstErrors());
+    }
+
+    /**
+     * @return array|UserResource
+     */
+    public function actionUpdateProfile()
+    {
+        /** @var $user UserResource */
+        $user = UserResource::findOne(['id' => Yii::$app->user->id]);
+        $user->image = UploadedFile::getInstanceByName('image');
+        if ($user->load(Yii::$app->request->post(), '') && $user->save()) {
+            return $user;
+        }
+
+        return $user->getFirstErrors();
     }
 }

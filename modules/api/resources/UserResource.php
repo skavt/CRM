@@ -37,6 +37,9 @@ class UserResource extends User
             'display_name' => function () {
                 return $this->getDisplayName();
             },
+            'image_url' => function () {
+                return $this->getImageUrl();
+            },
             'status' => function () {
                 return $this->status === 1;
             },
@@ -120,5 +123,13 @@ class UserResource extends User
                 throw new ValidationException('Unable to save channels');
             }
         }
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImageUrl()
+    {
+        return $this->image_path ? env('API_HOST') . $this->image_path : null;
     }
 }
