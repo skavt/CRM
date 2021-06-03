@@ -147,7 +147,7 @@ export default {
         form.status = form.status ? 1 : 2;
         delete form.userChannels
 
-        const {success, body} = await this.updateUser(form)
+        const {success, body} = await this.updateUser({data: form, isCurrentUser: false})
         if (success) {
           this.$toast(`User ${this.model.display_name} updated successfully`)
           this.onHideModal()

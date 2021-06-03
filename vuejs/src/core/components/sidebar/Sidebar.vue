@@ -25,7 +25,7 @@
 <script>
 import {createNamespacedHelpers, mapGetters} from 'vuex';
 
-const {mapState, mapActions} = createNamespacedHelpers('auth')
+const {mapState, mapActions} = createNamespacedHelpers('employee')
 export default {
   name: "Sidebar",
   computed: {

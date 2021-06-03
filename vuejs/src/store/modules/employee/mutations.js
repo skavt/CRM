@@ -1,4 +1,10 @@
-import {DELETE_USER, HIDE_USER_EDIT_MODAL, SET_EMPLOYEE_LIST, SHOW_USER_EDIT_MODAL} from './mutation-types';
+import {
+  DELETE_USER,
+  GET_CURRENT_USER,
+  HIDE_USER_EDIT_MODAL,
+  SET_EMPLOYEE_LIST,
+  SHOW_USER_EDIT_MODAL
+} from './mutation-types';
 
 export default {
 
@@ -18,5 +24,9 @@ export default {
   [HIDE_USER_EDIT_MODAL](state) {
     state.employee.modal.show = false;
     state.employee.modal.data = {};
+  },
+
+  [GET_CURRENT_USER](state, data) {
+    state.currentUser = {...data}
   },
 };

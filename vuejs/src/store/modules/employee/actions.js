@@ -1,4 +1,10 @@
-import {DELETE_USER, HIDE_USER_EDIT_MODAL, SET_EMPLOYEE_LIST, SHOW_USER_EDIT_MODAL} from './mutation-types';
+import {
+  DELETE_USER,
+  GET_CURRENT_USER,
+  HIDE_USER_EDIT_MODAL,
+  SET_EMPLOYEE_LIST,
+  SHOW_USER_EDIT_MODAL
+} from './mutation-types';
 import httpService from "../../../core/services/httpService";
 
 export async function getEmployeeList({commit}) {
@@ -25,10 +31,22 @@ export async function hideUserEditModal({commit}) {
   commit(HIDE_USER_EDIT_MODAL);
 }
 
-export async function updateUser({commit}, data) {
-  return await httpService.put(`/employee/${data.id}`, data)
+export async function updateUser({commit}, {data, isCurrentUser}) {
+  const res = await httpService.put(`/employee/${data.id}`, data)
+  if (res.success && isCurrentUser) {
+    commit(GET_CURRENT_USER, res.body)
+  }
+  return res
 }
 
 export async function updateUserPassword({commit}, data) {
   return await httpService.put(`/employee/change-password`, data)
+}
+
+export async function getCurrentUser({commit}) {
+  const res = await httpService.get(`/employee/get-current-user`)
+  if (res.success) {
+    commit(GET_CURRENT_USER, res.body)
+  }
+  return res
 }

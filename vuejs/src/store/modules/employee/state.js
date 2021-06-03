@@ -6,6 +6,7 @@ const STATE = {
       data: {},
     },
   },
+  currentUser: {},
 };
 
 export default STATE;

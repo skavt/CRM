@@ -75,7 +75,6 @@ import {createNamespacedHelpers} from "vuex";
 import ViewSpinner from "../../core/components/view-spinner/view-spinner";
 
 const {mapState, mapActions} = createNamespacedHelpers('employee')
-const {mapState: mapUserState} = createNamespacedHelpers('auth')
 export default {
   name: "UserProfile",
   components: {ViewSpinner, InputWidget},
@@ -87,21 +86,16 @@ export default {
     }
   },
   computed: {
-    ...mapUserState(['currentUser']),
-  },
-  watch: {
-    currentUser() {
-      this.userModel = new EmployeeModel(this.currentUser)
-    },
+    ...mapState(['currentUser']),
   },
   methods: {
-    ...mapActions(['updateUser', 'updateUserPassword']),
+    ...mapActions(['updateUser', 'updateUserPassword', 'getCurrentUser']),
     async onSubmit() {
       let form = {...this.userModel.toJSON()}
       form.status = form.status ? 1 : 2;
 
       this.loading = true
-      const {success, body} = await this.updateUser(form)
+      const {success, body} = await this.updateUser({data: form, isCurrentUser: true})
       this.loading = false
       if (success) {
         this.$toast(`Your profile updated successfully`)
@@ -123,8 +117,9 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
     this.loading = true
+    await this.getCurrentUser()
     this.userModel = new EmployeeModel(this.currentUser)
     this.loading = false
   },
