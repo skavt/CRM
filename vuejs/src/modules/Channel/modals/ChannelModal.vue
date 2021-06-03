@@ -5,6 +5,12 @@
       <b-form v-if="!loading" @keydown.enter.prevent="handleSubmit(onSubmit)">
         <input-widget :model="model" attribute="name" :autofocus="true"/>
         <input-widget :model="model" attribute="description"/>
+        <vfa-picker :only="only" v-model="icon">
+          <template v-slot:activator="{ on }">
+            <label>Choose Icons</label>
+            <b-input v-model="icon" @click="on" placeholder="Choose Icons"/>
+          </template>
+        </vfa-picker>
       </b-form>
     </b-modal>
   </ValidationObserver>
@@ -25,6 +31,8 @@ export default {
     return {
       model: new ChannelModel(),
       loading: false,
+      only: ['solid'],
+      icon: '',
     }
   },
   computed: {
@@ -42,17 +50,21 @@ export default {
   methods: {
     ...mapActions(['hideChannelModal', 'createNewChannel', 'updateChannel']),
     async onSubmit() {
-      this.loading = true
       this.model.resetErrors()
+      let form = {...this.model.toJSON()}
+      form.icon = this.icon
+
       let action = 'create'
-      if (this.model.id) {
+      if (form.id) {
         action = 'update'
       }
+
+      this.loading = true
       let res
       if (action === 'create') {
-        res = await this.createNewChannel({...this.model.toJSON()})
+        res = await this.createNewChannel(form)
       } else {
-        res = await this.updateChannel({...this.model.toJSON()})
+        res = await this.updateChannel(form)
       }
       this.loading = false
       if (res.success) {
