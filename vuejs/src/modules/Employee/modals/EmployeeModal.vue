@@ -145,8 +145,6 @@ export default {
 
       if (!this.showError) {
         form.status = form.status ? 1 : 2;
-        delete form.created_at
-        delete form.updated_at
         delete form.userChannels
 
         const {success, body} = await this.updateUser(form)

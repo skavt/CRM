@@ -29,10 +29,6 @@ use yii\web\IdentityInterface;
  * @property string|null $access_token
  * @property int|null $access_token_expire_date
  * @property int|null $status
- * @property int|null $created_at
- * @property int|null $created_by
- * @property int|null $updated_at
- * @property int|null $updated_by
  *
  * @property UserChannel[] $userChannels
  */
@@ -60,29 +56,16 @@ class User extends ActiveRecord implements IdentityInterface
         return '{{%users}}';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return array_merge(parent::behaviors(), [
-            TimestampBehavior::class,
-            BlameableBehavior::class,
-        ]);
-    }
-
     public function rules()
     {
         return [
             [['username', 'email', 'password_hash'], 'required'],
-            [['birthday', 'expire_date', 'access_token_expire_date', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['birthday', 'expire_date', 'access_token_expire_date', 'status'], 'integer'],
             [['username', 'first_name', 'last_name', 'phone', 'position', 'image_path'], 'string', 'max' => 255],
             [['email', 'access_token'], 'string', 'max' => 512],
             [['password_hash', 'password_reset_token'], 'string', 'max' => 1024],
             [['username'], 'unique'],
             [['email'], 'unique'],
-            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['created_by' => 'id']],
-            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['updated_by' => 'id']],
         ];
     }
 
@@ -104,10 +87,6 @@ class User extends ActiveRecord implements IdentityInterface
             'access_token' => 'Access Token',
             'access_token_expire_date' => 'Access Token Expire Date',
             'status' => 'Status',
-            'created_at' => 'Created At',
-            'created_by' => 'Created By',
-            'updated_at' => 'Updated At',
-            'updated_by' => 'Updated By',
         ];
     }
 
@@ -198,7 +177,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getApiData()
     {
-        return $this->toArray(['id', 'username', 'email', 'access_token', 'status', 'created_at', 'updated_at']);
+        return $this->toArray(['id', 'username', 'email', 'access_token', 'status']);
     }
 
     /**

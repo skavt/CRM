@@ -40,12 +40,6 @@ class UserResource extends User
             'status' => function () {
                 return $this->status === 1;
             },
-            'created_at' => function () {
-                return Yii::$app->formatter->asDatetime($this->created_at);
-            },
-            'updated_at' => function () {
-                return Yii::$app->formatter->asDatetime($this->updated_at);
-            },
             'activeStatus' => function () {
                 return $this->status === 1;
             },

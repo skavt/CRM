@@ -98,8 +98,6 @@ export default {
     ...mapActions(['updateUser']),
     async onSubmit() {
       let form = {...this.userModel.toJSON()}
-      delete form.created_at
-      delete form.updated_at
       form.status = form.status ? 1 : 2;
 
       this.loading = true
