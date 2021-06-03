@@ -7,8 +7,14 @@ export default class ChangePasswordModel extends BaseModel {
 
   rules = {
     old_password: 'required',
-    password: 'required',
-    confirm_password: 'required',
+    password: [
+      {rule: 'required'},
+      {rule: 'min', length: 6}
+    ],
+    confirm_password: [
+      {rule: 'required'},
+      {rule: 'confirmed', target: 'password'},
+    ],
   }
 
   attributeLabels = {

@@ -28,3 +28,7 @@ export async function hideUserEditModal({commit}) {
 export async function updateUser({commit}, data) {
   return await httpService.put(`/employee/${data.id}`, data)
 }
+
+export async function updateUserPassword({commit}, data) {
+  return await httpService.put(`/employee/change-password`, data)
+}

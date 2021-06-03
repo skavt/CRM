@@ -4,6 +4,7 @@
 namespace app\modules\api\controllers;
 
 
+use app\modules\api\models\ChangePassword;
 use app\modules\api\resources\UserResource;
 use app\rest\ActiveController;
 use Yii;
@@ -70,6 +71,22 @@ class EmployeeController extends ActiveController
      */
     public function actionGetCurrentUser()
     {
-        return UserResource::find()->where(['id' => Yii::$app->user->id])->one();
+        return UserResource::findOne(['id' => Yii::$app->user->id]);
+    }
+
+    /**
+     * Change current user password
+     *
+     * @return array|mixed
+     */
+    public function actionChangePassword()
+    {
+        $model = new ChangePassword();
+        $model->user = Yii::$app->user->identity;
+        if ($model->load(Yii::$app->request->post(), '') && $model->validate() && $model->changePassword()) {
+            return $this->response(null, 204);
+        }
+
+        return $this->validationError($model->getFirstErrors());
     }
 }

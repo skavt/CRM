@@ -7,7 +7,6 @@ use app\modules\api\models\LoginForm;
 use app\modules\api\models\SignupForm;
 use app\modules\api\models\User;
 use app\modules\api\resources\InvitationResource;
-use app\modules\api\resources\UserResource;
 use app\rest\Controller;
 use Yii;
 use yii\base\Exception;

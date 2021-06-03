@@ -95,7 +95,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['updateUser']),
+    ...mapActions(['updateUser', 'updateUserPassword']),
     async onSubmit() {
       let form = {...this.userModel.toJSON()}
       form.status = form.status ? 1 : 2;
@@ -109,8 +109,18 @@ export default {
         this.errorMessage = body.map(error => error.message).join(' ')
       }
     },
-    onPasswordSubmit() {
-
+    async onPasswordSubmit() {
+      this.changePasswordModel.resetErrors();
+      this.loading = true
+      const {success, body} = await this.updateUserPassword(this.changePasswordModel.toJSON())
+      this.loading = false
+      if (success) {
+        this.$toast(`Your password changed successfully`)
+        this.changePasswordModel = new ChangePasswordModel()
+        this.$refs.changePasswordForm.reset()
+      } else {
+        this.changePasswordModel.setMultipleErrors(body);
+      }
     },
   },
   mounted() {
