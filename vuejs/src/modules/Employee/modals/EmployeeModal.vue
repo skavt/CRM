@@ -9,22 +9,22 @@
           <div class="col-md-12">
             <div class="row">
               <div class="col-md-6">
-                <input-widget :model="model" attribute="first_name" :placeholder="true" :label="true"/>
+                <input-widget :model="model" attribute="first_name" :autofocus="true"/>
               </div>
               <div class="col-md-6">
-                <input-widget :model="model" attribute="last_name" :placeholder="true" :label="true"/>
+                <input-widget :model="model" attribute="last_name"/>
               </div>
               <div class="col-md-6">
-                <input-widget :model="model" attribute="email" :autofocus="true" :placeholder="true" :label="true"/>
+                <input-widget :model="model" attribute="email"/>
               </div>
               <div class="col-md-6">
-                <input-widget :model="model" attribute="position" :autofocus="true" :placeholder="true" :label="true"/>
+                <input-widget :model="model" attribute="position"/>
               </div>
               <div class="col-md-6">
-                <input-widget :model="model" attribute="phone" :placeholder="true" :label="true"/>
+                <input-widget :model="model" attribute="phone"/>
               </div>
               <div class="col-md-6">
-                <input-widget :model="model" attribute="birthday" type="date" :placeholder="true" :label="true"/>
+                <input-widget :model="model" attribute="birthday" type="date"/>
               </div>
             </div>
           </div>

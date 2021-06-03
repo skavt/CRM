@@ -1,14 +1,15 @@
 <template>
   <ValidationObserver v-if="!loading" v-slot="{ handleSubmit }">
     <b-form @keydown.enter.prevent="handleSubmit(onSubmit)">
-      <input-widget :model="model" :placeholder="true" attribute="email" :autofocus="true" :disabled="disabledEmail"/>
+      <input-widget :model="model" attribute="email" :autofocus="true" :disabled="disabledEmail" :label="false"/>
       <input-widget
-          v-if="isRegister()" :model="model" :placeholder="`First Name`" attribute="first_name" :autofocus="true">
+          v-if="isRegister()" :model="model" :placeholder="`First Name`" attribute="first_name" :autofocus="true"
+          :label="false">
       </input-widget>
-      <input-widget v-if="isRegister()" :model="model" :placeholder="`Last Name`" attribute="last_name"/>
-      <input-widget v-if="showPassword" :model="model" :placeholder="true" attribute="password" type="password"/>
+      <input-widget v-if="isRegister()" :model="model" :placeholder="`Last Name`" attribute="last_name" :label="false"/>
+      <input-widget v-if="showPassword" :model="model" attribute="password" type="password" :label="false"/>
       <input-widget v-if="showRepeatPassword" :model="model" :placeholder="`Repeat Password`"
-                    attribute="repeat_password" type="password">
+                    attribute="repeat_password" type="password" :label="false">
       </input-widget>
       <div class="d-flex align-items-center justify-content-between">
         <b-button class="mr-2" variant="outline-light" @click="handleSubmit(onSubmit)">{{ getButtonName() }}</b-button>

@@ -3,8 +3,8 @@
     <b-modal v-model="modal.show" title="Add New Channel" @hidden="onHideModal" @ok.prevent="handleSubmit(onSubmit)">
       <view-spinner :show="loading"/>
       <b-form v-if="!loading" @keydown.enter.prevent="handleSubmit(onSubmit)">
-        <input-widget :model="model" attribute="name" :autofocus="true" :placeholder="true" :label="true"/>
-        <input-widget :model="model" attribute="description" :placeholder="true" :label="true"/>
+        <input-widget :model="model" attribute="name" :autofocus="true"/>
+        <input-widget :model="model" attribute="description"/>
       </b-form>
     </b-modal>
   </ValidationObserver>

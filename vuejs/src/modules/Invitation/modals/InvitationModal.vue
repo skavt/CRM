@@ -5,7 +5,7 @@
       <view-spinner :show="loading"/>
       <error-content :show="showError" :error-message="errorMessage"/>
       <b-form v-if="!loading" @keydown.enter.prevent="handleSubmit(onSubmit)">
-        <input-widget :model="model" attribute="email" :autofocus="true" :placeholder="true" :label="true"/>
+        <input-widget :model="model" attribute="email" :autofocus="true"/>
       </b-form>
     </b-modal>
   </ValidationObserver>

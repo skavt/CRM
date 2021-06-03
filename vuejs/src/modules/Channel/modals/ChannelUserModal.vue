@@ -15,7 +15,7 @@
             <input-widget size="lg" :model="model" attribute="role" type="select" :options="userRoles"/>
           </div>
         </div>
-        <input-widget :model="model" attribute="allUser" type="checkbox" :label="true"/>
+        <input-widget :model="model" attribute="allUser" type="checkbox"/>
       </b-form>
     </b-modal>
   </ValidationObserver>

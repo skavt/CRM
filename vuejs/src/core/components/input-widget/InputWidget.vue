@@ -122,7 +122,7 @@ export default {
     attribute: String,
     label: {
       type: [String, Boolean],
-      default: null
+      default: true
     },
     type: {
       type: String,
@@ -130,7 +130,7 @@ export default {
     },
     placeholder: {
       type: [String, Boolean],
-      default: null
+      default: true
     },
     disabled: {
       type: Boolean,
