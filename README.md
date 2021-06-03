@@ -7,7 +7,7 @@ at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
 1. Go to the project root directory. 
 1. Run `composer install`.
 1. Copy `.env.example` into `.env` and adjust database parameters in `.env` file. 
-1. Run `php create-database.php` to create database.
+1. Create database.
 1. Run `./migrate` to create tables and insert initial data.
 1. Run `php yii serve` and open in browser [http://localhost:8080](http://localhost:8080)
 
