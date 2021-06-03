@@ -35,7 +35,7 @@ export default {
           text: ch.name,
           path: `/dashboard/channel/${ch.id}/timeline`,
           weight: 101 + i,
-          icon: 'fab fa-battle-net',
+          icon: ch.icon ? `fas fa-${ch.icon}` : 'fab fa-battle-net',
         }))
       })
     },

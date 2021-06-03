@@ -2,7 +2,7 @@
   <b-card class="card-table" no-body>
     <b-card-body class="pb-0" @click="$router.push({name: 'channel.timeline',  params: {channelId: item.id}})">
       <b-card-title>
-        <i class="fab fa-battle-net"/>
+        <i :class="getIcon"/>
         {{ item.name }}
       </b-card-title>
       <b-card-text class="description">
@@ -35,6 +35,11 @@ export default {
     item: {
       type: Object,
       require: true,
+    },
+  },
+  computed: {
+    getIcon() {
+      return this.item.icon ? `fas fa-${this.item.icon}` : 'fab fa-battle-net'
     },
   },
   methods: {

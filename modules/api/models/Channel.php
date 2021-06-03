@@ -14,6 +14,7 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property string $name
  * @property string|null $description
+ * @property string|null $icon
  * @property string|null $image_path
  * @property int|null $created_at
  * @property int|null $created_by
@@ -54,7 +55,7 @@ class Channel extends ActiveRecord
             [['name'], 'unique'],
             [['description'], 'string'],
             [['created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['name'], 'string', 'max' => 255],
+            [['name', 'icon'], 'string', 'max' => 255],
             [['image_path'], 'string', 'max' => 1024],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['updated_by' => 'id']],
@@ -70,6 +71,7 @@ class Channel extends ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'description' => 'Description',
+            'icon' => 'Icon',
             'image_path' => 'Image Path',
             'created_at' => 'Created At',
             'created_by' => 'Created By',

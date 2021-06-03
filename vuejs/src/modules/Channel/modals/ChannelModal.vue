@@ -44,6 +44,7 @@ export default {
     ['modal.data']() {
       if (this.modal.data) {
         this.model = new ChannelModel(this.modal.data);
+        this.icon = this.modal.data.icon ? this.modal.data.icon : '';
       }
     }
   },
