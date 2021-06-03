@@ -1,6 +1,7 @@
 <template>
   <div class="flex-column flex-shrink-0 bg-light sidebar-column">
-    <router-link class="sidebar-header d-flex align-items-center" :to="{name: 'user-profile'}">
+    <view-spinner :show="loading"/>
+    <router-link v-if="!loading" class="sidebar-header d-flex align-items-center" :to="{name: 'user-profile'}">
       <div class="avatar p-2">
         <b-img :src="currentUser.image_url || '/assets/avatar.svg'" class="img-fluid rounded-circle" width="70px"
                height="70px">
@@ -26,10 +27,17 @@
 
 <script>
 import {createNamespacedHelpers, mapGetters} from 'vuex';
+import ViewSpinner from "../view-spinner/view-spinner";
 
 const {mapState, mapActions} = createNamespacedHelpers('employee')
 export default {
   name: "Sidebar",
+  components: {ViewSpinner},
+  data() {
+    return {
+      loading: false,
+    }
+  },
   computed: {
     ...mapGetters(['menuItems']),
     ...mapState(['currentUser']),
@@ -44,7 +52,9 @@ export default {
     },
   },
   async mounted() {
+    this.loading = true
     await this.getCurrentUser()
+    this.loading = false
   },
 }
 </script>
