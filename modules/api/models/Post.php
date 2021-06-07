@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  * @property int|null $channel_id
  * @property string|null $title
  * @property string|null $body
+ * @property string|null $action
  * @property string|null $file_path
  * @property string|null $mime
  * @property int|null $created_at
@@ -56,7 +57,7 @@ class Post extends ActiveRecord
             [['channel_id', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['body'], 'string'],
             [['title', 'file_path'], 'string', 'max' => 1024],
-            [['mime'], 'string', 'max' => 255],
+            [['mime', 'action'], 'string', 'max' => 255],
             [['channel_id'], 'exist', 'skipOnError' => true, 'targetClass' => Channel::class, 'targetAttribute' => ['channel_id' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['updated_by' => 'id']],
@@ -73,6 +74,7 @@ class Post extends ActiveRecord
             'channel_id' => 'Channel ID',
             'title' => 'Title',
             'body' => 'Body',
+            'action' => 'Action',
             'file_path' => 'File Path',
             'mime' => 'Mime',
             'created_at' => 'Created At',
