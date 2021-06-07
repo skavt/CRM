@@ -3,6 +3,8 @@
 namespace app\modules\api\models;
 
 use app\modules\api\models\query\UserLikeQuery;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -25,6 +27,24 @@ class UserLike extends ActiveRecord
     public static function tableName()
     {
         return '{{%user_likes}}';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            [
+                'class' => TimestampBehavior::class,
+                'updatedAtAttribute' => false,
+            ],
+
+            [
+                'class' => BlameableBehavior::class,
+                'updatedByAttribute' => false,
+            ],
+        ]);
     }
 
     /**

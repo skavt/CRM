@@ -3,6 +3,8 @@
 namespace app\modules\api\models;
 
 use app\modules\api\models\query\UserCommentQuery;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -32,6 +34,17 @@ class UserComment extends ActiveRecord
     public static function tableName()
     {
         return '{{%user_comments}}';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            TimestampBehavior::class,
+            BlameableBehavior::class,
+        ]);
     }
 
     /**
