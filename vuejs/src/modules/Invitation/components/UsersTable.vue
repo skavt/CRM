@@ -31,7 +31,9 @@
       </template>
     </b-table>
 
-    <table-pagination v-if="hasItems" :total-rows="items.length" @on-pagination-change="onPaginationChange"/>
+    <table-pagination
+        ref="pagination" v-if="hasItems" :total-rows="items.length" @on-pagination-change="onPaginationChange">
+    </table-pagination>
   </b-card>
 </template>
 
@@ -59,6 +61,7 @@ export default {
   data() {
     return {
       localItems: [],
+      perPage: null,
     }
   },
   computed: {
@@ -69,10 +72,15 @@ export default {
   watch: {
     items() {
       this.localItems = [...this.items]
+      if (this.perPage) {
+        this.onPaginationChange(this.perPage, 1)
+        this.$refs.pagination.currentPage = 1
+      }
     },
   },
   methods: {
     onPaginationChange(perPage, currentPage) {
+      this.perPage = perPage
       this.localItems = this.items.filter((item, index) => {
         return index >= (currentPage - 1) * perPage && index <= currentPage * perPage - 1
       })
