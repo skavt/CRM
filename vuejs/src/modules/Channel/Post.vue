@@ -30,17 +30,18 @@
       <no-content :show="!loading && !postData.length"/>
       <div v-if="!loading && postData.length" class="page-content">
         <b-card class="mt-3" no-body v-for="data in postData" :key="`post-${data.id}`">
-          <b-card-header>
-            {{ data.title }}
-          </b-card-header>
-          <b-card-body>
-            {{ data.title }}
+          <b-card-body class="pt-5">
+            {{ data.body }}
           </b-card-body>
           <b-card-footer>
             <like-unlike-button
                 class="mr-2" :item="data.userLikes" :liked="data.myLikes.length > 0" @on-like-click="onLikeClick(data)">
             </like-unlike-button>
           </b-card-footer>
+          <div class="action-buttons p-2">
+            <i class="fas fa-pencil-alt m-2"/>
+            <i class="far fa-trash-alt text-danger m-2"/>
+          </div>
         </b-card>
       </div>
     </b-card-body>
@@ -154,6 +155,12 @@ export default {
   margin-left: 15%;
   margin-right: 15%;
   position: relative;
+}
+
+.action-buttons {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 </style>

@@ -60,6 +60,7 @@ export default {
     },
     onHideModal() {
       this.hidePostModal()
+      this.model = new PostModel()
     },
   },
 }
