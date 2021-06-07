@@ -1,5 +1,5 @@
 <template>
-  <b-button @click="onLikeClick" size="sm" pill :variant="liked ? 'info' : 'light'">
+  <b-button @click="onLikeClick" size="sm" pill :variant="liked ? 'primary' : 'light'">
     <i class="far fa-thumbs-up fa-lg"/>
     Like
     <b-badge v-if="item" class="ml-2" v-b-popover.hover.top.html="updateLikes()" pill variant="secondary">
