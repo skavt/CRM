@@ -27,7 +27,8 @@
 
     <b-card-body class="post-card-body">
       <view-spinner :show="loading"/>
-      <div v-if="!loading" class="page-content">
+      <no-content :show="!loading && !postData.length"/>
+      <div v-if="!loading && postData.length" class="page-content">
         <b-card class="mt-3" no-body v-for="data in postData" :key="`post-${data.id}`">
           <b-card-header>
             {{ data.title }}
@@ -57,11 +58,12 @@ import ChannelUserModal from "./modals/ChannelUserModal";
 import PostModal from "./modals/PostModal";
 import {getPostData} from "../../store/modules/channel/actions";
 import LikeUnlikeButton from "./components/LikeUnlikeButton";
+import NoContent from "../../core/components/no-content/NoContent";
 
 const {mapState, mapActions} = createNamespacedHelpers('channel')
 export default {
   name: "Post",
-  components: {LikeUnlikeButton, PostModal, ChannelUserModal, ChannelModal, ViewSpinner},
+  components: {NoContent, LikeUnlikeButton, PostModal, ChannelUserModal, ChannelModal, ViewSpinner},
   data() {
     return {
       loading: false,
@@ -74,8 +76,7 @@ export default {
   },
   watch: {
     async ['$route.params.channelId']() {
-      await this.getChannelData()
-      this.channelData = this.channel.data.find(ch => ch.id === parseInt(this.$route.params.channelId))
+      await this.initialData()
     },
     ['channel.data']() {
       this.channelData = this.channel.data.find(ch => ch.id === parseInt(this.$route.params.channelId))
@@ -98,11 +99,12 @@ export default {
       this.showChannelModal(this.channelData)
     },
     async onChannelDeleteClick() {
+      let channelName = this.channelData.name
       const result = await this.$confirm(`Are you sure you want to delete ${this.channelData.name} channel?`, `Deleting Channel...`)
       if (result) {
         const {success, body} = await this.deleteChannel(this.channelData.id)
         if (success) {
-          this.$toast(`Channel ${this.channelData.name} deleted successfully`)
+          this.$toast(`Channel ${channelName} deleted successfully`)
           this.$router.push({name: 'channel'})
         } else {
           this.$toast(body.message, 'danger')
@@ -120,13 +122,16 @@ export default {
         await this.like(data);
       }
     },
+    async initialData() {
+      this.loading = true
+      await this.getChannelData()
+      await this.getPostData(this.$route.params.channelId)
+      this.channelData = this.channel.data.find(ch => ch.id === parseInt(this.$route.params.channelId))
+      this.loading = false
+    }
   },
   async mounted() {
-    this.loading = true
-    await this.getChannelData()
-    await this.getPostData()
-    this.channelData = this.channel.data.find(ch => ch.id === parseInt(this.$route.params.channelId))
-    this.loading = false
+    await this.initialData()
   }
 }
 </script>

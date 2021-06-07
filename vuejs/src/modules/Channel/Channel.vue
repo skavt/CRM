@@ -9,7 +9,8 @@
 
     <b-card-body class="channel-card-body">
       <view-spinner :show="loading"/>
-      <div v-if="!loading" class="page-content">
+      <no-content :show="!loading && !channelData.length"/>
+      <div v-if="!loading && channelData.length" class="page-content">
         <div class="row ml-0">
           <div class="card-wrapper mt-3 ml-3" v-for="item in channelData" :key="`channel-card-${item.id}`">
             <channel-card :item="item" @on-add-user-click="onAddUser" @on-channel-edit-click="onChannelEdit"
@@ -31,11 +32,12 @@ import ChannelModal from "./modals/ChannelModal";
 import {getActiveUsers, getChannelData} from "../../store/modules/channel/actions";
 import ViewSpinner from "../../core/components/view-spinner/view-spinner";
 import ChannelUserModal from "./modals/ChannelUserModal";
+import NoContent from "../../core/components/no-content/NoContent";
 
 const {mapState, mapActions} = createNamespacedHelpers('channel')
 export default {
   name: "Channel",
-  components: {ChannelUserModal, ViewSpinner, ChannelModal, ChannelCard},
+  components: {NoContent, ChannelUserModal, ViewSpinner, ChannelModal, ChannelCard},
   data() {
     return {
       loading: false,

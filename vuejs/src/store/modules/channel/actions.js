@@ -86,8 +86,11 @@ export function hidePostModal({commit}) {
   commit(HIDE_POST_MODAL)
 }
 
-export async function getPostData({commit}) {
-  const res = await httpService.get(`post?expand=createdBy,myLikes,userLikes,userLikes.createdBy`)
+export async function getPostData({commit}, channelId) {
+  let params = {
+    channel_id: channelId,
+  }
+  const res = await httpService.get(`post?expand=createdBy,myLikes,userLikes,userLikes.createdBy`, {params})
   if (res.success) {
     commit(SET_POST_DATA, res.body)
   }
