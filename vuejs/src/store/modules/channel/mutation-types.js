@@ -10,3 +10,6 @@ export const DELETE_CHANNEL = 'channel/DELETE_CHANNEL';
 export const UPDATE_CHANNEL_DATA = 'channel/UPDATE_CHANNEL_DATA';
 
 export const GET_ACTIVE_USERS = 'channel/GET_ACTIVE_USERS';
+
+export const SHOW_POST_MODAL = 'channel/SHOW_POST_MODAL';
+export const HIDE_POST_MODAL = 'channel/HIDE_POST_MODAL';

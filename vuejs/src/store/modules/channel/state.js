@@ -11,6 +11,13 @@ const STATE = {
     },
     data: [],
   },
+  post: {
+    modal: {
+      show: false,
+      data: {},
+    },
+    data: [],
+  },
 };
 
 export default STATE;

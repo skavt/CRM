@@ -4,9 +4,11 @@ import {
   GET_ACTIVE_USERS,
   HIDE_CHANNEL_MODAL,
   HIDE_CHANNEL_USER_MODAL,
+  HIDE_POST_MODAL,
   SET_CHANNEL_DATA,
   SHOW_CHANNEL_MODAL,
   SHOW_CHANNEL_USER_MODAL,
+  SHOW_POST_MODAL,
   UPDATE_CHANNEL_DATA
 } from "./mutation-types";
 import httpService from "../../../core/services/httpService";
@@ -69,4 +71,12 @@ export async function getActiveUsers({commit}, channelId) {
 
 export async function addNewUsersInChannel({commit}, data) {
   return await httpService.post(`channel/add-new-users`, data)
+}
+
+export function showPostModal({commit}, data) {
+  commit(SHOW_POST_MODAL, data)
+}
+
+export function hidePostModal({commit}) {
+  commit(HIDE_POST_MODAL)
 }

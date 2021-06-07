@@ -31,6 +31,7 @@
 
       </div>
     </b-card-body>
+    <post-modal/>
     <channel-modal/>
     <channel-user-modal/>
   </b-card>
@@ -41,11 +42,12 @@ import ViewSpinner from "../../core/components/view-spinner/view-spinner";
 import {createNamespacedHelpers} from "vuex";
 import ChannelModal from "./modals/ChannelModal";
 import ChannelUserModal from "./modals/ChannelUserModal";
+import PostModal from "./modals/PostModal";
 
 const {mapState, mapActions} = createNamespacedHelpers('channel')
 export default {
   name: "Post",
-  components: {ChannelUserModal, ChannelModal, ViewSpinner},
+  components: {PostModal, ChannelUserModal, ChannelModal, ViewSpinner},
   data() {
     return {
       loading: false,
@@ -65,9 +67,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['deleteChannel', 'showChannelModal', 'showChannelUserModal', 'getChannelData', 'getActiveUsers']),
+    ...mapActions(['deleteChannel', 'showChannelModal', 'showChannelUserModal', 'getChannelData', 'getActiveUsers',
+      'showPostModal']),
     onCreatePostClick() {
-
+      this.showPostModal(null)
     },
     async onChannelNewUserClick() {
       await this.getActiveUsers(this.channelData.id)

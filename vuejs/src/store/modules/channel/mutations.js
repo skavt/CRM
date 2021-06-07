@@ -1,11 +1,14 @@
 import {
   ADD_NEW_CHANNEL,
-  DELETE_CHANNEL, GET_ACTIVE_USERS,
+  DELETE_CHANNEL,
+  GET_ACTIVE_USERS,
   HIDE_CHANNEL_MODAL,
   HIDE_CHANNEL_USER_MODAL,
+  HIDE_POST_MODAL,
   SET_CHANNEL_DATA,
   SHOW_CHANNEL_MODAL,
   SHOW_CHANNEL_USER_MODAL,
+  SHOW_POST_MODAL,
   UPDATE_CHANNEL_DATA
 } from './mutation-types';
 
@@ -42,5 +45,13 @@ export default {
   },
   [GET_ACTIVE_USERS](state, users) {
     state.channel.userModal.users = [...users]
+  },
+  [SHOW_POST_MODAL](state, data) {
+    state.post.modal.show = true
+    state.post.modal.data = {...data}
+  },
+  [HIDE_POST_MODAL](state) {
+    state.post.modal.show = false
+    state.post.modal.data = {}
   },
 };
