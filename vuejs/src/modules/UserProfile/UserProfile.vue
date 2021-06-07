@@ -144,6 +144,7 @@ export default {
 
 .profile-card-body {
   background: #E8E8E8;
+  overflow: auto;
 }
 
 .page-header {
