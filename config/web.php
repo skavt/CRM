@@ -72,6 +72,8 @@ $config = [
                         'api/employee',
                         'api/invitation',
                         'api/channel',
+                        'api/post',
+                        'api/user-like',
                     ],
                 ]
             ],

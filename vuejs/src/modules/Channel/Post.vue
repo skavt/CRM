@@ -28,7 +28,19 @@
     <b-card-body class="post-card-body">
       <view-spinner :show="loading"/>
       <div v-if="!loading" class="page-content">
-
+        <b-card class="mt-3" no-body v-for="data in postData" :key="`post-${data.id}`">
+          <b-card-header>
+            {{ data.title }}
+          </b-card-header>
+          <b-card-body>
+            {{ data.title }}
+          </b-card-body>
+          <b-card-footer>
+            <like-unlike-button
+                class="mr-2" :item="data.userLikes" :liked="data.myLikes.length > 0" @on-like-click="onLikeClick(data)">
+            </like-unlike-button>
+          </b-card-footer>
+        </b-card>
       </div>
     </b-card-body>
     <post-modal/>
@@ -43,19 +55,22 @@ import {createNamespacedHelpers} from "vuex";
 import ChannelModal from "./modals/ChannelModal";
 import ChannelUserModal from "./modals/ChannelUserModal";
 import PostModal from "./modals/PostModal";
+import {getPostData} from "../../store/modules/channel/actions";
+import LikeUnlikeButton from "./components/LikeUnlikeButton";
 
 const {mapState, mapActions} = createNamespacedHelpers('channel')
 export default {
   name: "Post",
-  components: {PostModal, ChannelUserModal, ChannelModal, ViewSpinner},
+  components: {LikeUnlikeButton, PostModal, ChannelUserModal, ChannelModal, ViewSpinner},
   data() {
     return {
       loading: false,
       channelData: {},
+      postData: [],
     }
   },
   computed: {
-    ...mapState(['channel']),
+    ...mapState(['channel', 'post']),
   },
   watch: {
     async ['$route.params.channelId']() {
@@ -65,10 +80,13 @@ export default {
     ['channel.data']() {
       this.channelData = this.channel.data.find(ch => ch.id === parseInt(this.$route.params.channelId))
     },
+    ['post.data']() {
+      this.postData = [...this.post.data]
+    },
   },
   methods: {
     ...mapActions(['deleteChannel', 'showChannelModal', 'showChannelUserModal', 'getChannelData', 'getActiveUsers',
-      'showPostModal']),
+      'showPostModal', 'getPostData', 'like', 'unlike']),
     onCreatePostClick() {
       this.showPostModal(null)
     },
@@ -91,10 +109,22 @@ export default {
         }
       }
     },
+    async onLikeClick(item) {
+      let data = {}
+      data.post_id = item.id;
+
+      if (item.myLikes.length > 0) {
+        data.id = item.myLikes[0].id;
+        await this.unlike(data);
+      } else {
+        await this.like(data);
+      }
+    },
   },
   async mounted() {
     this.loading = true
     await this.getChannelData()
+    await this.getPostData()
     this.channelData = this.channel.data.find(ch => ch.id === parseInt(this.$route.params.channelId))
     this.loading = false
   }
@@ -116,6 +146,8 @@ export default {
 }
 
 .page-content {
+  margin-left: 15%;
+  margin-right: 15%;
   position: relative;
 }
 

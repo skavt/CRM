@@ -55,21 +55,17 @@ export default {
       let form = {...this.model.toJSON()}
       form.icon = this.icon
 
-      let action = 'create'
-      if (form.id) {
-        action = 'update'
-      }
-
       this.loading = true
       let res
-      if (action === 'create') {
+      if (!form.id) {
         res = await this.createNewChannel(form)
       } else {
         res = await this.updateChannel(form)
       }
       this.loading = false
+
       if (res.success) {
-        if (action === 'create') {
+        if (!form.id) {
           this.$toast(`Channel ${this.model.name} created successfully`)
         } else {
           this.$toast(`Channel ${this.model.name} updated successfully`)

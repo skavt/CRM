@@ -32,9 +32,31 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['hidePostModal']),
-    onSubmit() {
+    ...mapActions(['hidePostModal', 'createNewPost', 'updatePost']),
+    async onSubmit() {
+      this.model.resetErrors()
+      let form = {...this.model.toJSON()}
+      form.channel_id = this.$route.params.channelId
 
+      this.loading = true
+      let res
+      if (!form.id) {
+        res = await this.createNewPost(form)
+      } else {
+        res = await this.updatePost(form)
+      }
+      this.loading = false
+
+      if (res.success) {
+        if (!form.id) {
+          this.$toast(`Post created successfully`)
+        } else {
+          this.$toast(`Post updated successfully`)
+        }
+        this.onHideModal()
+      } else {
+        this.model.setMultipleErrors(res.body);
+      }
     },
     onHideModal() {
       this.hidePostModal()
