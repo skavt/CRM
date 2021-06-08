@@ -31,6 +31,13 @@ export default {
       modal: state => state.post.modal,
     }),
   },
+  watch: {
+    ['modal.data']() {
+      if (this.modal.data) {
+        this.model = new PostModel(this.modal.data);
+      }
+    },
+  },
   methods: {
     ...mapActions(['hidePostModal', 'createNewPost', 'updatePost']),
     async onSubmit() {

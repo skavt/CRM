@@ -39,8 +39,8 @@
             </like-unlike-button>
           </b-card-footer>
           <div class="action-buttons p-2">
-            <i class="fas fa-pencil-alt m-2"/>
-            <i class="far fa-trash-alt text-danger m-2"/>
+            <i class="fas fa-pencil-alt m-2" @click="onPostEdit(data)"/>
+            <i class="far fa-trash-alt text-danger m-2" @click="onPostDelete(data)"/>
           </div>
         </b-card>
       </div>
@@ -129,7 +129,12 @@ export default {
       await this.getPostData(this.$route.params.channelId)
       this.channelData = this.channel.data.find(ch => ch.id === parseInt(this.$route.params.channelId))
       this.loading = false
-    }
+    },
+    onPostEdit(data) {
+      this.showPostModal(data)
+    },
+    onPostDelete(data) {
+    },
   },
   async mounted() {
     await this.initialData()
