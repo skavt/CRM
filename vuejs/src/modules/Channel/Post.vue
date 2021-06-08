@@ -39,8 +39,15 @@
             </like-unlike-button>
           </b-card-footer>
           <div class="action-buttons p-2">
-            <i class="fas fa-pencil-alt m-2" @click="onPostEdit(data)"/>
-            <i class="far fa-trash-alt text-danger m-2" @click="onPostDelete(data)"/>
+            <i class="fas fa-pencil-alt m-2 hover-pointer" @click="onPostEdit(data)" :id="`edit-post-${data.id}`"/>
+            <b-tooltip :target="`edit-post-${data.id}`">
+              <span class="text-sm px-2">Edit Post</span>
+            </b-tooltip>
+            <i class="far fa-trash-alt text-danger m-2 hover-pointer" @click="onPostDelete(data)"
+               :id="`delete-post-${data.id}`"/>
+            <b-tooltip :target="`delete-post-${data.id}`">
+              <span class="text-sm px-2">Delete Post</span>
+            </b-tooltip>
           </div>
         </b-card>
       </div>
@@ -152,6 +159,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.hover-pointer {
+  &:hover {
+    cursor: pointer;
+  }
+}
 
 .post-card {
   height: 100%;
