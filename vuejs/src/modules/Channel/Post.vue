@@ -44,7 +44,8 @@
               <span class="text-sm px-2">Edit Post</span>
             </b-tooltip>
             <i class="far fa-trash-alt text-danger m-2 hover-pointer" @click="onPostDelete(data)"
-               :id="`delete-post-${data.id}`"/>
+               :id="`delete-post-${data.id}`">
+            </i>
             <b-tooltip :target="`delete-post-${data.id}`">
               <span class="text-sm px-2">Delete Post</span>
             </b-tooltip>
