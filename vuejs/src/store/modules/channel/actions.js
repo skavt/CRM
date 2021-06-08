@@ -2,6 +2,7 @@ import {
   ADD_NEW_CHANNEL,
   ADD_NEW_POST,
   DELETE_CHANNEL,
+  DELETE_POST,
   GET_ACTIVE_USERS,
   HIDE_CHANNEL_MODAL,
   HIDE_CHANNEL_USER_MODAL,
@@ -109,6 +110,14 @@ export async function updatePost({commit}, data) {
   const res = await httpService.put(`post/${data.id}?expand=createdBy,myLikes,userLikes,userLikes.createdBy`, data)
   if (res.success) {
     commit(UPDATE_POST_DATA, data)
+  }
+  return res
+}
+
+export async function deletePost({commit}, postId) {
+  const res = await httpService.delete(`post/${postId}`)
+  if (res.success) {
+    commit(DELETE_POST, postId)
   }
   return res
 }

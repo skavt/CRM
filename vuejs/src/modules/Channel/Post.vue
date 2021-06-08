@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     ...mapActions(['deleteChannel', 'showChannelModal', 'showChannelUserModal', 'getChannelData', 'getActiveUsers',
-      'showPostModal', 'getPostData', 'like', 'unlike']),
+      'showPostModal', 'getPostData', 'like', 'unlike', 'deletePost']),
     onCreatePostClick() {
       this.showPostModal(null)
     },
@@ -130,10 +130,19 @@ export default {
       this.channelData = this.channel.data.find(ch => ch.id === parseInt(this.$route.params.channelId))
       this.loading = false
     },
-    onPostEdit(data) {
-      this.showPostModal(data)
+    onPostEdit(item) {
+      this.showPostModal(item)
     },
-    onPostDelete(data) {
+    async onPostDelete(item) {
+      const result = await this.$confirm(`Are you sure you want to delete post?`, `Deleting Post...`)
+      if (result) {
+        const {success, body} = await this.deletePost(item.id)
+        if (success) {
+          this.$toast(`Post deleted successfully`)
+        } else {
+          this.$toast(body.message, 'danger')
+        }
+      }
     },
   },
   async mounted() {

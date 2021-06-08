@@ -16,6 +16,7 @@ export const HIDE_POST_MODAL = 'channel/HIDE_POST_MODAL';
 export const SET_POST_DATA = 'channel/SET_POST_DATA';
 export const ADD_NEW_POST = 'channel/ADD_NEW_POST';
 export const UPDATE_POST_DATA = 'channel/UPDATE_POST_DATA';
+export const DELETE_POST = 'channel/DELETE_POST';
 
 export const LIKE_POST = 'channel/LIKE_POST';
 export const UNLIKE_POST = 'channel/UNLIKE_POST';

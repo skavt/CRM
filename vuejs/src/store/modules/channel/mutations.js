@@ -2,6 +2,7 @@ import {
   ADD_NEW_CHANNEL,
   ADD_NEW_POST,
   DELETE_CHANNEL,
+  DELETE_POST,
   GET_ACTIVE_USERS,
   HIDE_CHANNEL_MODAL,
   HIDE_CHANNEL_USER_MODAL,
@@ -69,6 +70,9 @@ export default {
     const index = state.post.data.findIndex(c => c.id === data.id);
     state.post.data[index] = data
     state.post.data = [...state.post.data]
+  },
+  [DELETE_POST](state, postId) {
+    state.post.data = state.post.data.filter(c => c.id !== postId)
   },
   [LIKE_POST](state, data) {
     const index = state.post.data.findIndex(p => p.id === data.post_id);
