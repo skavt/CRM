@@ -21,7 +21,8 @@ import {
 } from "./mutation-types";
 import httpService from "../../../core/services/httpService";
 
-const postExpand = 'createdBy,myLikes,userLikes,postComments,userLikes.createdBy,postComments.createdBy,postComments.childrenComments'
+const postExpand = 'createdBy,myLikes,userLikes,postComments,userLikes.createdBy,postComments.createdBy,' +
+  'postComments.childrenComments,postComments.childrenComments.createdBy'
 
 export async function getChannelData({commit}) {
   const res = await httpService.get(`channel`)

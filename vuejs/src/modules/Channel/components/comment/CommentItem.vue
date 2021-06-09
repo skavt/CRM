@@ -4,42 +4,54 @@
       <b-img rounded="circle" :src="comment.createdBy.image_url  || '/assets/img/avatar.svg'" width="32" height="32"/>
     </template>
     <h6 class="mt-0 mb-0">
-      <span style="color: #008BCA">{{ comment.createdBy.display_name }}</span>
-      &nbsp;<span class="comment-wrapper" v-html="comment.comment"/>&nbsp;
-      <b-button size="sm" pill variant="light" :pressed.sync="showComments">
+      <span class="user-name">
+        {{ comment.createdBy.display_name }}
+      </span>
+      &sdot;&nbsp;{{ comment.updated_at | relativeDate }}&nbsp;
+      <b-button v-if="!isChild" size="sm" pill variant="light" :pressed.sync="showComments">
         <i class="fas fa-reply fa-lg"/>
         <b-badge class="ml-2" pill variant="secondary">
           {{ comment.childrenComments.length }}
         </b-badge>
       </b-button>
     </h6>
-    <p class="mb-0">
-      <i class="far fa-clock"/>
-      {{ comment.updated_at | relativeDate }}
-    </p>
+    <span class="comment-wrapper" v-html="comment.comment"/>
     <add-comment :parent_id="comment.id" v-if="showComments" :currentUser="currentUser"/>
     <b-card-body v-if="showComments" class="pt-1 pb-1">
-      <child-comment-item v-for="(com, index) in comment.childrenComments" :comment="com" :index="index"
-                          :key="`comment-item-child-comment-${index}`"/>
+      <comment-item v-for="(comment, index) in comment.childrenComments" :comment="comment" :index="index"
+                    :is-child="true" :key="`child-comment-${index}`">
+      </comment-item>
     </b-card-body>
   </b-media>
 </template>
 
 <script>
 import AddComment from "./AddComment";
-import ChildCommentItem from "./ChildCommentItem";
 
 export default {
   name: "CommentItem",
-  components: {ChildCommentItem, AddComment},
+  components: {AddComment},
   props: {
-    currentUser: Object,
-    comment: Object,
-    index: Number
+    currentUser: {
+      type: Object,
+      require: true
+    },
+    comment: {
+      type: Object,
+      require: true
+    },
+    index: {
+      type: Number,
+      require: true
+    },
+    isChild: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {
-      showComments: false
+      showComments: false,
     }
   },
 }
@@ -62,5 +74,9 @@ export default {
     width: 24px;
     margin: 0 1px;
   }
+}
+
+.user-name {
+  color: #008BCA;
 }
 </style>
