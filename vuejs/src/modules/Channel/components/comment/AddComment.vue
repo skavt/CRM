@@ -1,5 +1,7 @@
 <template>
-  <b-card-body class="pt-1" :class="!parent_id ? 'bg-light' : ''">
+  <b-card-body
+      v-permission="{'permission': 'leaveComment', channelId: channelId}" class="pt-1"
+      :class="!parent_id ? 'bg-light' : ''">
     <b-media>
       <template v-slot:aside>
         <b-img rounded="circle" :src="currentUser.image_url  || '/assets/avatar.svg'" width="32" height="32"/>
@@ -26,9 +28,19 @@ const {mapActions} = createNamespacedHelpers('channel')
 export default {
   name: "AddComment",
   props: {
-    currentUser: Object,
-    post_id: Number,
-    parent_id: Number,
+    currentUser: {
+      type: Object
+    },
+    post_id: {
+      type: Number,
+    },
+    parent_id: {
+      type: Number
+    },
+    channelId: {
+      type: Number,
+      required: true
+    },
   },
   data() {
     return {

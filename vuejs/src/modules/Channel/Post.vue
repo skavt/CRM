@@ -6,19 +6,23 @@
         Back
       </b-button>
       <div class="float-right">
-        <b-button class="mr-1" variant="secondary" size="sm" @click="onCreatePostClick">
+        <b-button v-permission="{'permission': 'createPost', channelId: channelData.id}" class="mr-1"
+                  variant="secondary" size="sm" @click="onCreatePostClick">
           <i class="fas fa-plus"/>
           Create Post
         </b-button>
-        <b-button class="mr-1" variant="outline-secondary" size="sm" @click="onChannelNewUserClick">
+        <b-button v-permission="{'permission': 'addUser', channelId: channelData.id}" class="mr-1"
+                  variant="outline-secondary" size="sm" @click="onChannelNewUserClick">
           <i class="fas fa-plus"/>
           Add User
         </b-button>
-        <b-button class="mr-1" variant="outline-primary" size="sm" @click="onChannelEditClick">
+        <b-button v-permission="{'permission': 'updateChannel', channelId: channelData.id}" class="mr-1"
+                  variant="outline-primary" size="sm" @click="onChannelEditClick">
           <i class="fas fa-pencil-alt"/>
           Edit Channel
         </b-button>
-        <b-button variant="outline-danger" size="sm" @click="onChannelDeleteClick">
+        <b-button v-permission="{'permission': 'deleteChannel', channelId: channelData.id}" variant="outline-danger"
+                  size="sm" @click="onChannelDeleteClick">
           <i class="fas fa-trash"/>
           Delete Channel
         </b-button>
@@ -47,7 +51,8 @@
           </b-card-body>
           <b-card-footer>
             <like-unlike-button
-                class="mr-2" :item="data.userLikes" :liked="data.myLikes.length > 0" @on-like-click="onLikeClick(data)">
+                v-permission="{'permission': 'like', channelId: channelData.id}" class="mr-2" :item="data.userLikes"
+                :liked="data.myLikes.length > 0" @on-like-click="onLikeClick(data)">
             </like-unlike-button>
             <b-button size="sm" pill variant="light" :pressed.sync="showComments">
               <i class="far fa-comments fa-lg"/>
@@ -56,13 +61,13 @@
               </b-badge>
             </b-button>
           </b-card-footer>
-          <add-comment v-if="showComments" :post_id="data.id" :current-user="currentUser"/>
+          <add-comment v-if="showComments" :post_id="data.id" :current-user="currentUser" :channel-id="channelData.id"/>
           <b-card-body v-if="showComments && data.postComments && data.postComments.length" class="pt-1 pb-1">
             <comment-item v-for="(comment, index) in data.postComments" :comment="comment" :index="index"
-                          :key="`post-comment-${index}`" :current-user="currentUser">
+                          :key="`post-comment-${index}`" :current-user="currentUser" :channel-id="channelData.id">
             </comment-item>
           </b-card-body>
-          <div class="action-buttons p-2">
+          <div class="action-buttons p-2" v-if="canModifyPost(data)">
             <i class="fas fa-pencil-alt m-2 hover-pointer" @click="onPostEdit(data)" :id="`edit-post-${data.id}`"/>
             <b-tooltip :target="`edit-post-${data.id}`">
               <span class="text-sm px-2">Edit Post</span>
@@ -189,6 +194,9 @@ export default {
           this.$toast(body.message, 'danger')
         }
       }
+    },
+    canModifyPost(item) {
+      return item.updated_by === this.currentUser.id
     },
   },
   async mounted() {

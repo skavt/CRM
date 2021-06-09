@@ -8,7 +8,9 @@
         {{ comment.createdBy.display_name }}
       </span>
       &sdot;&nbsp;{{ comment.updated_at | relativeDate }}&nbsp;
-      <b-button v-if="!isChild" size="sm" pill variant="light" :pressed.sync="showComments">
+      <b-button
+          v-permission="{'permission': 'leaveComment', channelId: channelId}" v-if="!isChild" size="sm" pill
+          variant="light" :pressed.sync="showComments">
         <i class="fas fa-reply fa-lg"/>
         <b-badge class="ml-2" pill variant="secondary">
           {{ comment.childrenComments.length }}
@@ -16,13 +18,13 @@
       </b-button>
     </h6>
     <span class="comment-wrapper" v-html="comment.comment"/>
-    <b-button @click="onDelete" class="delete-comment" variant="link">
+    <b-button v-if="canDeleteComment()" @click="onDelete" class="delete-comment" variant="link">
       <i class="far fa-trash-alt text-danger"/>
     </b-button>
-    <add-comment :parent_id="comment.id" v-if="showComments" :current-user="currentUser"/>
+    <add-comment :parent_id="comment.id" v-if="showComments" :current-user="currentUser" :channel-id="channelId"/>
     <b-card-body v-if="showComments" class="pt-1 pb-1">
       <comment-item v-for="(comment, index) in comment.childrenComments" :comment="comment" :index="index"
-                    :is-child="true" :key="`child-comment-${index}`">
+                    :is-child="true" :key="`child-comment-${index}`" :channel-id="channelId">
       </comment-item>
     </b-card-body>
   </b-media>
@@ -48,6 +50,10 @@ export default {
       type: Number,
       required: true
     },
+    channelId: {
+      type: Number,
+      required: true
+    },
     isChild: {
       type: Boolean,
       default: false
@@ -68,6 +74,9 @@ export default {
           this.$toast(`Unable to delete comment`, 'danger');
         }
       }
+    },
+    canDeleteComment() {
+      return this.comment.updated_by === this.currentUser.id
     },
   },
 }
