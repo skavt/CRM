@@ -27,7 +27,7 @@ const postExpand = 'createdBy,myLikes,userLikes,postComments,userLikes.createdBy
   'postComments.childrenComments,postComments.childrenComments.createdBy'
 
 export async function getChannelData({commit}) {
-  const res = await httpService.get(`channel?expand=userChannels`)
+  const res = await httpService.get(`channel?expand=permissions`)
   if (res.success) {
     commit(SET_CHANNEL_DATA, res.body)
   }
@@ -51,7 +51,7 @@ export function hideChannelUserModal({commit}) {
 }
 
 export async function createNewChannel({commit}, data) {
-  const res = await httpService.post(`channel?expand=userChannels`, data)
+  const res = await httpService.post(`channel?expand=permissions`, data)
   if (res.success) {
     commit(ADD_NEW_CHANNEL, res.body)
   }
@@ -59,7 +59,7 @@ export async function createNewChannel({commit}, data) {
 }
 
 export async function updateChannel({commit}, data) {
-  const res = await httpService.put(`channel/${data.id}?expand=userChannels`, data)
+  const res = await httpService.put(`channel/${data.id}?expand=permissions`, data)
   if (res.success) {
     commit(UPDATE_CHANNEL_DATA, data)
   }

@@ -15,7 +15,7 @@ use yii\db\ActiveQuery;
  *
  * @package app\modules\api\resources
  *
- * @property UserChannel[] $userChannels
+ * @property UserChannel $userChannels
  */
 class ChannelResource extends Channel
 {
@@ -36,7 +36,17 @@ class ChannelResource extends Channel
      */
     public function extraFields()
     {
-        return ['createdBy', 'updatedBy', 'userChannels'];
+        return [
+            'createdBy', 'updatedBy',
+            'permissions' => function () {
+                $user = Yii::$app->user;
+                if ($user->can('admin')) {
+                    $permissions = Yii::$app->authManager->getPermissionsByRole('admin');
+                } else {
+                    $permissions = Yii::$app->authManager->getPermissionsByRole($this->userChannels->role);
+                }
+                return array_keys($permissions);
+            }];
     }
 
     /**
@@ -46,7 +56,8 @@ class ChannelResource extends Channel
      */
     public function getUserChannels()
     {
-        return $this->hasMany(UserChannelResource::class, ['channel_id' => 'id']);
+        return $this->hasOne(UserChannelResource::class, ['channel_id' => 'id'])
+            ->andWhere(['user_id' => Yii::$app->user->id]);
     }
 
     /**
