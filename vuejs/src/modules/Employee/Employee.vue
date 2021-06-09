@@ -2,7 +2,7 @@
   <b-card no-body class="invitation-card">
     <b-card-body class="invitation-card-body">
       <view-spinner :show="loading"/>
-      <users-table v-if="!loading" :fields="fields" :items="items" :type="`employee`"
+      <users-table v-if="!loading" :fields="fields" :items="items" :type="`employee`" :is-admin="isAdmin"
                    @on-user-status-change="onUserStatusChange" @on-user-delete="onUserDelete"
                    @on-user-edit="onUserEdit">
       </users-table>
@@ -33,13 +33,15 @@ export default {
         {key: 'birthday', label: 'Birthday', sortable: true},
         {key: 'position', label: 'Position', sortable: true},
         {key: 'activeStatus', label: 'User Status', sortable: true},
-        {key: 'actions', label: 'Actions'},
       ],
       items: [],
     }
   },
   computed: {
-    ...mapState(['employee']),
+    ...mapState(['employee', 'currentUser']),
+    isAdmin() {
+      return this.currentUser.roles && this.currentUser.roles.includes('admin')
+    },
   },
   watch: {
     ['employee.data']() {
@@ -50,11 +52,16 @@ export default {
     ...mapActions(['getEmployeeList', 'deleteUser', 'showUserEditModal']),
     ...mapAuthActions(['updateUserStatus']),
     async onUserStatusChange(item) {
-      const {success, body} = await this.updateUserStatus({id: item.id, status: item.activeStatus});
-      if (success) {
-        this.$toast(`Status changed successfully`);
+      if (this.isAdmin) {
+        const {success, body} = await this.updateUserStatus({id: item.id, status: item.activeStatus});
+        if (success) {
+          this.$toast(`Status changed successfully`);
+        } else {
+          this.$toast(body.message, 'danger');
+        }
       } else {
-        this.$toast(body.message, 'danger');
+        this.$toast(`You have not permission`, 'danger');
+        await this.initialData()
       }
     },
     async onUserDelete(item) {
@@ -71,12 +78,15 @@ export default {
     onUserEdit(item) {
       this.showUserEditModal(item)
     },
+    async initialData() {
+      this.loading = true
+      await this.getEmployeeList()
+      this.items = [...this.employee.data]
+      this.loading = false
+    },
   },
   async mounted() {
-    this.loading = true
-    await this.getEmployeeList()
-    this.items = [...this.employee.data]
-    this.loading = false
+    await this.initialData()
   },
 }
 </script>

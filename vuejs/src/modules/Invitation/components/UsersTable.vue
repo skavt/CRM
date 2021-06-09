@@ -2,7 +2,7 @@
   <b-card no-body class="table-responsive mb-0">
     <no-content :show="!hasItems"/>
     <b-table v-if="hasItems" class="mb-0 pb-0" responsive="sm" small head-variant="dark"
-             :fields="fields" :items="localItems">
+             :fields="localFields" :items="localItems">
       <template v-slot:cell(created_at)="data">
         {{ new Date(data.item.created_at) | toDatetime }}
       </template>
@@ -17,7 +17,7 @@
       </template>
       <template v-slot:cell(activeStatus)="data">
         <b-form-checkbox v-if="data.item.activeStatus !== null" v-model="data.item.activeStatus" switch size="lg"
-                         @change="onUserStatusChange(data.item)">
+                         :disabled="!isAdmin" @change="onUserStatusChange(data.item)">
         </b-form-checkbox>
       </template>
       <template v-slot:cell(actions)="data">
@@ -57,6 +57,10 @@ export default {
       type: String,
       require: true,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {
@@ -67,6 +71,9 @@ export default {
   computed: {
     hasItems() {
       return this.localItems.length > 0
+    },
+    localFields() {
+      return this.isAdmin ? [...this.fields, {key: 'actions', label: 'Actions'}] : [...this.fields]
     },
   },
   watch: {

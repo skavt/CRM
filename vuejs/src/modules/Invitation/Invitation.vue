@@ -1,6 +1,6 @@
 <template>
   <b-card no-body class="invitation-card">
-    <b-card-header>
+    <b-card-header v-if="isAdmin">
       <b-button class="float-right" variant="secondary" size="sm" @click="onUserInviteClick">
         <i class="fas fa-plus"/>
         Invite User
@@ -8,7 +8,7 @@
     </b-card-header>
     <b-card-body class="invitation-card-body">
       <view-spinner :show="loading"/>
-      <users-table v-if="!loading" :fields="fields" :items="items" :type="`invitation`"
+      <users-table v-if="!loading" :fields="fields" :items="items" :type="`invitation`" :is-admin="isAdmin"
                    @on-user-delete="onInvitedUserDelete" @on-user-status-change="onUserStatusChange">
       </users-table>
       <invitation-modal/>
@@ -25,6 +25,7 @@ import ViewSpinner from "../../core/components/view-spinner/view-spinner";
 
 const {mapState, mapActions} = createNamespacedHelpers('invitation')
 const {mapActions: mapAuthActions} = createNamespacedHelpers('auth')
+const {mapState: mapEmployeeState} = createNamespacedHelpers('employee')
 export default {
   name: "Invitation",
   components: {ViewSpinner, InvitationModal, UsersTable},
@@ -38,7 +39,6 @@ export default {
         {key: 'token_used_date', label: 'Registration Date', sortable: true},
         {key: 'statusLabel', label: 'Status', sortable: true},
         {key: 'activeStatus', label: 'User Status', sortable: true},
-        {key: 'actions', label: 'Actions'},
       ],
       loading: false,
       items: [],
@@ -46,6 +46,10 @@ export default {
   },
   computed: {
     ...mapState(['invitation']),
+    ...mapEmployeeState(['currentUser']),
+    isAdmin() {
+      return this.currentUser.roles && this.currentUser.roles.includes('admin')
+    },
   },
   watch: {
     ['invitation.data']() {
@@ -70,19 +74,27 @@ export default {
       }
     },
     async onUserStatusChange(item) {
-      const {success, body} = await this.updateUserStatus({id: item.user.id, status: item.activeStatus});
-      if (success) {
-        this.$toast(`Status changed successfully`);
+      if (this.isAdmin) {
+        const {success, body} = await this.updateUserStatus({id: item.user.id, status: item.activeStatus});
+        if (success) {
+          this.$toast(`Status changed successfully`);
+        } else {
+          this.$toast(body.message, 'danger');
+        }
       } else {
-        this.$toast(body.message, 'danger');
+        this.$toast(`You have not permission`, 'danger');
+        await this.initialData()
       }
+    },
+    async initialData() {
+      this.loading = true
+      await this.getInvitedUsers()
+      this.items = [...this.invitation.data]
+      this.loading = false
     },
   },
   async mounted() {
-    this.loading = true
-    await this.getInvitedUsers()
-    this.items = [...this.invitation.data]
-    this.loading = false
+    await this.initialData()
   },
 }
 </script>
