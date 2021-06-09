@@ -74,6 +74,7 @@ $config = [
                         'api/channel',
                         'api/post',
                         'api/user-like',
+                        'api/user-comment',
                     ],
                 ]
             ],

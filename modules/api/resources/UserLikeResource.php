@@ -31,7 +31,6 @@ class UserLikeResource extends UserLike
         return ['createdBy'];
     }
 
-
     /**
      * @return ActiveQuery
      */

@@ -5,11 +5,14 @@ namespace app\modules\api\resources;
 
 
 use app\modules\api\models\UserComment;
+use yii\db\ActiveQuery;
 
 /**
  * Class UserCommentResource
  *
  * @package app\modules\api\resources
+ *
+ * @property UserComment[] $childrenComments
  */
 class UserCommentResource extends UserComment
 {
@@ -30,6 +33,25 @@ class UserCommentResource extends UserComment
      */
     public function extraFields()
     {
-        return ['createdBy', 'updatedBy'];
+        return ['createdBy', 'updatedBy', 'childrenComments', 'parent'];
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getCreatedBy()
+    {
+        return $this->hasOne(UserResource::class, ['id' => 'created_by']);
+    }
+
+    /**
+     * Gets query for [[ChildrenComments]].
+     *
+     * @return ActiveQuery
+     */
+    public function getChildrenComments()
+    {
+        return $this->hasMany(UserCommentResource::class, ['parent_id' => 'id'])
+            ->orderBy('created_at DESC');
     }
 }

@@ -1,6 +1,8 @@
 import {
   ADD_NEW_CHANNEL,
   ADD_NEW_POST,
+  ADD_POST_CHILD_COMMENT,
+  ADD_POST_COMMENT,
   DELETE_CHANNEL,
   DELETE_POST,
   GET_ACTIVE_USERS,
@@ -18,6 +20,8 @@ import {
   UPDATE_POST_DATA
 } from "./mutation-types";
 import httpService from "../../../core/services/httpService";
+
+const postExpand = 'createdBy,myLikes,userLikes,postComments,userLikes.createdBy,postComments.createdBy,postComments.childrenComments'
 
 export async function getChannelData({commit}) {
   const res = await httpService.get(`channel`)
@@ -91,7 +95,7 @@ export async function getPostData({commit}, channelId) {
   let params = {
     channel_id: channelId,
   }
-  const res = await httpService.get(`post?expand=createdBy,myLikes,userLikes,userLikes.createdBy`, {params})
+  const res = await httpService.get(`post?expand=${postExpand}`, {params})
   if (res.success) {
     commit(SET_POST_DATA, res.body)
   }
@@ -99,7 +103,7 @@ export async function getPostData({commit}, channelId) {
 }
 
 export async function createNewPost({commit}, data) {
-  const res = await httpService.post(`post?expand=createdBy,myLikes,userLikes,userLikes.createdBy`, data)
+  const res = await httpService.post(`post?expand=${postExpand}`, data)
   if (res.success) {
     commit(ADD_NEW_POST, res.body)
   }
@@ -107,7 +111,7 @@ export async function createNewPost({commit}, data) {
 }
 
 export async function updatePost({commit}, data) {
-  const res = await httpService.put(`post/${data.id}?expand=createdBy,myLikes,userLikes,userLikes.createdBy`, data)
+  const res = await httpService.put(`post/${data.id}?expand=${postExpand}`, data)
   if (res.success) {
     commit(UPDATE_POST_DATA, data)
   }
@@ -134,4 +138,15 @@ export async function unlike({commit}, data) {
   if (success) {
     commit(UNLIKE_POST, data)
   }
+}
+
+export async function addComment({commit}, data) {
+  const res = await httpService.post(`user-comment?expand=createdBy,childrenComments,parent`, data);
+  if (res.success) {
+    if (data.parent_id) {
+      // commit(ADD_POST_CHILD_COMMENT, res.body)
+    }
+    // commit(ADD_POST_COMMENT, res.body)
+  }
+  return res;
 }

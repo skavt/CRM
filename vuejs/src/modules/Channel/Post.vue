@@ -37,7 +37,19 @@
             <like-unlike-button
                 class="mr-2" :item="data.userLikes" :liked="data.myLikes.length > 0" @on-like-click="onLikeClick(data)">
             </like-unlike-button>
+            <b-button size="sm" pill variant="light" :pressed.sync="showComments">
+              <i class="far fa-comments fa-lg"/>
+              <b-badge v-if="data.postComments" class="ml-2" pill variant="secondary">
+                {{ data.postComments.length }}
+              </b-badge>
+            </b-button>
           </b-card-footer>
+          <add-comment v-if="showComments" :post_id="data.id" :current-user="currentUser"/>
+          <b-card-body v-if="showComments && data.postComments && data.postComments.length" class="pt-1 pb-1">
+            <comment-item v-for="(comment, index) in data.postComments" :comment="comment" :index="index"
+                          :key="`post-comment-${index}`" :currentUser="currentUser">
+            </comment-item>
+          </b-card-body>
           <div class="action-buttons p-2">
             <i class="fas fa-pencil-alt m-2 hover-pointer" @click="onPostEdit(data)" :id="`edit-post-${data.id}`"/>
             <b-tooltip :target="`edit-post-${data.id}`">
@@ -68,20 +80,34 @@ import PostModal from "./modals/PostModal";
 import {getPostData} from "../../store/modules/channel/actions";
 import LikeUnlikeButton from "./components/LikeUnlikeButton";
 import NoContent from "../../core/components/no-content/NoContent";
+import AddComment from "./components/comment/AddComment";
+import CommentItem from "./components/comment/CommentItem";
 
 const {mapState, mapActions} = createNamespacedHelpers('channel')
+const {mapState: mapUserState} = createNamespacedHelpers('employee')
 export default {
   name: "Post",
-  components: {NoContent, LikeUnlikeButton, PostModal, ChannelUserModal, ChannelModal, ViewSpinner},
+  components: {
+    CommentItem,
+    AddComment,
+    NoContent,
+    LikeUnlikeButton,
+    PostModal,
+    ChannelUserModal,
+    ChannelModal,
+    ViewSpinner
+  },
   data() {
     return {
       loading: false,
       channelData: {},
       postData: [],
+      showComments: true,
     }
   },
   computed: {
     ...mapState(['channel', 'post']),
+    ...mapUserState(['currentUser']),
   },
   watch: {
     async ['$route.params.channelId']() {

@@ -20,3 +20,6 @@ export const DELETE_POST = 'channel/DELETE_POST';
 
 export const LIKE_POST = 'channel/LIKE_POST';
 export const UNLIKE_POST = 'channel/UNLIKE_POST';
+
+export const ADD_POST_CHILD_COMMENT = 'channel/ADD_POST_CHILD_COMMENT';
+export const ADD_POST_COMMENT = 'channel/ADD_POST_COMMENT';

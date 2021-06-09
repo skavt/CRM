@@ -5,6 +5,7 @@ namespace app\modules\api\resources;
 
 
 use app\modules\api\models\Post;
+use app\modules\api\models\UserComment;
 use app\modules\api\models\UserLike;
 use Yii;
 use yii\db\ActiveQuery;
@@ -15,6 +16,7 @@ use yii\db\ActiveQuery;
  * @package app\modules\api\resources
  *
  * @property UserLike[] $myLikes
+ * @property UserComment[] $postComments
  * @property UserLike[] $userLikes
  */
 class PostResource extends Post
@@ -36,7 +38,15 @@ class PostResource extends Post
      */
     public function extraFields()
     {
-        return ['createdBy', 'updatedBy', 'myLikes', 'userLikes'];
+        return ['createdBy', 'updatedBy', 'myLikes', 'userLikes', 'postComments'];
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getCreatedBy()
+    {
+        return $this->hasOne(UserResource::class, ['id' => 'created_by']);
     }
 
     /**
@@ -56,5 +66,16 @@ class PostResource extends Post
     {
         return $this->hasMany(UserLikeResource::class, ['post_id' => 'id'])
             ->andWhere(['created_by' => Yii::$app->user->id]);
+    }
+
+    /**
+     * Gets query for [[PostComments]].
+     *
+     * @return ActiveQuery
+     */
+    public function getPostComments()
+    {
+        return $this->hasMany(UserCommentResource::class, ['post_id' => 'id'])
+            ->orderBy('created_at DESC');
     }
 }
