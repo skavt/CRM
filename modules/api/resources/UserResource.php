@@ -46,6 +46,14 @@ class UserResource extends User
             'activeStatus' => function () {
                 return $this->status === 1;
             },
+            'roles' => function () {
+                $roles = Yii::$app->authManager->getRolesByUser($this->id);
+                $roleNames = [];
+                foreach ($roles as $key => $role) {
+                    $roleNames [] = $key;
+                }
+                return $roleNames;
+            },
         ];
     }
 
