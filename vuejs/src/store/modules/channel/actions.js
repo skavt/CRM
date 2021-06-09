@@ -145,9 +145,9 @@ export async function addComment({commit}, data) {
   const res = await httpService.post(`user-comment?expand=createdBy,childrenComments,parent`, data);
   if (res.success) {
     if (data.parent_id) {
-      // commit(ADD_POST_CHILD_COMMENT, res.body)
+      commit(ADD_POST_CHILD_COMMENT, res.body)
     }
-    // commit(ADD_POST_COMMENT, res.body)
+    commit(ADD_POST_COMMENT, res.body)
   }
   return res;
 }

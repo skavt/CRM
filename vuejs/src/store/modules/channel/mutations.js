@@ -1,6 +1,8 @@
 import {
   ADD_NEW_CHANNEL,
   ADD_NEW_POST,
+  ADD_POST_CHILD_COMMENT,
+  ADD_POST_COMMENT,
   DELETE_CHANNEL,
   DELETE_POST,
   GET_ACTIVE_USERS,
@@ -85,5 +87,14 @@ export default {
     state.post.data[index].userLikes = state.post.data[index].userLikes.filter(ul => ul.id !== data.id)
     state.post.data[index].myLikes = []
     state.post.data = [...state.post.data]
+  },
+  [ADD_POST_COMMENT](state, data) {
+    state.post.data.filter(p => p.id === data.post_id)
+      .forEach(p => p.postComments.unshift(data));
+  },
+  [ADD_POST_CHILD_COMMENT](state, data) {
+    state.post.data.filter(p => p.id === data.parent.post_id)
+      .forEach(p => p.postComments.filter(pc => pc.id === data.parent_id)
+        .forEach(pc => pc.childrenComments.unshift(data)));
   },
 };
