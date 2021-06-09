@@ -55,6 +55,7 @@ class SignupForm extends Model
      * @return User|null the saved model or null if saving fails
      * @throws Exception
      * @throws \yii\db\Exception
+     * @throws \Exception
      */
     public function register(Invitation $invitation)
     {
@@ -72,7 +73,10 @@ class SignupForm extends Model
             throw new ValidationException("User was not saved for email $this->email");
         };
 
-        // TODO Assign role to user
+        // Assign role to user
+        $auth = Yii::$app->authManager;
+        $userRole = $auth->getRole(User::ROLE_USER);
+        $auth->assign($userRole, $user->id);
 
         $invitation->token_used_date = time();
         $invitation->user_id = $user->id;
