@@ -30,7 +30,7 @@
       </b-input-group>
       <b-form-textarea
           v-if="isTextarea()" v-model="model[attribute]" ref="currentInput" :type="type" :name="`${attribute}-${uuid}`"
-          :key="`${attribute}-${uuid}`" :state="getState(v)" :placeholder="computedPlaceholder">
+          :key="`${attribute}-${uuid}`" :state="getState(v)" :placeholder="computedPlaceholder" :style="objStyle">
       </b-form-textarea>
       <b-form-invalid-feedback :state="getState(v)">
         {{ getError(v.errors) }}
@@ -120,6 +120,7 @@ export default {
   props: {
     model: BaseModel,
     attribute: String,
+    objStyle: Object,
     label: {
       type: [String, Boolean],
       default: true
