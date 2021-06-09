@@ -11,15 +11,18 @@
     </b-card-body>
     <b-card-body class="action-wrapper">
       <div class="d-flex justify-content-end">
-        <b-button size="sm" variant="outline-secondary" class="ml-1" @click="onAddUserClick">
+        <b-button v-permission="{'permission': 'addUser', channelId: item.id}" size="sm" class="ml-1"
+                  variant="outline-secondary" @click="onAddUserClick">
           <i class="fas fa-plus"/>
           Add User
         </b-button>
-        <b-button size="sm" variant="outline-primary" class="ml-1" @click="onEditClick">
+        <b-button v-permission="{'permission': 'updateChannel', channelId: item.id}" size="sm" variant="outline-primary"
+                  class="ml-1" @click="onEditClick">
           <i class="fas fa-pencil-alt"/>
           Edit
         </b-button>
-        <b-button size="sm" variant="outline-danger" class="ml-1" @click="onDeleteClick">
+        <b-button v-permission="{'permission': 'deleteChannel', channelId: item.id}" size="sm" variant="outline-danger"
+                  class="ml-1" @click="onDeleteClick">
           <i class="fas fa-trash"/>
           Delete
         </b-button>

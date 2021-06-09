@@ -1,6 +1,6 @@
 <template>
   <b-card no-body class="channel-card">
-    <b-card-header>
+    <b-card-header v-permission="'createChannel'">
       <b-button class="float-right" variant="secondary" size="sm" @click="onAddChannelClick">
         <i class="fas fa-plus"/>
         Add Channel
