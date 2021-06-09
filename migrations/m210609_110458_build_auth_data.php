@@ -30,6 +30,18 @@ class m210609_110458_build_auth_data extends Migration
         $like->description = 'Like/Unlike';
         $auth->add($like);
 
+        $createPost = $auth->createPermission('createPost');
+        $createPost->description = 'Create Post';
+        $auth->add($createPost);
+
+        $updatePost = $auth->createPermission('updatePost');
+        $updatePost->description = 'Update Post';
+        $auth->add($updatePost);
+
+        $deletePost = $auth->createPermission('deletePost');
+        $deletePost->description = 'Delete Post';
+        $auth->add($deletePost);
+
         // Create user role
         $user = $auth->createRole('user');
         $user->description = 'User';
@@ -39,6 +51,10 @@ class m210609_110458_build_auth_data extends Migration
         $auth->addChild($user, $sharePost);
         $auth->addChild($user, $leaveComment);
         $auth->addChild($user, $like);
+
+        $auth->addChild($user, $createPost);
+        $auth->addChild($user, $updatePost);
+        $auth->addChild($user, $deletePost);
 
         // -------------------------------------------------
 
@@ -67,18 +83,6 @@ class m210609_110458_build_auth_data extends Migration
         $deleteUser->description = 'Delete User';
         $auth->add($deleteUser);
 
-        $createPost = $auth->createPermission('createPost');
-        $createPost->description = 'Create Post';
-        $auth->add($createPost);
-
-        $updatePost = $auth->createPermission('updatePost');
-        $updatePost->description = 'Update Post';
-        $auth->add($updatePost);
-
-        $deletePost = $auth->createPermission('deletePost');
-        $deletePost->description = 'Delete Post';
-        $auth->add($deletePost);
-
         // Create channelAdmin role
         $channelAdmin = $auth->createRole('channelAdmin');
         $channelAdmin->description = 'Channel Admin';
@@ -92,10 +96,6 @@ class m210609_110458_build_auth_data extends Migration
         $auth->addChild($channelAdmin, $addUser);
         $auth->addChild($channelAdmin, $updateUser);
         $auth->addChild($channelAdmin, $deleteUser);
-
-        $auth->addChild($channelAdmin, $createPost);
-        $auth->addChild($channelAdmin, $updatePost);
-        $auth->addChild($channelAdmin, $deletePost);
 
         //Give channelAdmin all user permissions
         $auth->addChild($channelAdmin, $user);
