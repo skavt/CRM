@@ -4,6 +4,7 @@ namespace app\modules\api\resources;
 
 use app\modules\api\models\User;
 use app\rest\ValidationException;
+use Exception;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -82,10 +83,11 @@ class UserResource extends User
                 return false;
             }
             if (isset($this->userChannelsData)) {
+                $this->updateRoles($this->userChannelsData);
                 $this->updateUserChannels($this->userChannelsData);
             }
             $transaction->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $transaction->rollBack();
             $parentSave = false;
         }
@@ -129,6 +131,43 @@ class UserResource extends User
 
             if (!$userChannel->load($userChannelData, '') || !$userChannel->save()) {
                 throw new ValidationException('Unable to save channels');
+            }
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function updateRoles($data)
+    {
+        $auth = Yii::$app->authManager;
+        $rolesToDelete = [];
+        $rolesFromPost = [];
+        $userRoles = array_keys(ArrayHelper::getColumn($auth->getRolesByUser($this->id), 'name'));
+
+        // Convert roles from post to array of strings
+        foreach ($data as $role) {
+            $rolesFromPost[] = $role['role'];
+        }
+
+        // Check if some roles should be deleted
+        foreach ($userRoles as $userRole) {
+            if (!in_array($userRole, $rolesFromPost)) {
+                $rolesToDelete[] = $userRole;
+            }
+        }
+
+        // Delete roles
+        foreach ($rolesToDelete as $roleToDelete) {
+            $roleModel = $auth->getRole($roleToDelete);
+            $auth->revoke($roleModel, $this->id);
+        }
+
+        // Create new role if such does not exist
+        foreach ($rolesFromPost as $role) {
+            if (!in_array($role, $userRoles)) {
+                $roleModel = $auth->getRole($role);
+                $auth->assign($roleModel, $this->id);
             }
         }
     }

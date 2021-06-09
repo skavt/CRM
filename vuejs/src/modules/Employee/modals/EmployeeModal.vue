@@ -50,12 +50,12 @@
               <div class="col-11">
                 <div class="row">
                   <div class="col-sm-12 col-md-8">
-                    <input-widget :model="channel" attribute="channel_id" type="select"
+                    <input-widget :model="channel" attribute="channel_id" type="select" :label="false"
                                   :options="filteredChannelOptions" @change="onSelectChange">
                     </input-widget>
                   </div>
                   <div class="col-sm-12 col-md-4">
-                    <input-widget :model="channel" attribute="role" type="select" :options="userRoles"/>
+                    <input-widget :model="channel" attribute="role" type="select" :label="false" :options="userRoles"/>
                   </div>
                 </div>
               </div>
