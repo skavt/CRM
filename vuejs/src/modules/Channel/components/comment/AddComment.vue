@@ -2,7 +2,7 @@
   <b-card-body class="pt-1" :class="!parent_id ? 'bg-light' : ''">
     <b-media>
       <template v-slot:aside>
-        <b-img rounded="circle" :src="currentUser.image_url  || '/assets/img/avatar.svg'" width="32" height="32"/>
+        <b-img rounded="circle" :src="currentUser.image_url  || '/assets/avatar.svg'" width="32" height="32"/>
       </template>
       <b-form @submit.prevent="onAdd">
         <b-input-group>

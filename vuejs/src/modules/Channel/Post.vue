@@ -47,7 +47,7 @@
           <add-comment v-if="showComments" :post_id="data.id" :current-user="currentUser"/>
           <b-card-body v-if="showComments && data.postComments && data.postComments.length" class="pt-1 pb-1">
             <comment-item v-for="(comment, index) in data.postComments" :comment="comment" :index="index"
-                          :key="`post-comment-${index}`" :currentUser="currentUser">
+                          :key="`post-comment-${index}`" :current-user="currentUser">
             </comment-item>
           </b-card-body>
           <div class="action-buttons p-2">

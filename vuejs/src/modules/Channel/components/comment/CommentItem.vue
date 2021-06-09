@@ -1,7 +1,7 @@
 <template>
   <b-media class="py-2">
     <template v-slot:aside>
-      <b-img rounded="circle" :src="comment.createdBy.image_url  || '/assets/img/avatar.svg'" width="32" height="32"/>
+      <b-img rounded="circle" :src="comment.createdBy.image_url  || '/assets/avatar.svg'" width="32" height="32"/>
     </template>
     <h6 class="mt-0 mb-0">
       <span class="user-name">
@@ -19,7 +19,7 @@
     <b-button @click="onDelete" class="delete-comment" variant="link">
       <i class="far fa-trash-alt text-danger"/>
     </b-button>
-    <add-comment :parent_id="comment.id" v-if="showComments" :currentUser="currentUser"/>
+    <add-comment :parent_id="comment.id" v-if="showComments" :current-user="currentUser"/>
     <b-card-body v-if="showComments" class="pt-1 pb-1">
       <comment-item v-for="(comment, index) in comment.childrenComments" :comment="comment" :index="index"
                     :is-child="true" :key="`child-comment-${index}`">
@@ -39,15 +39,14 @@ export default {
   props: {
     currentUser: {
       type: Object,
-      require: true
     },
     comment: {
       type: Object,
-      require: true
+      required: true
     },
     index: {
       type: Number,
-      require: true
+      required: true
     },
     isChild: {
       type: Boolean,
