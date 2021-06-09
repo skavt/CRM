@@ -72,7 +72,14 @@ class EmployeeController extends ActiveController
      */
     public function actionGetCurrentUser()
     {
-        return UserResource::findOne(['id' => Yii::$app->user->id]);
+        $user = Yii::$app->user->identity;
+        $auth = Yii::$app->authManager;
+        $permissions = $auth->getPermissionsByUser($user->id);
+
+        return [
+            'permissions' => $permissions,
+            'currentUser' => UserResource::findOne(['id' => Yii::$app->user->id])
+        ];
     }
 
     /**

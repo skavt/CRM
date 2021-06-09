@@ -5,13 +5,17 @@ namespace app\modules\api\resources;
 
 
 use app\modules\api\models\Channel;
+use app\modules\api\models\UserChannel;
 use app\rest\ValidationException;
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * Class ChannelResource
  *
  * @package app\modules\api\resources
+ *
+ * @property UserChannel[] $userChannels
  */
 class ChannelResource extends Channel
 {
@@ -32,7 +36,17 @@ class ChannelResource extends Channel
      */
     public function extraFields()
     {
-        return ['createdBy', 'updatedBy'];
+        return ['createdBy', 'updatedBy', 'userChannels'];
+    }
+
+    /**
+     * Gets query for [[UserChannels]].
+     *
+     * @return ActiveQuery
+     */
+    public function getUserChannels()
+    {
+        return $this->hasMany(UserChannelResource::class, ['channel_id' => 'id']);
     }
 
     /**

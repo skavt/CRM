@@ -27,6 +27,7 @@ export default {
   },
 
   [GET_CURRENT_USER](state, data) {
-    state.currentUser = {...data}
+    state.currentUser = {...data.currentUser}
+    state.permissions = {...data.permissions}
   },
 };

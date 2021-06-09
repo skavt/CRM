@@ -7,6 +7,7 @@ const STATE = {
     },
   },
   currentUser: {},
+  permissions: {},
 };
 
 export default STATE;
