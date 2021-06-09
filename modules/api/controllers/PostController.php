@@ -39,6 +39,7 @@ class PostController extends ActiveController
             ->innerJoin(UserChannel::tableName() . ' uc', 'uc.channel_id = c.id')
             ->andWhere(['uc.user_id' => Yii::$app->user->id])
             ->andWhere(['p.channel_id' => $channelId])
+            ->orderBy('created_at DESC')
             ->all();
     }
 }

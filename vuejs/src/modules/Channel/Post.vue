@@ -31,6 +31,18 @@
       <div v-if="!loading && postData.length" class="page-content">
         <b-card class="mt-3" no-body v-for="data in postData" :key="`post-${data.id}`">
           <b-card-body class="pt-5">
+            <b-media class="align-items-center pb-3">
+              <template v-slot:aside>
+                <b-img rounded="circle" :src="data.createdBy.image_url  || '/assets/avatar.svg'" width="48"
+                       height="48">
+                </b-img>
+              </template>
+              <h5 class="mt-0">
+                <span>Post updated by</span>
+                {{ data.createdBy.display_name }}
+                &sdot;&nbsp;{{ data.updated_at | relativeDate }}
+              </h5>
+            </b-media>
             {{ data.body }}
           </b-card-body>
           <b-card-footer>

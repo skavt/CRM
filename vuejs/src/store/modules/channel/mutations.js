@@ -68,7 +68,7 @@ export default {
     state.post.data = [...data];
   },
   [ADD_NEW_POST](state, data) {
-    state.post.data.push(data);
+    state.post.data.unshift(data);
   },
   [UPDATE_POST_DATA](state, data) {
     const index = state.post.data.findIndex(c => c.id === data.id);
