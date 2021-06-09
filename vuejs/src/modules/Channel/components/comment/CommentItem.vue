@@ -16,6 +16,9 @@
       </b-button>
     </h6>
     <span class="comment-wrapper" v-html="comment.comment"/>
+    <b-button @click="onDelete" class="delete-comment" variant="link">
+      <i class="far fa-trash-alt text-danger"/>
+    </b-button>
     <add-comment :parent_id="comment.id" v-if="showComments" :currentUser="currentUser"/>
     <b-card-body v-if="showComments" class="pt-1 pb-1">
       <comment-item v-for="(comment, index) in comment.childrenComments" :comment="comment" :index="index"
@@ -27,7 +30,9 @@
 
 <script>
 import AddComment from "./AddComment";
+import {createNamespacedHelpers} from "vuex";
 
+const {mapActions} = createNamespacedHelpers('channel')
 export default {
   name: "CommentItem",
   components: {AddComment},
@@ -54,6 +59,18 @@ export default {
       showComments: false,
     }
   },
+  methods: {
+    ...mapActions(['deleteComment']),
+    async onDelete() {
+      const confirm = await this.$confirm('Are you sure you want to delete following comment ?', 'Deleting Comment...')
+      if (confirm) {
+        const {success} = await this.deleteComment(this.comment);
+        if (!success) {
+          this.$toast(`Unable to delete comment`, 'danger');
+        }
+      }
+    },
+  },
 }
 </script>
 
@@ -78,5 +95,12 @@ export default {
 
 .user-name {
   color: #008BCA;
+}
+
+.delete-comment {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #495057;
 }
 </style>

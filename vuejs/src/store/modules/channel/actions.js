@@ -5,6 +5,8 @@ import {
   ADD_POST_COMMENT,
   DELETE_CHANNEL,
   DELETE_POST,
+  DELETE_POST_CHILD_COMMENT,
+  DELETE_POST_COMMENT,
   GET_ACTIVE_USERS,
   HIDE_CHANNEL_MODAL,
   HIDE_CHANNEL_USER_MODAL,
@@ -148,6 +150,17 @@ export async function addComment({commit}, data) {
       commit(ADD_POST_CHILD_COMMENT, res.body)
     }
     commit(ADD_POST_COMMENT, res.body)
+  }
+  return res;
+}
+
+export async function deleteComment({commit}, data) {
+  const res = await httpService.delete(`user-comment/${data.id}`);
+  if (res.success) {
+    if (data.parent_id) {
+      commit(DELETE_POST_CHILD_COMMENT, data)
+    }
+    commit(DELETE_POST_COMMENT, data)
   }
   return res;
 }

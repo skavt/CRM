@@ -23,3 +23,5 @@ export const UNLIKE_POST = 'channel/UNLIKE_POST';
 
 export const ADD_POST_CHILD_COMMENT = 'channel/ADD_POST_CHILD_COMMENT';
 export const ADD_POST_COMMENT = 'channel/ADD_POST_COMMENT';
+export const DELETE_POST_CHILD_COMMENT = 'channel/DELETE_POST_CHILD_COMMENT';
+export const DELETE_POST_COMMENT = 'channel/DELETE_POST_COMMENT';

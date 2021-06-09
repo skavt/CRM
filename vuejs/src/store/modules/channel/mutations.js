@@ -5,6 +5,8 @@ import {
   ADD_POST_COMMENT,
   DELETE_CHANNEL,
   DELETE_POST,
+  DELETE_POST_CHILD_COMMENT,
+  DELETE_POST_COMMENT,
   GET_ACTIVE_USERS,
   HIDE_CHANNEL_MODAL,
   HIDE_CHANNEL_USER_MODAL,
@@ -90,11 +92,19 @@ export default {
   },
   [ADD_POST_COMMENT](state, data) {
     state.post.data.filter(p => p.id === data.post_id)
-      .forEach(p => p.postComments.unshift(data));
+      .forEach(p => p.postComments.unshift(data))
+  },
+  [DELETE_POST_COMMENT](state, data) {
+    state.post.data.forEach(p => p.postComments = p.postComments.filter(c => c.id !== data.id))
   },
   [ADD_POST_CHILD_COMMENT](state, data) {
     state.post.data.filter(p => p.id === data.parent.post_id)
       .forEach(p => p.postComments.filter(pc => pc.id === data.parent_id)
-        .forEach(pc => pc.childrenComments.unshift(data)));
+        .forEach(pc => pc.childrenComments.unshift(data)))
+  },
+  [DELETE_POST_CHILD_COMMENT](state, data) {
+    state.post.data.forEach(p => p.postComments
+      .forEach(p => p.childrenComments = p.childrenComments
+        .filter(c => c.id !== data.id)))
   },
 };
