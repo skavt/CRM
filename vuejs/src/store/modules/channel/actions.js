@@ -116,7 +116,7 @@ export async function createNewPost({commit}, data) {
 export async function updatePost({commit}, data) {
   const res = await httpService.put(`post/${data.id}?expand=${postExpand}`, data)
   if (res.success) {
-    commit(UPDATE_POST_DATA, data)
+    commit(UPDATE_POST_DATA, res.body)
   }
   return res
 }

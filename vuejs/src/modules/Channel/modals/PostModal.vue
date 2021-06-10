@@ -3,8 +3,19 @@
     <b-modal v-model="modal.show" title="Add New Channel" @hidden="onHideModal" @ok.prevent="handleSubmit(onSubmit)">
       <view-spinner :show="loading"/>
       <b-form v-if="!loading" @keydown.enter.prevent="handleSubmit(onSubmit)">
-        <input-widget :model="model" attribute="body" :placeholder="`Description`" :autofocus="true"
-                      :type="`textarea`" :objStyle="{'min-height': '200px', 'max-height': '700px'}"/>
+        <input-widget
+            :model="model" :multiple="true" attribute="files" type="file" :format-names="formatNames"
+            :placeholder="'Choose files or drop here...'">
+        </input-widget>
+        <div class="mt-3" v-if="model.files.length">
+          <h6 v-for="file in model.files" :key="`post-file-${file.name}`">
+            {{ file.name }}
+          </h6>
+        </div>
+        <input-widget
+            :model="model" attribute="body" :placeholder="`Description`" :autofocus="true"
+            :type="`textarea`" :objStyle="{'min-height': '200px', 'max-height': '700px'}">
+        </input-widget>
       </b-form>
     </b-modal>
   </ValidationObserver>
@@ -68,6 +79,9 @@ export default {
     onHideModal() {
       this.hidePostModal()
       this.model = new PostModel()
+    },
+    formatNames(files) {
+      return files.length === 1 ? files[0].name : `${files.length} files selected`
     },
   },
 }

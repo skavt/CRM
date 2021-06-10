@@ -3,14 +3,14 @@ import BaseModel from "../../../core/components/input-widget/BaseModel";
 export default class PostModel extends BaseModel {
   channel_id = null;
   body = ''
-  file = null;
+  files = [];
   file_url = '';
   action = null;
 
   rules = {}
 
   attributeLabels = {
-    file: 'Select File',
+    files: 'Select Files',
     body: 'Description',
   }
 
