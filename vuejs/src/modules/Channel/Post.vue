@@ -28,7 +28,6 @@
         </b-button>
       </div>
     </b-card-header>
-
     <b-card-body class="post-card-body">
       <view-spinner :show="loading"/>
       <no-content :show="!loading && !postData.length"/>
@@ -42,8 +41,9 @@
                 </b-img>
               </template>
               <h5 class="mt-0">
-                <span>Post updated by</span>
-                {{ data.createdBy.display_name }}
+                <span class="user-name">
+                  {{ data.createdBy.display_name }}
+                </span>
                 &sdot;&nbsp;{{ data.updated_at | relativeDate }}
               </h5>
               <div class="action-buttons p-2" v-if="canModifyPost(data)">
@@ -210,6 +210,10 @@ export default {
 <style lang="scss" scoped>
 .media {
   position: relative;
+}
+
+.user-name {
+  color: #008BCA;
 }
 
 .hover-pointer {
