@@ -21,10 +21,14 @@
     <b-button v-if="canDeleteComment()" @click="onDelete" class="delete-comment" variant="link">
       <i class="far fa-trash-alt text-danger"/>
     </b-button>
-    <add-comment :parent_id="comment.id" v-if="showComments" :current-user="currentUser" :channel-id="channelId"/>
+    <add-comment
+        :parent_id="comment.id" v-if="showComments" :current-user="currentUser" :channel-id="channelId"
+        :is-child="true">
+    </add-comment>
     <b-card-body v-if="showComments" class="pt-1 pb-1">
-      <comment-item v-for="(comment, index) in comment.childrenComments" :comment="comment" :index="index"
-                    :is-child="true" :key="`child-comment-${index}`" :channel-id="channelId">
+      <comment-item
+          v-for="(comment, index) in comment.childrenComments" :comment="comment" :index="index" :is-child="true"
+          :key="`child-comment-${index}`" :channel-id="channelId" :current-user="currentUser">
       </comment-item>
     </b-card-body>
   </b-media>
@@ -108,7 +112,7 @@ export default {
 .delete-comment {
   position: absolute;
   right: 10px;
-  top: 10px;
+  top: 0;
   color: #495057;
 }
 </style>

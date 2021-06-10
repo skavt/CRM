@@ -7,14 +7,15 @@
         <b-img rounded="circle" :src="currentUser.image_url  || '/assets/avatar.svg'" width="32" height="32"/>
       </template>
       <b-form @submit.prevent="onAdd">
-        <b-input-group>
-          <b-form-input v-model="comment" :placeholder="parent_id ? 'Write a replay' : 'Leave Comment'"/>
-          <b-input-group-append>
-            <b-button @click="onAdd" variant="info">
-              Comment
-            </b-button>
-          </b-input-group-append>
-        </b-input-group>
+        <div class="grow-wrap">
+          <b-form-textarea
+              v-model="comment" :placeholder="parent_id ? 'Write a replay...' : 'Leave Comment...'" :autofocus="isChild"
+              name="text" id="text" onInput="this.parentNode.dataset.replicatedValue = this.value">
+          </b-form-textarea>
+          <b-button @click="onAdd" class="add-comment" variant="link" size="lg">
+            <i class="fas fa-paper-plane" @click="onAdd"/>
+          </b-button>
+        </div>
       </b-form>
     </b-media>
   </b-card-body>
@@ -40,6 +41,9 @@ export default {
     channelId: {
       type: Number,
       required: true
+    },
+    isChild: {
+      type: Boolean
     },
   },
   data() {
@@ -68,6 +72,37 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.media {
+  position: relative;
+}
 
+.grow-wrap {
+  display: grid;
+}
+
+.grow-wrap::after {
+  content: attr(data-replicated-value) " ";
+  white-space: pre-wrap;
+  visibility: hidden;
+}
+
+.grow-wrap > textarea {
+  resize: none;
+  overflow: hidden;
+}
+
+.grow-wrap > textarea,
+.grow-wrap::after {
+  padding: 0.5rem;
+  font: inherit;
+  border-radius: 15px;
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.add-comment {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
 </style>
