@@ -68,14 +68,14 @@
             </comment-item>
           </b-card-body>
           <div class="action-buttons p-2" v-if="canModifyPost(data)">
-            <i v-permission="{'permission': 'updatePost', channelId: channelData.id}"
-               class="fas fa-pencil-alt m-2 hover-pointer" @click="onPostEdit(data)" :id="`edit-post-${data.id}`"/>
+            <i v-permission="{'permission': 'updatePost', channelId: channelData.id}" :id="`edit-post-${data.id}`"
+               class="fas fa-pencil-alt m-2 hover-pointer text-primary" @click="onPostEdit(data)">
+            </i>
             <b-tooltip :target="`edit-post-${data.id}`">
               <span class="text-sm px-2">Edit Post</span>
             </b-tooltip>
-            <i v-permission="{'permission': 'deletePost', channelId: channelData.id}"
-               class="far fa-trash-alt text-danger m-2 hover-pointer" @click="onPostDelete(data)"
-               :id="`delete-post-${data.id}`">
+            <i v-permission="{'permission': 'deletePost', channelId: channelData.id}" :id="`delete-post-${data.id}`"
+               class="far fa-trash-alt text-danger m-2 hover-pointer" @click="onPostDelete(data)">
             </i>
             <b-tooltip :target="`delete-post-${data.id}`">
               <span class="text-sm px-2">Delete Post</span>
