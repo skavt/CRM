@@ -13,7 +13,7 @@
               name="text" id="text" onInput="this.parentNode.dataset.replicatedValue = this.value">
           </b-form-textarea>
           <b-button @click="onAdd" class="add-comment" variant="link" size="lg">
-            <i class="fas fa-paper-plane" @click="onAdd"/>
+            <i class="fas fa-paper-plane"/>
           </b-button>
         </div>
       </b-form>

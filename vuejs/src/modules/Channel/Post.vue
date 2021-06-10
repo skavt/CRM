@@ -34,7 +34,7 @@
       <no-content :show="!loading && !postData.length"/>
       <div v-if="!loading && postData.length" class="page-content">
         <b-card class="mt-3" no-body v-for="data in postData" :key="`post-${data.id}`">
-          <b-card-body class="pt-5">
+          <b-card-body>
             <b-media class="align-items-center pb-3">
               <template v-slot:aside>
                 <b-img rounded="circle" :src="data.createdBy.image_url  || '/assets/avatar.svg'" width="48"
@@ -46,6 +46,20 @@
                 {{ data.createdBy.display_name }}
                 &sdot;&nbsp;{{ data.updated_at | relativeDate }}
               </h5>
+              <div class="action-buttons p-2" v-if="canModifyPost(data)">
+                <i v-permission="{'permission': 'updatePost', channelId: channelData.id}" :id="`edit-post-${data.id}`"
+                   class="fas fa-pencil-alt m-2 hover-pointer text-primary" @click="onPostEdit(data)">
+                </i>
+                <b-tooltip :target="`edit-post-${data.id}`">
+                  <span class="text-sm px-2">Edit Post</span>
+                </b-tooltip>
+                <i v-permission="{'permission': 'deletePost', channelId: channelData.id}" :id="`delete-post-${data.id}`"
+                   class="far fa-trash-alt text-danger m-2 hover-pointer" @click="onPostDelete(data)">
+                </i>
+                <b-tooltip :target="`delete-post-${data.id}`">
+                  <span class="text-sm px-2">Delete Post</span>
+                </b-tooltip>
+              </div>
             </b-media>
             {{ data.body }}
           </b-card-body>
@@ -63,24 +77,10 @@
           </b-card-footer>
           <add-comment v-if="showComments" :post_id="data.id" :current-user="currentUser" :channel-id="channelData.id"/>
           <b-card-body v-if="showComments && data.postComments && data.postComments.length" class="pt-1 pb-1">
-            <comment-item v-for="(comment, index) in data.postComments" :comment="comment" :index="index"
+            <comment-item v-for="(comment, index) in data.postComments" :comment="comment" :index="index" :post="data"
                           :key="`post-comment-${index}`" :current-user="currentUser" :channel-id="channelData.id">
             </comment-item>
           </b-card-body>
-          <div class="action-buttons p-2" v-if="canModifyPost(data)">
-            <i v-permission="{'permission': 'updatePost', channelId: channelData.id}" :id="`edit-post-${data.id}`"
-               class="fas fa-pencil-alt m-2 hover-pointer text-primary" @click="onPostEdit(data)">
-            </i>
-            <b-tooltip :target="`edit-post-${data.id}`">
-              <span class="text-sm px-2">Edit Post</span>
-            </b-tooltip>
-            <i v-permission="{'permission': 'deletePost', channelId: channelData.id}" :id="`delete-post-${data.id}`"
-               class="far fa-trash-alt text-danger m-2 hover-pointer" @click="onPostDelete(data)">
-            </i>
-            <b-tooltip :target="`delete-post-${data.id}`">
-              <span class="text-sm px-2">Delete Post</span>
-            </b-tooltip>
-          </div>
         </b-card>
       </div>
     </b-card-body>
@@ -198,7 +198,7 @@ export default {
       }
     },
     canModifyPost(item) {
-      return item.updated_by === this.currentUser.id
+      return item.updated_by === this.currentUser.id || this.currentUser.roles.includes('admin')
     },
   },
   async mounted() {
@@ -208,6 +208,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.media {
+  position: relative;
+}
+
 .hover-pointer {
   &:hover {
     cursor: pointer;

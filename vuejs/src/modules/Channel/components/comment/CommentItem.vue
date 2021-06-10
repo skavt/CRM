@@ -28,7 +28,7 @@
     <b-card-body v-if="showComments" class="pt-1 pb-1">
       <comment-item
           v-for="(comment, index) in comment.childrenComments" :comment="comment" :index="index" :is-child="true"
-          :key="`child-comment-${index}`" :channel-id="channelId" :current-user="currentUser">
+          :key="`child-comment-${index}`" :channel-id="channelId" :current-user="currentUser" :post="post">
       </comment-item>
     </b-card-body>
   </b-media>
@@ -62,6 +62,9 @@ export default {
       type: Boolean,
       default: false
     },
+    post: {
+      type: Object,
+    },
   },
   data() {
     return {
@@ -80,7 +83,9 @@ export default {
       }
     },
     canDeleteComment() {
-      return this.comment.updated_by === this.currentUser.id
+      return this.comment.updated_by === this.currentUser.id ||
+          this.currentUser.roles.includes('admin') ||
+          this.post.updated_by === this.currentUser.id
     },
   },
 }
