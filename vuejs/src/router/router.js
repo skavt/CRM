@@ -12,6 +12,7 @@ import Channel from "../modules/Channel/Channel";
 import Post from "../modules/Channel/Post";
 import Employee from "../modules/Employee/Employee";
 import UserProfile from "../modules/UserProfile/UserProfile";
+import Home from "../modules/Home/Home";
 
 Vue.use(VueRouter)
 
@@ -52,8 +53,14 @@ const router = new VueRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: DefaultLayout,
+      redirect: '/dashboard/home',
       meta: {requiresAuth: true},
       children: [
+        {
+          path: 'home',
+          name: 'home',
+          component: Home,
+        },
         {
           path: 'invitation',
           name: 'invitation',

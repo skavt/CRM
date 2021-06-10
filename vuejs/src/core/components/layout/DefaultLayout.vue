@@ -47,7 +47,7 @@ export default {
     await this.getChannelData()
     MenuService.addItem(new MenuItem('1-Home', {
       text: 'Home',
-      path: `/dashboard`,
+      path: `/dashboard/home`,
       weight: 100,
       icon: 'fas fa-home',
     }));
