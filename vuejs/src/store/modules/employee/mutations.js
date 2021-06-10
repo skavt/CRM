@@ -3,7 +3,8 @@ import {
   GET_CURRENT_USER,
   HIDE_USER_EDIT_MODAL,
   SET_EMPLOYEE_LIST,
-  SHOW_USER_EDIT_MODAL
+  SHOW_USER_EDIT_MODAL,
+  UPDATE_CURRENT_USER
 } from './mutation-types';
 
 export default {
@@ -29,5 +30,9 @@ export default {
   [GET_CURRENT_USER](state, data) {
     state.currentUser = {...data.currentUser}
     state.permissions = {...data.permissions}
+  },
+
+  [UPDATE_CURRENT_USER](state, data) {
+    state.currentUser = {...data}
   },
 };

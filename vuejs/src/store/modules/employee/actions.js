@@ -3,7 +3,8 @@ import {
   GET_CURRENT_USER,
   HIDE_USER_EDIT_MODAL,
   SET_EMPLOYEE_LIST,
-  SHOW_USER_EDIT_MODAL
+  SHOW_USER_EDIT_MODAL,
+  UPDATE_CURRENT_USER
 } from './mutation-types';
 import httpService from "../../../core/services/httpService";
 
@@ -42,7 +43,7 @@ export async function updateProfile({commit}, data) {
     await httpService.post(`/employee/update-profile`, data) :
     await httpService.put(`/employee/update-profile`, data);
   if (res.success) {
-    commit(GET_CURRENT_USER, res.body)
+    commit(UPDATE_CURRENT_USER, res.body)
   }
   return res
 }
