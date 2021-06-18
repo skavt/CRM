@@ -1,6 +1,7 @@
 <template>
   <ValidationObserver ref="form" v-slot="{ handleSubmit}">
-    <b-modal v-model="modal.show" :title="getTitle" @hidden="onHideModal" @ok.prevent="handleSubmit(onSubmit)">
+    <b-modal v-model="modal.show" :title="getTitle" :ok-disabled="model.files.length === 0 && !model.body.trim()"
+             @hidden="onHideModal" @ok.prevent="handleSubmit(onSubmit)">
       <view-spinner :show="loading"/>
       <b-form v-if="!loading" @submit.prevent="handleSubmit(onSubmit)" @keydown="onKeydown">
         <input-widget
@@ -68,28 +69,30 @@ export default {
       }
     },
     async onSubmit() {
-      this.model.resetErrors()
-      let form = {...this.model.toJSON()}
-      form.channel_id = this.$route.params.channelId
+      if (this.model.files.length > 0 || this.model.body.trim()) {
+        this.model.resetErrors()
+        let form = {...this.model.toJSON()}
+        form.channel_id = this.$route.params.channelId
 
-      this.loading = true
-      let res
-      if (!form.id) {
-        res = await this.createNewPost(form)
-      } else {
-        res = await this.updatePost(form)
-      }
-      this.loading = false
-
-      if (res.success) {
+        this.loading = true
+        let res
         if (!form.id) {
-          this.$toast(`Post created successfully`)
+          res = await this.createNewPost(form)
         } else {
-          this.$toast(`Post updated successfully`)
+          res = await this.updatePost(form)
         }
-        this.onHideModal()
-      } else {
-        this.model.setMultipleErrors(res.body);
+        this.loading = false
+
+        if (res.success) {
+          if (!form.id) {
+            this.$toast(`Post created successfully`)
+          } else {
+            this.$toast(`Post updated successfully`)
+          }
+          this.onHideModal()
+        } else {
+          this.model.setMultipleErrors(res.body);
+        }
       }
     },
     onHideModal() {
