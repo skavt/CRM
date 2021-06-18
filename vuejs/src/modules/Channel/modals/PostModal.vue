@@ -2,7 +2,7 @@
   <ValidationObserver ref="form" v-slot="{ handleSubmit}">
     <b-modal v-model="modal.show" :title="getTitle" @hidden="onHideModal" @ok.prevent="handleSubmit(onSubmit)">
       <view-spinner :show="loading"/>
-      <b-form v-if="!loading" @keydown.enter.prevent="handleSubmit(onSubmit)">
+      <b-form v-if="!loading" @submit.prevent="handleSubmit(onSubmit)" @keydown="onKeydown">
         <input-widget
             :model="model" :multiple="true" attribute="files" type="file" :format-names="formatNames" :label="false"
             :placeholder="'Choose files or drop here...'">
@@ -61,6 +61,12 @@ export default {
   },
   methods: {
     ...mapActions(['hidePostModal', 'createNewPost', 'updatePost']),
+    onKeydown(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault()
+        this.onSubmit()
+      }
+    },
     async onSubmit() {
       this.model.resetErrors()
       let form = {...this.model.toJSON()}
