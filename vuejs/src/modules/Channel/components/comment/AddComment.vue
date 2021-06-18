@@ -2,22 +2,25 @@
   <b-card-body
       v-permission="{'permission': 'leaveComment', channelId: channelId}" class="pt-1"
       :class="!parent_id ? 'bg-light' : ''">
-    <b-media>
-      <template v-slot:aside>
-        <b-img rounded="circle" :src="currentUser.image_url  || '/assets/avatar.svg'" width="32" height="32"/>
-      </template>
-      <b-form @submit.prevent="onAdd">
-        <div class="grow-wrap">
-          <b-form-textarea
-              v-model="comment" :placeholder="parent_id ? 'Write a replay...' : 'Leave Comment...'" :autofocus="isChild"
-              name="text" id="text" onInput="this.parentNode.dataset.replicatedValue = this.value">
-          </b-form-textarea>
-          <b-button @click="onAdd" class="add-comment" variant="link" size="lg">
-            <i class="fas fa-paper-plane"/>
-          </b-button>
-        </div>
-      </b-form>
-    </b-media>
+    <ValidationObserver ref="form" v-slot="{ handleSubmit}">
+      <b-media>
+        <template v-slot:aside>
+          <b-img rounded="circle" :src="currentUser.image_url  || '/assets/avatar.svg'" width="32" height="32"/>
+        </template>
+        <b-form @submit.prevent="handleSubmit(onAdd)" @keydown="onKeydown">
+          <div class="grow-wrap">
+            <b-form-textarea
+                v-model="comment" :placeholder="parent_id ? 'Write a replay...' : 'Leave Comment...'"
+                :autofocus="isChild"
+                name="text" id="text" onInput="this.parentNode.dataset.replicatedValue = this.value">
+            </b-form-textarea>
+            <b-button @click="onAdd" class="add-comment" variant="link" size="lg">
+              <i class="fas fa-paper-plane"/>
+            </b-button>
+          </div>
+        </b-form>
+      </b-media>
+    </ValidationObserver>
   </b-card-body>
 </template>
 
@@ -53,8 +56,16 @@ export default {
   },
   methods: {
     ...mapActions(['addComment']),
+    onKeydown(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault()
+        if (this.comment.trim()) {
+          this.onAdd()
+        }
+      }
+    },
     async onAdd() {
-      if (this.comment) {
+      if (this.comment.trim()) {
         let params = {
           comment: this.comment,
           parent_id: this.parent_id,
