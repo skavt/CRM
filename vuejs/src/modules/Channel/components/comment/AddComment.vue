@@ -5,7 +5,7 @@
     <ValidationObserver ref="form" v-slot="{ handleSubmit}">
       <b-media>
         <template v-slot:aside>
-          <b-img rounded="circle" :src="currentUser.image_url  || '/assets/avatar.svg'" width="32" height="32"/>
+          <b-img rounded="circle" :src="currentUser.image_url || '/assets/avatar.svg'" width="32" height="32"/>
         </template>
         <b-form @submit.prevent="handleSubmit(onAdd)" @keydown="onKeydown">
           <div class="grow-wrap">
