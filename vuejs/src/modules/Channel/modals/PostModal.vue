@@ -1,6 +1,6 @@
 <template>
   <ValidationObserver ref="form" v-slot="{ handleSubmit}">
-    <b-modal v-model="modal.show" title="Create New Post" @hidden="onHideModal" @ok.prevent="handleSubmit(onSubmit)">
+    <b-modal v-model="modal.show" :title="getTitle" @hidden="onHideModal" @ok.prevent="handleSubmit(onSubmit)">
       <view-spinner :show="loading"/>
       <b-form v-if="!loading" @keydown.enter.prevent="handleSubmit(onSubmit)">
         <input-widget
@@ -19,7 +19,7 @@
         </div>
         <div class="grow-wrap">
           <b-form-textarea
-              v-model="model.comment" placeholder="Description" :autofocus="true" name="text" id="text"
+              v-model="model.body" placeholder="Description" :autofocus="true" name="text" id="text"
               onInput="this.parentNode.dataset.replicatedValue = this.value">
           </b-form-textarea>
         </div>
@@ -48,6 +48,9 @@ export default {
     ...mapState({
       modal: state => state.post.modal,
     }),
+    getTitle() {
+      return this.model.id ? 'Update Post' : 'Create New Post'
+    },
   },
   watch: {
     ['modal.data']() {

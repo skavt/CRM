@@ -1,6 +1,6 @@
 <template>
   <ValidationObserver ref="form" v-slot="{ handleSubmit}">
-    <b-modal v-model="modal.show" title="Add New Channel" @hidden="onHideModal" @ok.prevent="handleSubmit(onSubmit)">
+    <b-modal v-model="modal.show" :title="getTitle" @hidden="onHideModal" @ok.prevent="handleSubmit(onSubmit)">
       <view-spinner :show="loading"/>
       <b-form v-if="!loading" @keydown.enter.prevent="handleSubmit(onSubmit)">
         <input-widget :model="model" attribute="name" :autofocus="true"/>
@@ -39,6 +39,9 @@ export default {
     ...mapState({
       modal: state => state.channel.modal,
     }),
+    getTitle() {
+      return this.model.id ? `Update ${this.model.name} Channel` : 'Add New Channel'
+    },
   },
   watch: {
     ['modal.data']() {
