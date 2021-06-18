@@ -1,21 +1,28 @@
 <template>
   <ValidationObserver ref="form" v-slot="{ handleSubmit}">
-    <b-modal v-model="modal.show" title="Add New Channel" @hidden="onHideModal" @ok.prevent="handleSubmit(onSubmit)">
+    <b-modal v-model="modal.show" title="Create New Post" @hidden="onHideModal" @ok.prevent="handleSubmit(onSubmit)">
       <view-spinner :show="loading"/>
       <b-form v-if="!loading" @keydown.enter.prevent="handleSubmit(onSubmit)">
         <input-widget
-            :model="model" :multiple="true" attribute="files" type="file" :format-names="formatNames"
+            :model="model" :multiple="true" attribute="files" type="file" :format-names="formatNames" :label="false"
             :placeholder="'Choose files or drop here...'">
         </input-widget>
-        <div class="mt-3" v-if="model.files.length">
-          <h6 v-for="file in model.files" :key="`post-file-${file.name}`">
-            {{ file.name }}
-          </h6>
+        <div class="mt-3 mb-3" v-if="model.files.length">
+          <h5>Selected File{{ model.files.length > 1 ? 's' : '' }}:</h5>
+          <div class="d-flex justify-content-between pl-2 pr-2 pb-1" v-for="file in model.files"
+               :key="`post-file-${file.name}`">
+            <span class="file-header mr-2">
+              {{ file.name }}
+            </span>
+            <i class="fas fa-times text-danger remove-file" @click="onFileRemoveClick(file)"/>
+          </div>
         </div>
-        <input-widget
-            :model="model" attribute="body" :placeholder="`Description`" :autofocus="true"
-            :type="`textarea`" :objStyle="{'min-height': '200px', 'max-height': '700px'}">
-        </input-widget>
+        <div class="grow-wrap">
+          <b-form-textarea
+              v-model="model.comment" placeholder="Description" :autofocus="true" name="text" id="text"
+              onInput="this.parentNode.dataset.replicatedValue = this.value">
+          </b-form-textarea>
+        </div>
       </b-form>
     </b-modal>
   </ValidationObserver>
@@ -80,13 +87,48 @@ export default {
       this.hidePostModal()
       this.model = new PostModel()
     },
-    formatNames(files) {
-      return files.length === 1 ? files[0].name : `${files.length} files selected`
+    formatNames() {
+      return this.model.files.length === 1 ? this.model.files[0].name : `${this.model.files.length} files selected`
+    },
+    onFileRemoveClick(file) {
+      this.model.files = this.model.files.filter(f => f.name !== file.name)
     },
   },
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.remove-file {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
 
+.file-header {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grow-wrap {
+  display: grid;
+}
+
+.grow-wrap::after {
+  content: attr(data-replicated-value) " ";
+  white-space: pre-wrap;
+  visibility: hidden;
+}
+
+.grow-wrap > textarea {
+  resize: none;
+  overflow: hidden;
+}
+
+.grow-wrap > textarea,
+.grow-wrap::after {
+  padding: 0.5rem;
+  font: inherit;
+  grid-area: 1 / 1 / 2 / 2;
+}
 </style>
