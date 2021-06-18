@@ -106,7 +106,7 @@ export async function getPostData({commit}, channelId) {
 }
 
 export async function createNewPost({commit}, data) {
-  const res = await httpService.post(`post?expand=${postExpand}`, data)
+  const res = await httpService.post(`post?expand=${postExpand}`, prepareFiles(data))
   if (res.success) {
     commit(ADD_NEW_POST, res.body)
   }
@@ -163,4 +163,20 @@ export async function deleteComment({commit}, data) {
     commit(DELETE_POST_COMMENT, data)
   }
   return res;
+}
+
+export function prepareFiles(data) {
+  const tmp = new FormData();
+  for (let key in data.files) {
+    if (data.files.hasOwnProperty(key)) {
+      tmp.append('files[]', data.files[key], data.files.name);
+    }
+  }
+  for (let key in data) {
+    if (data.hasOwnProperty(key) && data[key] !== 'files') {
+      tmp.append(key, data[key]);
+    }
+  }
+  data = tmp;
+  return data;
 }
