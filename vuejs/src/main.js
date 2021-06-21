@@ -8,6 +8,8 @@ import './core/index';
 
 import './permission/index';
 
+import './modules/Chat'
+
 import router from "./router/router";
 import store from './store';
 

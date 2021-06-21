@@ -5,9 +5,22 @@
 </template>
 
 <script>
+import {createNamespacedHelpers} from "vuex";
 
+const {mapActions} = createNamespacedHelpers('chat');
 export default {
   name: 'App',
+  methods: {
+    ...mapActions(['socketUserList', 'setUnreadMessages']),
+  },
+  sockets: {
+    USER_LIST(contacts) {
+      this.socketUserList(contacts);
+    },
+    /*UNREAD_MESSAGES(unreadMessages) {
+      this.setUnreadMessages(unreadMessages);
+    }*/
+  },
 }
 </script>
 

@@ -4,9 +4,8 @@ const db = require('../db');
 const logger = require('../logger');
 
 module.exports = {
-  verifyToken: token => {
+  verifyToken(token) {
     return new Promise((resolve, reject) => {
-      console.log(token)
       db.connection.query(`SELECT id,
                                   email,
                                   image_path,
@@ -23,7 +22,7 @@ module.exports = {
       });
     })
   },
-  register: userData => {
+  register(userData) {
     return new Promise((resolve, reject) => {
       cryptPassword(userData.password, (err, hash) => {
         if (err) {
@@ -51,7 +50,7 @@ module.exports = {
       });
     })
   },
-  login: userData => {
+  login(userData) {
     return new Promise((resolve, reject) => {
       db.connection.query(`SELECT id,
                                   email,
@@ -77,7 +76,7 @@ module.exports = {
       });
     })
   },
-  getUserMessagesByUserId: function (userId) {
+  getUserMessagesByUserId(userId) {
     return new Promise((resolve, reject) => {
       if (!userId) {
         resolve(null);

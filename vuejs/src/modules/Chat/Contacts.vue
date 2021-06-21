@@ -61,18 +61,26 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['hasUnreadMessages']),
+    ...mapGetters(['hasUnreadMessages', 'contacts']),
     filteredContacts() {
-      return []
+      return this.keyword ? this.contacts.filter(c => c.lastMessage.time === null) :
+          this.contacts.filter(c => (
+              c.email.toLowerCase().includes(this.keyword.toLowerCase()) ||
+              c.name.toLowerCase().includes(this.keyword.toLowerCase())) &&
+              c.latestMessage.time == null)
     },
   },
   methods: {
+    ...mapActions(['getContacts']),
     contactSelected(contact) {
       return !this.selectedContact ? false : this.selectedContact.id === contact.id;
     },
     selectContact() {
 
     },
+  },
+  mounted() {
+    this.getContacts()
   },
 }
 </script>
