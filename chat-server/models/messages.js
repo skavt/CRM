@@ -1,28 +1,16 @@
 const db = require('../db');
 
 module.exports = {
-  getMessages: (userId1, userId2) => {
+  getMessages(userId1, userId2) {
     return new Promise((resolve, reject) => {
       db.connection.query(`SELECT m.*,
-                                  CONCAT(up.first_name, ' ', up.last_name) as sender,
-                                  up.image_path,
-                                  f.id                                     as file_id,
-                                  f.name                                   as file_name,
-                                  f.mime                                   as file_mime,
-                                  f.size                                   as file_size,
-                                  f.path                                   as file_path
+                                  u.image_path,
+                                  CONCAT(u.first_name, ' ', u.last_name) as sender
                            FROM messages m
-                                    JOIN user u on m.sender_id = u.id
-                                    JOIN user_profile up on u.id = up.user_id
-                                    LEFT JOIN chat_file f ON m.file_id = f.id
+                                    JOIN users u on m.sender_id = u.id
                            WHERE sender_id = ? AND receiver_id = ?
                               OR sender_id = ? and receiver_id = ?
-                           ORDER BY send_date ASC`, [
-        userId1,
-        userId2,
-        userId2,
-        userId1
-      ], async function (error, messages, fields) {
+                           ORDER BY send_date ASC`, [userId1, userId2, userId2, userId1], async function (error, messages, fields) {
         if (error) {
           reject(error);
         } else if (messages) {

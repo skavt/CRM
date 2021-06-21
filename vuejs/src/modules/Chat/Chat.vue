@@ -1,6 +1,6 @@
 <template>
-  <div class="messenger">
-    <div v-if="working">
+  <div class="chat">
+    <div v-if="working" class="messenger">
       <contacts/>
       <messages/>
     </div>
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.messenger {
+.chat {
   width: 100%;
   height: 100%;
 
@@ -54,5 +54,13 @@ export default {
       position: absolute;
     }
   }
+}
+
+.messenger {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border: 1px solid #ebebeb;
+  display: flex;
 }
 </style>

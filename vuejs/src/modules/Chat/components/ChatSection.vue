@@ -36,7 +36,7 @@ export default {
       return !this.selectedContact ? false : this.selectedContact.id === contact.id;
     },
     selectContact(contact) {
-      console.log(contact)
+      this.$emit('on-contact-select', contact)
     },
   },
 }

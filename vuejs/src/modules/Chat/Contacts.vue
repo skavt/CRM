@@ -7,8 +7,12 @@
       <b-form-input size="lg" v-model="keyword" placeholder="Search Chat"/>
     </div>
     <div class="contacts-ctr">
-      <chat-section :items="filteredChats" :section-name="`chat`" :title="`Recent Chat`"/>
-      <chat-section :items="filteredContacts" :section-name="`contacts`" :title="`Contacts`"/>
+      <chat-section :items="filteredChats" :section-name="`chat`" :title="`Recent Chat`"
+                    @on-contact-select="onContactSelect">
+      </chat-section>
+      <chat-section :items="filteredContacts" :section-name="`contacts`" :title="`Contacts`"
+                    @on-contact-select="onContactSelect">
+      </chat-section>
     </div>
   </div>
 </template>
@@ -44,11 +48,12 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['selectContact']),
     contactSelected(contact) {
       return !this.selectedContact ? false : this.selectedContact.id === contact.id;
     },
-    selectContact(contact) {
-      console.log(contact)
+    onContactSelect(contact) {
+      this.selectContact(contact)
     },
   },
 }

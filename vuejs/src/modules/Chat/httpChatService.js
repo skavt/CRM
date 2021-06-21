@@ -22,9 +22,4 @@ httpChatService.interceptors.response.use(response => {
   }
 });
 
-httpChatService.getUsers = function () {
-  return this.get('/users')
-};
-
-
 export default httpChatService;

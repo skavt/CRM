@@ -14,12 +14,12 @@
         <b-input-group>
           <b-input-group-prepend>
             <b-button class="btn-attach-file" size="lg">
-              <font-awesome-icon :icon="'paperclip'"/>
+              <i class="fas fa-paperclip"/>
             </b-button>
           </b-input-group-prepend>
           <b-input-group-append>
             <b-button class="btn-send" :disabled="!selectedContact">
-              <i class="fas fa-paper-plane"></i>
+              <i class="fas fa-paper-plane"/>
               Send
             </b-button>
           </b-input-group-append>

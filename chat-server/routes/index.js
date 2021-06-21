@@ -4,6 +4,6 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 routes.get('/users', authMiddleware, userController.getUsers);
 
-routes.get('/messages/:id/:type', authMiddleware, userController.getMessagesByReceiver);
+routes.get('/messages/:id', authMiddleware, userController.getMessagesByReceiver);
 
 module.exports = routes;
