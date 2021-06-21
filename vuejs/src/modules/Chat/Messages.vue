@@ -1,5 +1,5 @@
 <template>
-  <div class="messages-wrapper" v-if="!notWorking">
+  <div class="messages-wrapper">
     <message-header/>
     <div class="messages-ctr" v-if="selectedContact">
       <div class="messages" ref="messages" @scroll="scrollChange">
@@ -27,12 +27,6 @@
       </b-form>
     </div>
   </div>
-  <div v-else class="messages-error-wrapper">
-    <div class="alert alert-danger d-flex align-items-center">
-      <i class="fas fa-exclamation-triangle mr-2" :size="'2x'"/>
-      Chat is not available right now. Please contact our support.
-    </div>
-  </div>
 </template>
 
 <script>
@@ -45,7 +39,7 @@ export default {
   name: "Messages",
   components: {Message, MessageHeader},
   computed: {
-    ...mapState(['notWorking', 'selectedContact']),
+    ...mapState(['selectedContact']),
     ...mapGetters(['messages', 'hasUnreadMessages']),
   },
   methods: {
@@ -79,22 +73,6 @@ export default {
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-.messages-error-wrapper {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  position: relative;
-  background: #E8E8E8;
-
-  .messages-error {
-    width: 100%;
-    left: 0;
-    position: absolute;
-  }
 }
 
 .messages-ctr {

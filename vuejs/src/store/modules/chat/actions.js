@@ -1,13 +1,13 @@
-import {CONNECTED_USERS, GET_CONTACTS, SET_UNREAD_MESSAGES, TOGGLE_NOT_WORKING_STATUS} from "./mutation-types";
+import {CONNECTED_USERS, GET_CONTACTS, SET_UNREAD_MESSAGES, TOGGLE_WORKING_STATUS} from "./mutation-types";
 import httpChatService from "../../../modules/Chat/httpChatService";
 
 export async function getContacts({commit}) {
   const {data, status} = await httpChatService.getUsers()
   if (status === 200) {
     commit(GET_CONTACTS, data)
-    commit(TOGGLE_NOT_WORKING_STATUS, false)
+    commit(TOGGLE_WORKING_STATUS, true)
   } else {
-    commit(TOGGLE_NOT_WORKING_STATUS, true)
+    commit(TOGGLE_WORKING_STATUS, false)
   }
 }
 

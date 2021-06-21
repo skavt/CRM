@@ -19,7 +19,7 @@ class UserController {
         return {
           ...u,
           isUser: true,
-          avatar: u.image_path ? process.env.API_HOST + '/storage' + u.image_path : '/assets/avatar.svg',
+          avatar: u.image_path ? process.env.API_HOST + u.image_path : '/assets/avatar.svg',
           latestMessage: {
             message: u.latestMessage,
             time: u.latestDate
@@ -48,7 +48,7 @@ class UserController {
           sender_id: msg.sender_id,
           action: msg.action,
           action_user_id: msg.action_user_id,
-          avatar: msg.image_path ? process.env.API_HOST + '/storage' + msg.image_path : '/assets/avatar.svg',
+          avatar: msg.image_path ? process.env.API_HOST + msg.image_path : '/assets/avatar.svg',
           message: msg.message,
           time: msg.send_date,
           /*file: msg.file_id ? {

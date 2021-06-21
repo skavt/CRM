@@ -1,6 +1,6 @@
 const STATE = {
     selectedContact: null,
-    notWorking: false,
+    working: false,
     unreadMessages: {},
     contacts: [],
     connectedUsers: [],

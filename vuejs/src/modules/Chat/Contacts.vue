@@ -9,15 +9,13 @@
     </div>
     <div class="contacts-ctr">
       <h5 class="pl-2 mt-4 mb-2 heading">Recent Chats</h5>
-      <div v-if="!filteredContacts.length" class="no-data">
+      <div v-if="!filteredChats.length" class="no-data">
         There are no chats
       </div>
-      <b-media @click="selectContact(contact)" class="contact align-items-center"
-               v-for="(contact, index) in filteredContacts" :key="index"
-               :class="{'selected': contactSelected(contact)}">
+      <b-media class="contact align-items-center" :class="{'selected': contactSelected(contact)}"
+               v-for="contact in filteredChats" :key="`chat-${contact.id}`" @click="selectContact(contact)">
         <template v-slot:aside>
-          <b-img v-if="contact.isUser" rounded="0" :src="contact.avatar" width="32" height="32" alt="placeholder"/>
-          <b-avatar v-else class="chat-avatar" variant="info" icon="people-fill" square/>
+          <b-img rounded="0" :src="contact.avatar" width="32" height="32" alt="placeholder"/>
         </template>
 
         <p class="m-0">{{ contact.name }}</p>
@@ -63,24 +61,29 @@ export default {
   computed: {
     ...mapGetters(['hasUnreadMessages', 'contacts']),
     filteredContacts() {
-      return this.keyword ? this.contacts.filter(c => c.lastMessage.time === null) :
-          this.contacts.filter(c => (
-              c.email.toLowerCase().includes(this.keyword.toLowerCase()) ||
-              c.name.toLowerCase().includes(this.keyword.toLowerCase())) &&
-              c.latestMessage.time == null)
+      let keyword = this.keyword.toLowerCase()
+      return keyword ? this.contacts.filter(c =>
+          c.email.toLowerCase().includes(keyword) ||
+          c.name.toLowerCase().includes(keyword) &&
+          c.latestMessage.time === null) :
+          this.contacts.filter(c => c.latestMessage.time === null)
+    },
+    filteredChats() {
+      let keyword = this.keyword.toLowerCase()
+      return keyword ? this.contacts.filter(c =>
+          c.email.toLowerCase().includes(keyword) ||
+          c.name.toLowerCase().includes(keyword) &&
+          c.latestMessage.time !== null) :
+          this.contacts.filter(c => c.latestMessage.time !== null)
     },
   },
   methods: {
-    ...mapActions(['getContacts']),
     contactSelected(contact) {
       return !this.selectedContact ? false : this.selectedContact.id === contact.id;
     },
     selectContact() {
 
     },
-  },
-  mounted() {
-    this.getContacts()
   },
 }
 </script>

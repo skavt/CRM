@@ -1,4 +1,4 @@
-import {CONNECTED_USERS, GET_CONTACTS, SET_UNREAD_MESSAGES, TOGGLE_NOT_WORKING_STATUS} from './mutation-types';
+import {CONNECTED_USERS, GET_CONTACTS, SET_UNREAD_MESSAGES, TOGGLE_WORKING_STATUS} from './mutation-types';
 
 export default {
   [CONNECTED_USERS](state, data) {
@@ -10,7 +10,7 @@ export default {
   [SET_UNREAD_MESSAGES](state, data) {
     state.unreadMessages = data;
   },
-  [TOGGLE_NOT_WORKING_STATUS](state, status) {
-    state.notWorking = status;
+  [TOGGLE_WORKING_STATUS](state, status) {
+    state.working = status;
   },
 };
