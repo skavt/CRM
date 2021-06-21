@@ -2,7 +2,7 @@
   <b-navbar type="dark" variant="dark">
     <b-navbar-brand>Customer Relationship Management</b-navbar-brand>
     <b-navbar-nav class="ml-auto">
-      <b-nav-item>
+      <b-nav-item @click="onChatClick">
         <i class="fab fa-facebook-messenger"/>
       </b-nav-item>
       <b-nav-item class="logout" @click="onLogoutClick">
@@ -21,6 +21,9 @@ export default {
   methods: {
     onLogoutClick() {
       authService.logout()
+    },
+    onChatClick() {
+      this.$router.push({name: 'chat'})
     },
   },
 }

@@ -5,6 +5,7 @@ import auth from './modules/auth'
 import invitation from './modules/invitation'
 import channel from './modules/channel'
 import employee from './modules/employee'
+import chat from './modules/chat'
 
 Vue.use(Vuex);
 
@@ -49,5 +50,6 @@ export default new Vuex.Store({
     invitation,
     channel,
     employee,
+    chat,
   }
 });

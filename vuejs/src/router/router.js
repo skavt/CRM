@@ -13,6 +13,7 @@ import Post from "../modules/Channel/Post";
 import Employee from "../modules/Employee/Employee";
 import UserProfile from "../modules/UserProfile/UserProfile";
 import Home from "../modules/Home/Home";
+import Chat from "../modules/Chat/Chat";
 
 Vue.use(VueRouter)
 
@@ -60,6 +61,11 @@ const router = new VueRouter({
           path: 'home',
           name: 'home',
           component: Home,
+        },
+        {
+          path: 'chat',
+          name: 'chat',
+          component: Chat,
         },
         {
           path: 'invitation',
