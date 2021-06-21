@@ -51,7 +51,7 @@ class InvitationController extends ActiveController
     public function actions()
     {
         $actions = parent::actions();
-        unset($actions['create'], $actions['update'], $actions['view']);
+        unset($actions['create'], $actions['index']);
 
         return $actions;
     }
@@ -91,6 +91,11 @@ class InvitationController extends ActiveController
         }
 
         return $model;
+    }
+
+    public function actionIndex()
+    {
+        return InvitationResource::find()->all();
     }
 
     /**

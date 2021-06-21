@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6">
       <div class="auth-left">
-        <h4>Login to your account</h4>
+        <h4>Create new account</h4>
         <br>
         <view-spinner :show="loading"/>
         <auth-form :model="model" :loading="loading" :form-type="`register`" :show-repeat-password="true"
