@@ -1,5 +1,5 @@
 import {
-  CONNECTED_USERS,
+  ACTIVE_USERS,
   GET_CONTACTS,
   SET_SELECTED_CONTACT,
   SET_UNREAD_MESSAGES,
@@ -7,8 +7,8 @@ import {
 } from './mutation-types';
 
 export default {
-  [CONNECTED_USERS](state, data) {
-    state.connectedUsers = data;
+  [ACTIVE_USERS](state, data) {
+    state.activeUsers = data;
   },
   [GET_CONTACTS](state, data) {
     state.contacts = data;

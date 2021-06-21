@@ -1,5 +1,5 @@
 import {
-  CONNECTED_USERS,
+  ACTIVE_USERS,
   GET_CONTACTS,
   SET_SELECTED_CONTACT,
   SET_UNREAD_MESSAGES,
@@ -34,8 +34,8 @@ export async function selectContact({commit}, contact) {
   }
 }
 
-export function socketUserList({commit, state}, connectedUsers) {
-  commit(CONNECTED_USERS, connectedUsers);
+export function socketUserList({commit, state}, activeUsers) {
+  commit(ACTIVE_USERS, activeUsers);
   commit(GET_CONTACTS, state.contacts);
 }
 

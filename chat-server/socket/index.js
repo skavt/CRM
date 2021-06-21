@@ -168,13 +168,13 @@ module.exports = SocketIo;
 
 
 function getUserArray(token) {
-  const USERARRAY = [];
+  const userArray = [];
   for (let access_token in USER_INFO) {
     if (access_token !== token) {
-      USERARRAY.push(USER_INFO[access_token]);
+      userArray.push(USER_INFO[access_token]);
     }
   }
-  return USERARRAY;
+  return userArray;
 }
 
 

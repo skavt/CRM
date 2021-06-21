@@ -4,7 +4,7 @@ const STATE = {
     unreadMessages: {},
     contactUnreadMessageMap: {},
     contacts: [],
-    connectedUsers: [],
+    activeUsers: [],
 };
 
 export default STATE;

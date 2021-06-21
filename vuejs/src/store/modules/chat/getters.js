@@ -14,7 +14,7 @@ export function contacts(state) {
     user.latestMessage = user.latestMessage || {};
     if (user.isUser) {
       user.online = false;
-      const contact = state.connectedUsers.find(c => c.id === user.id);
+      const contact = state.activeUsers.find(c => c.id === user.id);
       if (contact) {
         user.online = true;
       }
