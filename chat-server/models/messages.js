@@ -21,14 +21,13 @@ module.exports = {
       });
     })
   },
-  saveMessage: (sender_id, receiver_id, message, action, action_user_id, file_id) => {
+  saveMessage(sender_id, receiver_id, message, action, action_user_id) {
     return new Promise((resolve, reject) => {
       let msg = {
         message,
         sender_id,
         receiver_id,
         action,
-        file_id,
         action_user_id,
         send_date: Date.now()
       };

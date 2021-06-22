@@ -42,3 +42,19 @@ export function socketUserList({commit, state}, activeUsers) {
 export function setUnreadMessages({commit}, unreadMessages) {
   commit(SET_UNREAD_MESSAGES, unreadMessages);
 }
+
+export function socketSendMessage({state}, message) {
+  socket.io.emit('SEND_MESSAGE', {
+    token: authService.getToken(),
+    message: message,
+    userId: state.selectedContact.id
+  })
+}
+
+export function socketStartVideoCall({state}, jitsiUrl) {
+  socket.io.emit('START_CALL', {
+    token: authService.getToken(),
+    message: jitsiUrl,
+    userId: state.selectedContact.id
+  })
+}

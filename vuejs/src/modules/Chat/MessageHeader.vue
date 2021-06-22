@@ -29,9 +29,20 @@ export default {
     ...mapEmployeeState(['currentUser']),
   },
   methods: {
+    ...mapActions(['socketStartVideoCall']),
     onStartCallClick() {
-
+      const token = this.generateRandomString();
+      this.socketStartVideoCall(token);
+      window.open(`https://meet.jit.si/ChronicChangesRejectAcross`, null, 'width=700,height=700');
     },
+    generateRandomString() {
+      let text = "";
+      const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      for (let i = 0; i < 52; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+      }
+      return 'Intranet_' + text;
+    }
   },
 }
 </script>

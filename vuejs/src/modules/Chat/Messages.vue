@@ -3,7 +3,7 @@
     <message-header/>
     <div class="messages-ctr" v-if="selectedContact">
       <div class="messages" ref="messages" @scroll="scrollChange">
-        <message :message="message" v-for="message in messages" :key="message.id"></message>
+        <message :message="message" v-for="message in messages" :key="message.id"/>
       </div>
       <button @click="scrollDown" class="unread-messages" v-if="hasUnreadMessages">
         Unread messages
@@ -12,13 +12,9 @@
     <div class="input-area" v-if="selectedContact">
       <b-form @submit="onSubmit">
         <b-input-group>
-          <b-input-group-prepend>
-            <b-button class="btn-attach-file" size="lg">
-              <i class="fas fa-paperclip"/>
-            </b-button>
-          </b-input-group-prepend>
+          <b-input v-model="message" placeholder="Write Message..."/>
           <b-input-group-append>
-            <b-button class="btn-send" :disabled="!selectedContact">
+            <b-button class="btn-send" :disabled="!selectedContact" @click="onSendMessageClick">
               <i class="fas fa-paper-plane"/>
               Send
             </b-button>
@@ -38,11 +34,17 @@ const {mapState, mapGetters, mapActions} = createNamespacedHelpers('chat');
 export default {
   name: "Messages",
   components: {Message, MessageHeader},
+  data() {
+    return {
+      message: '',
+    }
+  },
   computed: {
     ...mapState(['selectedContact']),
     ...mapGetters(['messages', 'hasUnreadMessages']),
   },
   methods: {
+    ...mapActions(['socketSendMessage']),
     scrollChange() {
       if (this.isScrollAtTheBottom()) {
         // this.setUnreadMessages(false);
@@ -63,6 +65,13 @@ export default {
     },
     onSubmit() {
 
+    },
+    onSendMessageClick() {
+      if (!this.message.trim() || !this.selectedContact) {
+        return;
+      }
+      this.socketSendMessage(this.message);
+      this.message = '';
     },
   },
 }
