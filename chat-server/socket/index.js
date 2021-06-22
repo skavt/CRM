@@ -99,18 +99,6 @@ class SocketIo {
       time: new Date().toISOString(),
       file: null
     };
-    /*if (msg.file_id) {
-      const file = await MessageService.getFileById(msg.file_id);
-      if (file) {
-        data.file = {
-          id: file.id,
-          name: file.name,
-          size: file.size,
-          mime: file.mime,
-          path: process.env.API_HOST_INFO + '/storage' + file.path
-        };
-      }
-    }*/
     sockets.forEach(socket => {
       if (socket) {
         socket.emit('ON_MESSAGE_RECEIVE', data);

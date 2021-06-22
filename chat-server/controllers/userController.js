@@ -51,13 +51,6 @@ class UserController {
           avatar: msg.image_path ? process.env.API_HOST + msg.image_path : '/assets/avatar.svg',
           message: msg.message,
           time: msg.send_date,
-          /*file: msg.file_id ? {
-            id: msg.file_id,
-            name: msg.file_name,
-            size: msg.file_size,
-            mime: msg.file_mime,
-            path: process.env.API_HOST_INFO + '/storage' + msg.file_path
-          } : null*/
         }
       });
 

@@ -41,20 +41,4 @@ module.exports = {
       });
     })
   },
-  getFileById: (fileId) => {
-    return new Promise((resolve, reject) => {
-      db.connection.query(`SELECT f.*
-                           FROM chat_file f
-                           WHERE f.id = ?`,
-        [fileId], async function (error, files, fields) {
-          if (error) {
-            reject(error);
-          } else if (files && files.length) {
-            resolve(files[0]);
-          } else {
-            resolve(false);
-          }
-        });
-    })
-  }
 }
