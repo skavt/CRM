@@ -45,12 +45,12 @@ export default {
   },
   async mounted() {
     await this.getChannelData()
-    MenuService.addItem(new MenuItem('1-Home', {
+    /*MenuService.addItem(new MenuItem('1-Home', {
       text: 'Home',
       path: `/dashboard/home`,
       weight: 100,
       icon: 'fas fa-home',
-    }));
+    }));*/
     MenuService.addItem(new MenuItem('2-Employee', {
       text: 'Employee',
       path: `/dashboard/employee`,

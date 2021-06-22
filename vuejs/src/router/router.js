@@ -54,7 +54,7 @@ const router = new VueRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: DefaultLayout,
-      redirect: '/dashboard/home',
+      redirect: '/dashboard/employee',
       meta: {requiresAuth: true},
       children: [
         {
