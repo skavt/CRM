@@ -33,12 +33,17 @@ export default {
     ...mapState(['working']),
   },
   methods: {
-    ...mapActions(['getContacts']),
+    ...mapActions(['getContacts', 'resetChatData']),
   },
   async mounted() {
     this.loading = true
+    setTimeout(() => {
+      this.loading = false
+    }, 1000)
     await this.getContacts()
-    this.loading = false
+  },
+  destroyed() {
+    this.resetChatData();
   },
 }
 </script>

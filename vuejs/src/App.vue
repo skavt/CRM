@@ -11,15 +11,12 @@ const {mapActions} = createNamespacedHelpers('chat');
 export default {
   name: 'App',
   methods: {
-    ...mapActions(['socketUserList', 'setUnreadMessages']),
+    ...mapActions(['socketUserList']),
   },
   sockets: {
     USER_LIST(contacts) {
       this.socketUserList(contacts);
     },
-    /*UNREAD_MESSAGES(unreadMessages) {
-      this.setUnreadMessages(unreadMessages);
-    }*/
   },
 }
 </script>

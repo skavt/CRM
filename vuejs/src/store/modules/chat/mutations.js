@@ -1,6 +1,7 @@
 import {
   ACTIVE_USERS,
   GET_CONTACTS,
+  RESET_CHAT_DATA,
   SET_SELECTED_CONTACT,
   SET_UNREAD_MESSAGES,
   TOGGLE_WORKING_STATUS
@@ -32,5 +33,9 @@ export default {
       delete state.unreadMessages[contact.id]
       state.unreadMessages = {...state.unreadMessages}
     }
+  },
+  [RESET_CHAT_DATA](state) {
+    state.selectedContact = null;
+    state.contacts = [];
   },
 };

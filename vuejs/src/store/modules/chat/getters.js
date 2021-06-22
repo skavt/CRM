@@ -8,7 +8,8 @@ export function hasUnreadMessages(state) {
 
 export function contacts(state) {
   for (let user of state.contacts) {
-    user.hasUnreadMessage = !!state.unreadMessages[user.id];
+    console.log(state.unreadMessages)
+    // user.hasUnreadMessage = !!state.unreadMessages[user.id];
 
     user.messages = user.messages || [];
     user.latestMessage = user.latestMessage || {};

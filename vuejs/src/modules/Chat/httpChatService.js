@@ -7,11 +7,10 @@ const httpChatService = axios.create({
 
 httpChatService.interceptors.request.use(request => {
   request.headers.Authorization = `Bearer ${authService.getToken()}`;
-
   return request;
 });
-httpChatService.interceptors.response.use(response => {
 
+httpChatService.interceptors.response.use(response => {
   return response;
 }, (error) => {
   if (error && error.response && 401 === error.response.status) {
