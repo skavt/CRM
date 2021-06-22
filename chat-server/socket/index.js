@@ -136,7 +136,7 @@ class SocketIo {
 
   async emitUnreadMessageCounter(user, socket) {
     const userMessages = await UserService.getUserMessagesByUserId(user.id);
-    socket.emit('UNREAD_MESSAGES', userMessages && userMessages.unread_messages ? JSON.parse(userMessages.unread_messages) : null);
+    socket.emit('UNREAD_MESSAGES', userMessages && userMessages.unread_messages ? JSON.parse(userMessages.unread_messages) : {});
   }
 
   async onMessagesRead(socket, {token, userId}) {

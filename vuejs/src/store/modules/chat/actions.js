@@ -37,7 +37,7 @@ export function socketUserList({commit, state}, activeUsers) {
 }
 
 export function setUnreadMessages({commit}, unreadMessages) {
-  commit(SET_UNREAD_MESSAGES, unreadMessages);
+  commit(SET_UNREAD_MESSAGES, unreadMessages)
 }
 
 export function socketSendMessage({state}, message) {

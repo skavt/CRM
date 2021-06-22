@@ -29,6 +29,7 @@
 import MessageHeader from "./MessageHeader";
 import {createNamespacedHelpers} from "vuex";
 import Message from "./Message";
+import {changeUnreadMessages} from "../../store/modules/chat/actions";
 
 const {mapState, mapGetters, mapActions} = createNamespacedHelpers('chat');
 export default {
@@ -44,23 +45,23 @@ export default {
     ...mapGetters(['messages', 'hasUnreadMessages']),
   },
   methods: {
-    ...mapActions(['socketSendMessage']),
+    ...mapActions(['socketSendMessage', 'setUnreadMessages']),
     scrollChange() {
       if (this.isScrollAtTheBottom()) {
-        // this.setUnreadMessages(false);
+        this.setUnreadMessages({})
       }
     },
     isScrollAtTheBottom() {
-      const messages = this.$refs.messages;
+      const messages = this.$refs.messages
       if (!messages) {
-        return false;
+        return false
       }
-      return Math.ceil(messages.offsetHeight + messages.scrollTop) >= messages.scrollHeight;
+      return Math.ceil(messages.offsetHeight + messages.scrollTop) >= messages.scrollHeight
     },
     scrollDown() {
-      const messages = this.$refs.messages;
+      const messages = this.$refs.messages
       if (messages) {
-        messages.scrollTop = 10000000;
+        messages.scrollTop = 10000000
       }
     },
     onSubmit(event) {

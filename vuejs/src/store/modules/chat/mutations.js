@@ -1,7 +1,7 @@
 import {
   ACTIVE_USERS,
-  GET_CONTACTS,
-  RESET_CHAT_DATA,
+  GET_CONTACTS, RESET_CHAT_DATA,
+  RESET_STATE,
   SET_SELECTED_CONTACT,
   SET_UNREAD_MESSAGES,
   TOGGLE_WORKING_STATUS
@@ -9,16 +9,16 @@ import {
 
 export default {
   [ACTIVE_USERS](state, data) {
-    state.activeUsers = data;
+    state.activeUsers = data
   },
   [GET_CONTACTS](state, data) {
-    state.contacts = data;
+    state.contacts = data
   },
   [SET_UNREAD_MESSAGES](state, data) {
-    state.unreadMessages = data;
+    state.unreadMessages = data
   },
   [TOGGLE_WORKING_STATUS](state, status) {
-    state.working = status;
+    state.working = status
   },
   [SET_SELECTED_CONTACT](state, {messages, contact}) {
     state.selectedContact = contact
@@ -35,7 +35,7 @@ export default {
     }
   },
   [RESET_CHAT_DATA](state) {
-    state.selectedContact = null;
-    state.contacts = [];
+    state.selectedContact = null
+    state.contacts = []
   },
 };

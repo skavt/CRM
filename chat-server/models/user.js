@@ -147,13 +147,11 @@ module.exports = {
     new Promise((resolve, reject) => {
       let unreadMessages;
       if (!result.unread_messages) {
-        unreadMessages = {
-          'users': {}
-        };
-        unreadMessages.users[senderId] = 1;
+        unreadMessages = {}
+        unreadMessages[senderId] = 1;
       } else {
         unreadMessages = JSON.parse(result.unread_messages);
-        unreadMessages.users[senderId] = 1 + (unreadMessages.users[senderId] ? unreadMessages.users[senderId] : 0);
+        unreadMessages[senderId] = 1 + (unreadMessages[senderId] ? unreadMessages[senderId] : 0);
       }
       let query = '';
       let data = [];
@@ -217,8 +215,8 @@ module.exports = {
       let unreadMessages = JSON.parse(userMessages.unread_messages);
 
       let needUpdate = false;
-      if (anotherUserId && unreadMessages.users && unreadMessages.users[anotherUserId]) {
-        delete unreadMessages.users[anotherUserId];
+      if (anotherUserId && unreadMessages && unreadMessages[anotherUserId]) {
+        delete unreadMessages[anotherUserId];
         needUpdate = true;
       }
       if (!needUpdate) {

@@ -3,21 +3,21 @@ export function messages(state) {
 }
 
 export function hasUnreadMessages(state) {
+  console.log(Object.keys(state.unreadMessages).length)
   return Object.keys(state.unreadMessages).length > 0
 }
 
 export function contacts(state) {
   for (let user of state.contacts) {
-    console.log(state.unreadMessages)
-    // user.hasUnreadMessage = !!state.unreadMessages[user.id];
+    user.hasUnreadMessage = !!state.unreadMessages[user.id]
 
     user.messages = user.messages || [];
-    user.latestMessage = user.latestMessage || {};
+    user.latestMessage = user.latestMessage || {}
     if (user.isUser) {
-      user.online = false;
-      const contact = state.activeUsers.find(c => c.id === user.id);
+      user.online = false
+      const contact = state.activeUsers.find(c => c.id === user.id)
       if (contact) {
-        user.online = true;
+        user.online = true
       }
     }
   }
@@ -30,8 +30,8 @@ export function contacts(state) {
         if (u2.online && !u1.online) {
           return 1;
         }
-        return u1.name < u2.name ? -1 : 1;
+        return u1.name < u2.name ? -1 : 1
       }
-      return u1.latestMessage.time < u2.latestMessage.time ? 1 : -1;
+      return u1.latestMessage.time < u2.latestMessage.time ? 1 : -1
     });
 }
