@@ -63,15 +63,18 @@ export default {
         messages.scrollTop = 10000000;
       }
     },
-    onSubmit() {
-
+    onSubmit(event) {
+      event.stopPropagation()
+      event.preventDefault()
     },
-    onSendMessageClick() {
+    onSendMessageClick(event) {
+      event.stopPropagation()
+      event.preventDefault()
       if (!this.message.trim() || !this.selectedContact) {
-        return;
+        return
       }
-      this.socketSendMessage(this.message);
-      this.message = '';
+      this.socketSendMessage(this.message)
+      this.message = ''
     },
   },
 }
