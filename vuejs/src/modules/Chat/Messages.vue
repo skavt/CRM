@@ -38,6 +38,7 @@ export default {
   data() {
     return {
       message: '',
+      isScrollDown: true,
     }
   },
   computed: {
@@ -77,6 +78,11 @@ export default {
       this.socketSendMessage(this.message)
       this.message = ''
     },
+  },
+  updated() {
+    if (this.isScrollDown) {
+      this.scrollDown()
+    }
   },
 }
 </script>

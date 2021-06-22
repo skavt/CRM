@@ -3,7 +3,6 @@ export function messages(state) {
 }
 
 export function hasUnreadMessages(state) {
-  console.log(Object.keys(state.unreadMessages).length)
   return Object.keys(state.unreadMessages).length > 0
 }
 
