@@ -30,6 +30,9 @@ export default {
     title: {
       type: String,
     },
+    selectedContact: {
+      type: Object,
+    },
   },
   methods: {
     contactSelected(contact) {
@@ -64,10 +67,26 @@ export default {
   }
 
   &.selected,
-  &.selected:hover,
+  &.selected.active,
   {
-    background-color: #3989c6;
-    color: #fff;
+    position: relative;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    color: #003349;
+    background-color: #ededed;
+
+    &:after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      margin-top: -15px;
+      height: 30px;
+      width: 16px;
+      border-width: 15px 10px;
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
+      border-right: 10px solid #003349;
+    }
   }
 }
 

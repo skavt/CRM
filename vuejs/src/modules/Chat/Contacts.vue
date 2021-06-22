@@ -8,10 +8,10 @@
     </div>
     <div class="contacts-ctr">
       <chat-section :items="filteredChats" :section-name="`chat`" :title="`Recent Chat`"
-                    @on-contact-select="onContactSelect">
+                    :selected-contact="selectedContact" @on-contact-select="onContactSelect">
       </chat-section>
       <chat-section :items="filteredContacts" :section-name="`contacts`" :title="`Contacts`"
-                    @on-contact-select="onContactSelect">
+                    :selected-contact="selectedContact" @on-contact-select="onContactSelect">
       </chat-section>
     </div>
   </div>
@@ -34,6 +34,7 @@ export default {
   },
   computed: {
     ...mapGetters(['hasUnreadMessages', 'contacts']),
+    ...mapState(['selectedContact']),
     filteredContacts() {
       let keyword = this.keyword.toLowerCase()
       return keyword ? this.contacts.filter(c => c.latestMessage.time === null &&
