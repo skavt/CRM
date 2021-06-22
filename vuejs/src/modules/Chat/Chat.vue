@@ -1,10 +1,11 @@
 <template>
   <div class="chat">
-    <div v-if="working" class="messenger">
+    <view-spinner :show="loading"/>
+    <div v-if="working && !loading" class="messenger">
       <contacts/>
       <messages/>
     </div>
-    <div v-else class="messages-error-wrapper">
+    <div v-else-if="!working && !loading" class="messages-error-wrapper">
       <div class="alert alert-danger d-flex align-items-center">
         <i class="fas fa-exclamation-triangle mr-2" :size="'2x'"/>
         Chat is not available right now. Please contact our support.
@@ -17,11 +18,17 @@
 import Messages from "./Messages";
 import Contacts from "./Contacts";
 import {createNamespacedHelpers} from "vuex";
+import ViewSpinner from "../../core/components/view-spinner/view-spinner";
 
 const {mapState, mapActions} = createNamespacedHelpers('chat');
 export default {
   name: "Chat",
-  components: {Contacts, Messages},
+  components: {ViewSpinner, Contacts, Messages},
+  data() {
+    return {
+      loading: false,
+    }
+  },
   computed: {
     ...mapState(['working']),
   },
@@ -29,7 +36,9 @@ export default {
     ...mapActions(['getContacts']),
   },
   async mounted() {
+    this.loading = true
     await this.getContacts()
+    this.loading = false
   },
 }
 </script>
