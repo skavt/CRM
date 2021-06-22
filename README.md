@@ -36,3 +36,14 @@ npm install
 ```
 npm run serve
 ```
+
+## Chat setup
+```
+cd chat-server
+npm install
+```
+
+### Compiles and run chat for development
+```
+npm run start
+```
