@@ -1,6 +1,6 @@
 <template>
   <ValidationObserver ref="form" v-slot="{ handleSubmit}">
-    <b-modal v-model="modal.show" title="Add New Channel" size="lg" @hidden="onHideModal"
+    <b-modal v-model="modal.show" :title="`Add user in ${modal.data.name} channel`" size="lg" @hidden="onHideModal"
              @ok.prevent="handleSubmit(onSubmit)" :ok-disabled="model.selectedUsers.length === 0">
       <view-spinner :show="loading"/>
       <b-form v-if="!loading" @keydown.enter.prevent="handleSubmit(onSubmit)">
