@@ -63,7 +63,7 @@ export default {
       this.showInvitationModal()
     },
     async onInvitedUserDelete(item) {
-      const result = await this.$confirm(`Are you sure you want to delete ${item.email} user?`, `Deleting Invited User...`)
+      const result = await this.$confirm(`Are you sure you want to delete user ${item.email}?`, `Deleting Invited User...`)
       if (result) {
         const {success, body} = await this.deleteInvitedUser(item)
         if (success) {

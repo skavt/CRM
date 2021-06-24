@@ -65,7 +65,7 @@ export default {
       }
     },
     async onUserDelete(item) {
-      const result = await this.$confirm(`Are you sure you want to delete ${item.display_name} user?`, `Deleting User...`)
+      const result = await this.$confirm(`Are you sure you want to delete user ${item.display_name}?`, `Deleting User...`)
       if (result) {
         const {success, body} = await this.deleteUser(item)
         if (success) {
